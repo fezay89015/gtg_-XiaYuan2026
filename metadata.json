@@ -1,0 +1,6 @@
+{
+  "name": "檢方偵查報告書：迷霧之夜推理解謎",
+  "description": "懸疑風格檢方偵訊報告書與互動推理論證系統。翻轉物證卡片、審視證物與疑點筆錄、層層邏輯反駁推導真兇，揭開終極真相與活動報名。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
