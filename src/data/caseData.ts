@@ -252,7 +252,7 @@ export const SINS_ANALYSIS: SinAnalysisItem[] = [
     factSummary: "收受幫派酬金四處策劃縱火惡行，導致無辜百姓家破人亡、生靈塗炭。",
     sinName: "廿四解｜損人利己害眾成家之罪",
     category: "破家害眾之孽",
-    description: "損害眾人資財性命以肥己，結下千重冤火孽障；當依太上科儀解破縱火凶煞之結。"
+    description: "損害眾人資財性命以肥己，結下千重冤火孽障；當依解冤釋結科儀解破縱火凶煞之冤結。"
   },
   {
     id: "sin-02",
@@ -293,9 +293,10 @@ export const SINS_ANALYSIS: SinAnalysisItem[] = [
 ];
 
 export const PROMO_EVENT_INFO = {
-  badge: "檢方特偵結案聯名 · 沉浸式實境體驗",
-  title: "【解冤釋結｜人生課題推理展】",
-  description: "每個人心中，都有一個難以解開的罪結與遺憾。想親體驗更多懸疑推理與解冤釋結的震撼反轉嗎？",
-  buttonText: "👉 即刻報名體驗活動",
-  defaultUrl: "https://example.com/register"
+  badge: "台中廣天宮 · 財神開基祖廟",
+  title: "【金龍如意消災轉運賜財大法會】",
+  subTitle: "解冤釋結 · 消除宿世愆尤 · 轉運賜財",
+  description: "阿城一生為惡多端，雖以死保全恩人，但累世因果冤結與宿債仍在。每個人心中，亦常有難解的罪疚與因果窒礙。藉由正統科儀解冤釋結、虔心懺悔，方能化消累劫冤愆，迎祥納福、轉運賜財。",
+  buttonText: "👉 前往法會報名系統",
+  defaultUrl: "https://www.gtg.org.tw/signup-detail/xiayuan-1"
 };

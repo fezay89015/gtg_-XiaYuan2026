@@ -25,10 +25,15 @@ export default function App() {
 
   const handleSubmitReport = () => {
     setIsFinalUnlocked(true);
-    // Smooth scroll down to the unlocked finale
+    // Smooth scroll down to the unlocked confession letter
     setTimeout(() => {
-      finaleSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
+      const target = document.getElementById('confession-section');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        finaleSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 350);
   };
 
   return (
@@ -153,11 +158,28 @@ export default function App() {
         onSubmitReport={handleSubmitReport}
       />
 
-      {/* Police Bottom Seal Strip */}
-      <footer className="w-full bg-police-tape py-2 px-4 shadow-inner text-center select-none">
-        <span className="font-dossier-mono font-black text-stone-950 text-[11px] tracking-widest uppercase bg-yellow-400 px-3 py-0.5 shadow-sm">
-          CR-2026-0930《消失的下顎線》· 檢方特偵組 內部機密結案卷宗
-        </span>
+      {/* Official Temple Footer */}
+      <footer className="w-full bg-[#080a11] border-t-2 border-yellow-500/40 pt-8 pb-4 px-4 text-center select-none space-y-3 text-xs sm:text-sm text-stone-400">
+        <div className="max-w-3xl mx-auto space-y-2 font-serif">
+          <div className="font-dossier-mono text-yellow-400 font-bold space-x-2">
+            <span>Tel. 04-2243 4146 | 0800-221-988</span>
+            <span className="hidden sm:inline text-stone-600">|</span>
+            <span className="block sm:inline">Fax. 04-2247 6921</span>
+          </div>
+
+          <div className="text-stone-300">
+            <span>參拜時間 08:00-21:00</span>
+            <span className="mx-2 text-stone-600">·</span>
+            <span>台中市北屯區遼陽五街131號</span>
+          </div>
+
+          <div className="pt-2 text-[11px] text-stone-500 tracking-wider">
+            © 台中廣天宮 財神開基祖廟 ALL RIGHTS RESERVED
+          </div>
+        </div>
+
+        {/* Police tape accent at the very bottom */}
+        <div className="h-1.5 w-full bg-police-tape-thin mt-6 opacity-70" />
       </footer>
     </div>
   );
