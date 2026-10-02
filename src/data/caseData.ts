@@ -1,3 +1,10 @@
+import firePaintImg from '../assets/images/evidence_fire_paint_1790927470943.jpg';
+import cctvVaultingImg from '../assets/images/evidence_cctv_vaulting_1790927436854.jpg';
+import vintageTrunkImg from '../assets/images/evidence_vintage_trunk_1790927448364.jpg';
+import contourPenImg from '../assets/images/evidence_contour_pen_1790927459018.jpg';
+import mobsterAlleyImg from '../assets/images/evidence_mobster_alley_1790927482372.jpg';
+import burnerPhoneImg from '../assets/images/evidence_burner_phone_1790927495664.jpg';
+
 export interface EvidenceItem {
   id: string;
   code: string; // e.g. "證物 01"
@@ -34,7 +41,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: "evidence-01",
     code: "證物 01",
     name: "國防級防火漆",
-    image: "/src/assets/images/evidence_fire_paint_1790927470943.jpg",
+    image: firePaintImg,
     locationFound: "透天住宅二樓 隔壁房間與走廊隔間牆內層",
     explanation: "鑑識小組勘驗火場，發現阿城房間內部裝潢與家具全數炭化焚毀，但相鄰的威仔父母房及走廊牆壁內部，卻塗抹了軍工航太規格之「國防級耐熱膨脹型防火塗料」，有效耐火時限長達 120 分鐘以上，火勢完全被精準圍堵於單一房間內。",
     speculation: "此特種防火塗料市面民宅極少流通，且塗布工法精密專業，顯示起火點並非意外失火，而是縱火者精心計算燃燒路徑的「精準定點縱火」。縱火者唯一目的在於徹底銷毀自己房間內的一切身分痕跡，同時竭盡全力確保同住家屬人身安全無虞。"
@@ -43,7 +50,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: "evidence-02",
     code: "證物 02",
     name: "火場翻窗黑影",
-    image: "/src/assets/images/evidence_cctv_vaulting_1790927436854.jpg",
+    image: cctvVaultingImg,
     locationFound: "透天後巷私人監控攝影機（時間戳 23:48:12）",
     explanation: "火場二樓窗口竄出濃煙之際，後巷監視器捕捉到一黑色矯健身影自窗台翻出，單手支撐鐵皮雨遮輕巧借力後縱身落地，在不足 3 秒內疾馳消失於巷道陰影中，地面無任何失足或跌撞痕跡。",
     speculation: "平日鄰居與家屬筆錄均指稱阿城年過四十、體態臃腫且行動遲緩病弱；然而畫面中逃生者展現出極高之軀幹平衡力、核心爆發力與受身技巧，完全符合受過高強度搏擊或軍警特勤訓練之人體力學特徵，平日之「發福遲緩」形象疑為刻意扮演之假象。"
@@ -52,7 +59,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: "evidence-03",
     code: "證物 03",
     name: "爸爸代保管的舊木箱",
-    image: "/src/assets/images/evidence_vintage_trunk_1790927448364.jpg",
+    image: vintageTrunkImg,
     locationFound: "一樓儲藏室深處，由威仔父親妥善封存之老式皮木箱",
     explanation: "鑑識人員持搜索票解鎖該陳年厚重木箱，箱內整齊收納一套 S 號極為貼身的剪裁西裝、一雙磨損嚴重的 Everlast 專業真皮拳擊手套，以及數張十年前地下搏擊擂台冠軍照。",
     speculation: "受害者阿城青年時期實為精通綜合格鬥之精壯武術高手。從合身衣物與拳套骨架尺寸推算，其真實骨架身形根本不可能是重達上百公斤的重度肥胖者，證實其寄宿該家庭十餘年間，長期利用特定手法遮蔽或重塑體型。"
@@ -61,7 +68,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: "evidence-04",
     code: "證物 04",
     name: "防水修容筆與窗框擦痕",
-    image: "/src/assets/images/evidence_contour_pen_1790927459018.jpg",
+    image: contourPenImg,
     locationFound: "二樓臥室逃生窗框邊緣及外側雨遮接縫處",
     explanation: "窗框金屬轉角處刮取到高濃度油脂性深色膏狀殘留物，外側雨遮接縫處尋獲一支黑色金屬管身之「極致防水雙頭陰影修容棒」。經刑事局理化檢驗，窗框油膏成分與該修容棒完全吻合。",
     speculation: "修容棒磨損程度極高，顯示係常態性高頻率使用。結合窗框擦痕分析，逃生者於火場翻窗時因高溫大量出汗與金屬劇烈蹭擦，導致頸部與下顎線兩側的假陰影妝容剝落脫色。阿城十幾年來令人印象深刻的「雙下巴與鬆垮臉頰」，實為每日以專業影視彩妝技巧手工描摹出的精巧易容。"
@@ -70,7 +77,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: "evidence-05",
     code: "證物 05",
     name: "巷口打探的黑衣人",
-    image: "/src/assets/images/evidence_mobster_alley_1790927482372.jpg",
+    image: mobsterAlleyImg,
     locationFound: "社區路口超商與巷弄交界處監視器（時間戳 18:20）",
     explanation: "火警發生當天傍晚 18:20 許，路口超商監控錄得兩名身著黑雨衣、神態兇戾之可疑男子，反覆向周邊雜貨攤販出示一張泛黃照片，照片人物正是多年前身形精瘦的阿城，並低聲探詢其出沒規律。",
     speculation: "此二人具備顯著幫派堂口討債或尋仇特徵。證實阿城多年前結怨之仇家勢力已突破盲區、精準摸排至此處透天住宅。受害人平日極深居簡出，一旦發現行蹤暴露，必然明白危險即將波及收留他的無辜恩人全家。"
@@ -79,7 +86,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: "evidence-06",
     code: "證物 06",
     name: "起火前通話紀錄",
-    image: "/src/assets/images/evidence_burner_phone_1790927495664.jpg",
+    image: burnerPhoneImg,
     locationFound: "後巷廢棄物桶內查扣之拋棄式無記名預付卡手機",
     explanation: "火災發生前約一小時（22:45），該拋棄式手機接獲一通來自境外加密跳板之衛星來電。後巷目擊證人筆錄證實，曾聽聞阿城以極度冷靜且具壓迫感的語氣警告話筒彼端：「帳我自己還，離這家人遠一點。」隨後將通話切斷並拔除 SIM 卡。",
     speculation: "通話語氣證明阿城與追殺者之間存在無可調和的昔日恩怨。受害者深知仇家手段殘酷，絕不會放過收留他的屋主全家。為阻止仇家踏入家門，其於接獲通話後立即採取極端反制措施，以縱火「假死」引開追殺目標。"
