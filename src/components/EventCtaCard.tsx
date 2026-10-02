@@ -27,7 +27,7 @@ export const EventCtaCard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-12 rounded-2xl border-2 border-yellow-400 bg-gradient-to-b from-[#181a24] to-[#111219] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+    <div id="promo-section" className="w-full max-w-4xl mx-auto mt-12 rounded-2xl border-2 border-yellow-400 bg-gradient-to-b from-[#181a24] to-[#111219] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
       {/* Top Banner */}
       <div className="text-center max-w-xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 text-xs font-semibold uppercase tracking-wider mb-3">

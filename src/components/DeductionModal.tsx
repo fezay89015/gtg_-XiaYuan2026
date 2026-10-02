@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DEDUCTION_QUIZ } from '../data/caseData';
 import { playErrorSound, playSuccessSound, playStampSound } from '../utils/audio';
-import { X, AlertTriangle, CheckCircle2, ShieldAlert, ArrowRight, Send, Check } from 'lucide-react';
+import { X, AlertTriangle, CheckCircle2, ShieldAlert, Send, Check, Sparkles } from 'lucide-react';
 
 interface DeductionModalProps {
   isOpen: boolean;
@@ -64,6 +64,14 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
     playStampSound();
     onClose();
     onSubmitReport();
+
+    // Smooth scroll down to confession section
+    setTimeout(() => {
+      const el = document.getElementById('confession-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 250);
   };
 
   return (
@@ -87,7 +95,7 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
                 檢方推理論證庭 · 邏輯審核
               </h3>
               <p className="text-xs text-stone-400 font-dossier-mono">
-                案號：CR-2026-0930《消失的下顎線》
+                案號：CR-2026-0930《深夜透天火場離奇蒸發案》
               </p>
             </div>
           </div>
@@ -103,7 +111,7 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
         {/* Progress Stepper Bar */}
         <div className="px-6 pt-4 pb-2 bg-[#151620] border-b border-stone-800/80">
           <div className="flex items-center justify-between text-xs text-stone-400 mb-2">
-            <span>推理論證階段：第 {currentQuestionIndex + 1} / {totalQuestions} 題</span>
+            <span>推理論證階段：第 {Math.min(currentQuestionIndex + 1, totalQuestions)} / {totalQuestions} 題</span>
             <span className="font-dossier-mono text-yellow-400 font-semibold">
               {Math.round(((Object.keys(selectedAnswers).length) / totalQuestions) * 100)}% 完成度
             </span>
@@ -183,7 +191,7 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
                 })}
               </div>
 
-              {/* Error Warning Box (User requirement: "推理方向與證物不符，請重新審視！") */}
+              {/* Error Warning Box */}
               {errorMessage && (
                 <div className="mt-4 p-4 rounded-xl bg-red-950/60 border border-red-500 text-red-200 text-xs sm:text-sm flex items-start gap-3 animate-rejection shadow-lg">
                   <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
@@ -197,27 +205,65 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
               )}
             </div>
           ) : (
-            /* All completed state */
-            <div className="text-center py-6 space-y-4">
-              <div className="w-16 h-16 rounded-full bg-yellow-400/20 text-yellow-400 border-2 border-yellow-400 flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-8 h-8" />
+            /* All completed state: 統整三大關鍵真相 */
+            <div className="py-2 space-y-5">
+              <div className="text-center space-y-2">
+                <div className="w-14 h-14 rounded-full bg-yellow-400/20 text-yellow-400 border-2 border-yellow-400 flex items-center justify-center mx-auto shadow-lg shadow-yellow-500/20 animate-bounce">
+                  <CheckCircle2 className="w-7 h-7" />
+                </div>
+
+                <h4 className="text-xl sm:text-2xl font-black text-stone-100 font-dossier-heading tracking-wide">
+                  推理論證全數成立 · 真相綜整揭曉
+                </h4>
+                <p className="text-xs sm:text-sm text-stone-400 max-w-lg mx-auto">
+                  根據現場 6 項矛盾物證與線索，您已精確破除假象，重建案情全貌：
+                </p>
               </div>
 
-              <h4 className="text-xl sm:text-2xl font-bold text-stone-100 font-dossier-heading">
-                三道關鍵推理論證全部成立！
-              </h4>
+              {/* 三大答案真相摘要卡 */}
+              <div className="p-4 sm:p-5 rounded-xl bg-[#0d121e] border border-yellow-500/50 shadow-inner space-y-3.5 text-xs sm:text-sm">
+                <div className="flex items-center gap-2 pb-2 border-b border-blue-950/80 text-yellow-400 font-bold text-xs tracking-wider">
+                  <Sparkles className="w-4 h-4" />
+                  <span>【全案定讞：三大推論真相】</span>
+                </div>
 
-              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed max-w-md mx-auto">
-                您已成功穿透現場矛盾物證，破解防火漆塗布目的、偽裝雙下巴身分，以及阿城「假死銷毀身分」以保護家人的終極動機。
-              </p>
+                <div className="space-y-3 text-stone-200">
+                  <div className="flex items-start gap-2.5">
+                    <span className="px-2 py-0.5 rounded bg-yellow-400 text-stone-950 font-bold text-xs shrink-0 mt-0.5">
+                      Q1 火場
+                    </span>
+                    <p className="leading-relaxed">
+                      <strong>阿城預先粉刷了軍用級防火漆</strong>，所以烈火被精準圍堵，只燒毀阿城個人房間。
+                    </p>
+                  </div>
 
-              <div className="pt-4">
+                  <div className="flex items-start gap-2.5">
+                    <span className="px-2 py-0.5 rounded bg-yellow-400 text-stone-950 font-bold text-xs shrink-0 mt-0.5">
+                      Q2 身分
+                    </span>
+                    <p className="leading-relaxed">
+                      <strong>阿城過去身材精壯且精通武術</strong>，十幾年來令人印象深刻的臃腫雙下巴，全是用防水眉筆畫出的假象。
+                    </p>
+                  </div>
+
+                  <div className="flex items-start gap-2.5">
+                    <span className="px-2 py-0.5 rounded bg-yellow-400 text-stone-950 font-bold text-xs shrink-0 mt-0.5">
+                      Q3 動機
+                    </span>
+                    <p className="leading-relaxed">
+                      <strong>黑道仇家找上門</strong>，阿城運用早年縱火專業「假死銷毀身分」，將索命殺機徹底引開以保護恩人全家。
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2">
                 <button
                   onClick={handleSubmitFinalReport}
-                  className="py-3.5 px-8 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-black text-sm sm:text-base transition-all flex items-center justify-center gap-2 mx-auto shadow-xl cursor-pointer hover:scale-105"
+                  className="w-full py-3.5 px-6 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-black text-sm sm:text-base transition-all flex items-center justify-center gap-2 shadow-xl cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <Send className="w-4 h-4" />
-                  <span>送出推測報告 · 解鎖證物 07 自白書與真相</span>
+                  <span>送出推論報告 · 解鎖線索 07 自白信 ➔</span>
                 </button>
               </div>
             </div>
@@ -226,26 +272,22 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
 
         {/* Footer Navigation */}
         {!isAllCompleted && (
-          <div className="px-6 py-4 bg-[#14151e] border-t border-stone-800 flex items-center justify-between text-xs text-stone-400">
-            <span>
-              {currentQuestionIndex > 0 ? (
+          <div className="px-6 py-3.5 bg-[#14151e] border-t border-stone-800 flex items-center justify-between text-xs text-stone-400">
+            <div>
+              {currentQuestionIndex > 0 && (
                 <button
                   onClick={() => {
                     setCurrentQuestionIndex((prev) => prev - 1);
                     setErrorMessage(null);
                   }}
-                  className="hover:text-stone-200 transition-colors cursor-pointer"
+                  className="hover:text-stone-200 transition-colors cursor-pointer flex items-center gap-1.5"
                 >
                   ← 返回上一題
                 </button>
-              ) : (
-                '請選擇正確推理選項推進'
               )}
-            </span>
+            </div>
 
-            <span className="text-stone-500 font-dossier-mono">
-              CONFIDENTIAL DEDUCTION
-            </span>
+            <div />
           </div>
         )}
       </div>

@@ -1,13 +1,28 @@
 import React from 'react';
 import { EVIDENCE_07_CONFESSION } from '../data/caseData';
-import { Mail, ShieldCheck, HeartHandshake } from 'lucide-react';
+import { Mail, HeartHandshake, Unlock, Sparkles } from 'lucide-react';
 
 export const ConfessionLetter: React.FC = () => {
   return (
-    <div className="w-full max-w-4xl mx-auto rounded-2xl border-2 border-yellow-500/60 bg-[#161720] shadow-2xl overflow-hidden p-6 sm:p-10 relative">
-      {/* Background paper texture & confidential watermark */}
-      <div className="absolute top-4 right-4 stamp-sealed text-xs">
-        解鎖證物 · 絕密信函
+    <div
+      id="confession-section"
+      className="w-full max-w-4xl mx-auto rounded-2xl border-2 border-yellow-400 bg-[#161720] shadow-2xl shadow-yellow-500/10 overflow-hidden p-6 sm:p-10 relative transition-all duration-700 animate-in fade-in zoom-in-95"
+    >
+      {/* Dynamic Glowing Unlock Banner */}
+      <div className="mb-6 p-3 rounded-xl bg-yellow-400/15 border border-yellow-400/50 flex items-center justify-between gap-3 text-xs sm:text-sm text-yellow-300">
+        <div className="flex items-center gap-2 font-bold">
+          <Unlock className="w-4 h-4 text-yellow-400 shrink-0 animate-pulse" />
+          <span>推理論證成功 · 機密證物封印已解除</span>
+        </div>
+        <div className="flex items-center gap-1 font-dossier-mono text-[11px] text-yellow-400/90 hidden sm:flex">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>DOSSIER UNLOCKED</span>
+        </div>
+      </div>
+
+      {/* Red sealed stamp */}
+      <div className="absolute top-6 right-6 stamp-sealed text-xs hidden sm:block">
+        解鎖絕密 · 親筆自白
       </div>
 
       {/* Header */}

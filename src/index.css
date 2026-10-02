@@ -80,6 +80,26 @@ body {
   transform: rotate(3deg);
 }
 
+/* Sleek Dossier Scrollbar */
+.dossier-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.dossier-scrollbar::-webkit-scrollbar-track {
+  background: rgba(11, 18, 34, 0.6);
+  border-radius: 9999px;
+}
+.dossier-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(234, 179, 8, 0.4);
+  border-radius: 9999px;
+}
+.dossier-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(250, 204, 21, 0.8);
+}
+.dossier-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(234, 179, 8, 0.4) transparent;
+}
+
 /* Shake animation for wrong/blocked answers */
 @keyframes rejection-shake {
   0%, 100% { transform: translateX(0); }

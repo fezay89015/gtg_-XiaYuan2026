@@ -40,20 +40,20 @@ export default function App() {
       <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-blue-950/80">
-          <div>
+          <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-yellow-400 mb-1.5">
-              <span>CRIME SCENE EVIDENCE // 刑事現場物證清單</span>
+              <span>STAGE 01: FORENSIC INVESTIGATION // 第一階段：現場跡證勘查</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-100 font-dossier-heading">
-              現場查扣矛盾物證清單（證物 01 ～ 06）
+              現場物證與偵查線索（編號 01 ～ 06）
             </h2>
-            <p className="mt-1.5 text-xs sm:text-sm text-stone-400">
-              正面僅呈現圖片、地點與證物名稱；點擊卡片 3D 翻轉至背面，分上下層檢視【說明】與【推測】；翻面後卡片邊緣會變色，翻回正面亦保留相同顏色。
+            <p className="mt-2 text-xs sm:text-sm text-stone-300 leading-relaxed">
+              請點擊翻閱下列 6 件關鍵物證與線索，深入比對【鑑識事實】與【偵查推測】。唯有掌握各項證物背後的矛盾之處，才能在下一步啟動「推理論證」，揭開阿城蒸發的真相並解鎖自白信。
             </p>
           </div>
 
-          <div className="text-xs text-stone-400 font-dossier-mono">
-            已翻閱審視：<span className="text-yellow-400 font-bold">{reviewedCards.size}</span> / {EVIDENCE_ITEMS.length} 件
+          <div className="text-xs text-stone-400 font-dossier-mono bg-[#0b1120] px-3.5 py-2 rounded-lg border border-blue-950 shrink-0">
+            勘驗進度：<span className="text-yellow-400 font-bold">{reviewedCards.size}</span> / {EVIDENCE_ITEMS.length} 件
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export default function App() {
                 <Lock className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-stone-200 font-dossier-heading">
-                【證物 07 自白信與結案報告】已加密封存
+                【線索 07 自白信與結案報告】已加密封存
               </h3>
               <p className="text-xs sm:text-sm text-stone-400 mt-2 leading-relaxed">
                 本案真相與阿城的終極自白受檢方封條保護。請先點擊上方的「🕵️‍♂️ 開始推理論證」通過審核，方能解鎖全文與活動資訊。
