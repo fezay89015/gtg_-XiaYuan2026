@@ -1,24 +1,14 @@
 import React from 'react';
 import { CASE_SUMMARY } from '../data/caseData';
-import { ShieldAlert, Volume2, VolumeX, Flame, MapPin, Calendar, Compass } from 'lucide-react';
-import { isSoundEnabled, setSoundEnabled } from '../utils/audio';
+import { Flame, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
 
 interface CaseHeaderProps {
-  onOpenDeduction: () => void;
   isUnlockedFinal: boolean;
 }
 
-export const CaseHeader: React.FC<CaseHeaderProps> = ({ onOpenDeduction, isUnlockedFinal }) => {
-  const [sound, setSound] = React.useState(isSoundEnabled());
-
-  const toggleSound = () => {
-    const next = !sound;
-    setSound(next);
-    setSoundEnabled(next);
-  };
-
+export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
   return (
-    <header className="relative border-b-2 border-yellow-500/40 bg-[#0c0d12]">
+    <header className="relative border-b-2 border-yellow-500/40 bg-[#070b14]/95">
       {/* Repeating Police Crime Line Tape Banner */}
       <div className="w-full bg-police-tape py-2 px-4 shadow-md flex items-center justify-around overflow-hidden select-none">
         <span className="font-dossier-mono font-black text-stone-950 text-xs tracking-widest uppercase bg-yellow-400 px-2 py-0.5 shadow-sm">
@@ -32,91 +22,107 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({ onOpenDeduction, isUnloc
         </span>
       </div>
 
-      {/* Main Top Bar */}
+      {/* Main Top Header Area */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Classification & Case Code row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-stone-800 text-xs text-stone-400">
-          <div className="flex items-center gap-2">
+        {/* Top Info Strip: Case Code & Classification (Buttons removed per user request) */}
+        <div className="flex items-center justify-between pb-4 border-b border-blue-950/80 text-xs text-stone-400">
+          <div className="flex items-center gap-2.5">
             <span className="stamp-police-confidential font-dossier-mono text-xs font-bold">
               {CASE_SUMMARY.caseCode}
             </span>
-            <span className="text-yellow-400 font-semibold">{CASE_SUMMARY.classification}</span>
+            <span className="text-yellow-400/90 font-medium">
+              {CASE_SUMMARY.classification}
+            </span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={toggleSound}
-              className="p-1.5 rounded-lg border border-stone-800 bg-stone-900 text-stone-400 hover:text-yellow-400 hover:border-yellow-500/50 transition-colors flex items-center gap-1.5 text-xs cursor-pointer"
-              title={sound ? "關閉音效" : "開啟音效"}
-            >
-              {sound ? <Volume2 className="w-4 h-4 text-yellow-400" /> : <VolumeX className="w-4 h-4" />}
-              <span className="hidden sm:inline">{sound ? '音效已開啟' : '靜音中'}</span>
-            </button>
-
-            <button
-              onClick={onOpenDeduction}
-              className="py-1.5 px-3.5 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-bold text-xs transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer whitespace-nowrap"
-            >
-              <Compass className="w-3.5 h-3.5" />
-              <span>推理論證</span>
-            </button>
+          <div className="text-[11px] font-dossier-mono text-blue-400/80 hidden sm:block">
+            INVESTIGATION UNIT // NO. 0930
           </div>
         </div>
 
-        {/* Case Title & Brief */}
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div className="lg:col-span-8 space-y-4">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-yellow-400">
-              <ShieldAlert className="w-4 h-4" />
-              <span>特別偵查組 · 火災與憑空蒸發偵訊專案報告</span>
+        {/* Case Title & Structured Content */}
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Title (Main + Subtitle) & Clean Line-broken Brief */}
+          <div className="lg:col-span-8 space-y-5">
+            <div>
+              {/* 副標題 */}
+              <span className="text-xs sm:text-sm font-semibold tracking-widest text-yellow-400 block mb-1">
+                {CASE_SUMMARY.subTitle}
+              </span>
+              {/* 主標題 */}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-stone-100 font-dossier-heading tracking-tight leading-tight">
+                {CASE_SUMMARY.mainTitle}
+              </h1>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-stone-100 font-dossier-heading tracking-tight leading-tight">
-              {CASE_SUMMARY.title}
-            </h1>
-
-            {/* Exactly the user's required brief text */}
-            <div className="p-4 sm:p-5 rounded-xl bg-[#14161f] border-l-4 border-yellow-400 border border-stone-800 text-stone-200 text-sm sm:text-base leading-relaxed shadow-lg">
-              <strong className="text-yellow-400 block mb-1 text-xs">【案件簡介筆錄摘要】</strong>
-              <p>{CASE_SUMMARY.briefText}</p>
+            {/* 案件摘要：根據句點分行，舒適行距 */}
+            <div className="p-5 rounded-xl bg-[#0a101d] border-l-4 border-yellow-400 border border-blue-900/40 text-stone-200 text-xs sm:text-sm leading-relaxed shadow-lg">
+              <span className="text-yellow-400 font-bold block mb-3 text-xs tracking-wider">
+                【案件摘要】
+              </span>
+              <div className="space-y-2.5">
+                {CASE_SUMMARY.briefLines.map((line, idx) => (
+                  <p key={idx} className="flex items-start gap-2.5">
+                    <span className="text-yellow-400 font-bold shrink-0 mt-0.5">·</span>
+                    <span className="text-stone-300 leading-relaxed">{line}</span>
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Quick Case Metadata Card */}
-          <div className="lg:col-span-4 bg-[#14151c] p-5 rounded-xl border border-stone-800 shadow-md space-y-3 text-xs">
-            <div className="flex items-center justify-between pb-2 border-b border-stone-800">
-              <span className="text-stone-400">刑案調查要項</span>
+          {/* Right Column: Case Info Cards with tech deep blue tint */}
+          <div className="lg:col-span-4 bg-[#0a101e] p-5 sm:p-6 rounded-xl border border-blue-900/50 shadow-xl space-y-3.5 text-xs">
+            <div className="flex items-center justify-between pb-2.5 border-b border-blue-900/40">
+              <span className="text-blue-300/80 font-medium">刑案調查要項</span>
               <span className="font-dossier-mono text-yellow-400 font-bold">{CASE_SUMMARY.caseCode}</span>
             </div>
 
             <div className="flex items-start gap-2.5 text-stone-300">
-              <Calendar className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+              <Calendar className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
               <div>
                 <span className="text-stone-500 block text-[11px]">案發時間</span>
-                <span>{CASE_SUMMARY.incidentDate}</span>
+                <span className="text-stone-200">{CASE_SUMMARY.incidentDate}</span>
               </div>
             </div>
 
             <div className="flex items-start gap-2.5 text-stone-300">
-              <MapPin className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+              <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
               <div>
-                <span className="text-stone-500 block text-[11px]">命案現場</span>
-                <span>{CASE_SUMMARY.incidentLocation}</span>
+                <span className="text-stone-500 block text-[11px]">勘驗現場</span>
+                <span className="text-stone-200">{CASE_SUMMARY.incidentLocation}</span>
               </div>
             </div>
 
+            {/* 關鍵矛盾 */}
             <div className="flex items-start gap-2.5 text-stone-300">
               <Flame className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
               <div>
-                <span className="text-stone-500 block text-[11px]">主要疑點</span>
-                <span className="text-red-300">房間全毀無骨骸殘留 · 阿城憑空蒸發</span>
+                <span className="text-stone-500 block text-[11px]">現場矛盾</span>
+                <span className="text-red-300 font-medium leading-relaxed">
+                  {CASE_SUMMARY.mainSuspicion}
+                </span>
+              </div>
+            </div>
+
+            {/* 失蹤人員 */}
+            <div className="flex items-start gap-2.5 text-stone-300">
+              <div className="w-4 h-4 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                ?
+              </div>
+              <div>
+                <span className="text-stone-500 block text-[11px]">失蹤關係人</span>
+                <span className="text-stone-200 font-medium leading-relaxed">
+                  {CASE_SUMMARY.missingPerson}
+                </span>
               </div>
             </div>
 
             {isUnlockedFinal && (
-              <div className="mt-3 pt-3 border-t border-stone-800">
+              <div className="mt-3 pt-3 border-t border-blue-900/50">
                 <span className="inline-flex items-center gap-1.5 text-emerald-400 font-semibold text-xs">
-                  ✓ 推理論證已成立 · 證物 07 已解鎖
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>推理論證已成立 · 證物 07 已解鎖</span>
                 </span>
               </div>
             )}

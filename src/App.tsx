@@ -32,17 +32,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090a0e] text-[#e3ded3] flex flex-col font-sans selection:bg-yellow-400 selection:text-stone-950">
+    <div className="min-h-screen bg-[#070b14] text-[#e3ded3] flex flex-col font-sans selection:bg-yellow-400 selection:text-stone-950">
       {/* 1. TOP: Case Brief & Police Crime Tape Header */}
-      <CaseHeader
-        onOpenDeduction={handleOpenDeduction}
-        isUnlockedFinal={isFinalUnlocked}
-      />
+      <CaseHeader isUnlockedFinal={isFinalUnlocked} />
 
       {/* 2. MIDDLE: Evidence Cards Wall (證物 01 ～ 06) */}
       <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-stone-800">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-blue-950/80">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-yellow-400 mb-1.5">
               <span>CRIME SCENE EVIDENCE // 刑事現場物證清單</span>
@@ -73,7 +70,7 @@ export default function App() {
 
         {/* Prominent Deduction Button directly below all evidence items */}
         <div className="mt-16 text-center">
-          <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-b from-[#161822] to-[#101117] border-2 border-yellow-400/80 shadow-2xl max-w-3xl mx-auto flex flex-col items-center gap-4">
+          <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-b from-[#0e1628] to-[#090e1b] border-2 border-yellow-400/80 shadow-2xl max-w-3xl mx-auto flex flex-col items-center gap-4">
             <span className="text-xs uppercase tracking-widest text-yellow-400 font-dossier-mono font-bold">
               LOGICAL INFERENCE & DEDUCTION ARENA
             </span>
@@ -98,7 +95,7 @@ export default function App() {
       {/* 3. FOOTER: Unlocked Content (證物 07 自白書 + 罪結總整理 + 活動 CTA) */}
       <section
         ref={finaleSectionRef}
-        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t-2 border-yellow-500/40 bg-[#0c0d12] relative overflow-hidden"
+        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t-2 border-yellow-500/40 bg-[#070b14] relative overflow-hidden"
       >
         <div className="max-w-5xl mx-auto">
           {isFinalUnlocked ? (
@@ -125,8 +122,8 @@ export default function App() {
             </div>
           ) : (
             /* Locked Placeholder guiding user to complete deduction first */
-            <div className="text-center py-16 max-w-lg mx-auto p-8 rounded-2xl border border-stone-800 bg-[#121319]">
-              <div className="w-14 h-14 rounded-full bg-stone-900 border border-stone-700 flex items-center justify-center mx-auto text-stone-500 mb-4">
+            <div className="text-center py-16 max-w-lg mx-auto p-8 rounded-2xl border border-blue-900/40 bg-[#0a0f1d]">
+              <div className="w-14 h-14 rounded-full bg-blue-950/60 border border-blue-800/50 flex items-center justify-center mx-auto text-blue-300 mb-4">
                 <Lock className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-stone-200 font-dossier-heading">
@@ -138,7 +135,7 @@ export default function App() {
               <div className="mt-6">
                 <button
                   onClick={handleOpenDeduction}
-                  className="py-2.5 px-6 rounded-lg bg-stone-800 hover:bg-stone-700 text-yellow-400 font-bold text-xs transition-colors cursor-pointer border border-stone-700 inline-flex items-center gap-1.5"
+                  className="py-2.5 px-6 rounded-lg bg-[#0e1628] hover:bg-[#131f38] text-yellow-400 font-bold text-xs transition-colors cursor-pointer border border-blue-900/60 inline-flex items-center gap-1.5 shadow-sm"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>前往推理論證解鎖</span>

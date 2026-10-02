@@ -40,8 +40,12 @@
 /* Base styles */
 body {
   font-family: 'Noto Serif TC', ui-serif, Georgia, Cambria, serif;
-  background-color: #090a0d;
-  color: #e5e5e7;
+  background-color: #060911;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(15, 35, 75, 0.45) 0%, transparent 80%),
+    radial-gradient(circle at 100% 40%, rgba(10, 25, 55, 0.25) 0%, transparent 50%);
+  background-attachment: fixed;
+  color: #e2e8f0;
 }
 
 .font-dossier-mono {

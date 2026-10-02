@@ -27,13 +27,20 @@ export interface DeductionQuestion {
 }
 
 export const CASE_SUMMARY = {
-  title: "《檢方偵查報告書：消失的下顎線》",
+  mainTitle: "《深夜透天火場離奇蒸發案》",
+  subTitle: "案件代號：消失的下顎線",
   caseCode: "CR-2026-0930",
-  classification: "極機密 // 檢察官內部偵查案卷",
-  briefText: "本案發生於深夜，現場為透天住宅。火勢異常集中於受害者『阿城』之房間，內部物件全毀，但現場未發現任何骨骸或殘渣。受害者阿城憑空蒸發，現場留有多項極度矛盾之證物……",
-  leadInvestigator: "地方檢察署 特別偵查組 承辦檢察官",
+  classification: "極機密 // 檢察官內部偵查",
+  briefLines: [
+    "深夜透天民宅竄出惡火，火勢詭異地僅侷限於單一臥室。",
+    "房內陳設全數炭化，但灰燼中未檢出任何人類骨骼或生理殘留。",
+    "同住家人平安脫困，而長年借住於該房的「阿城」卻人間蒸發……"
+  ],
+  leadInvestigator: "地方檢察署 承辦檢察官",
   incidentDate: "2026 年 9 月 30 日 深夜 23:45",
-  incidentLocation: "第三分局轄區 某三層透天住宅 二樓東側臥室"
+  incidentLocation: "市郊透天住宅 · 二樓借住臥室",
+  mainSuspicion: "烈火未延燒鄰房，亦無任何受困逃生跡象",
+  missingPerson: "阿城（42歲，外觀肥胖、行動遲緩）"
 };
 
 export const EVIDENCE_ITEMS: EvidenceItem[] = [
