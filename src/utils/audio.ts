@@ -56,6 +56,35 @@ export function playCardFlip() {
   osc.stop(ctx.currentTime + 0.13);
 }
 
+/** Smooth sliding latch / paper shutter slide sound */
+export function playSlideSound() {
+  if (!soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(320, now);
+  osc.frequency.exponentialRampToValueAtTime(120, now + 0.22);
+
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(1200, now);
+
+  gain.gain.setValueAtTime(0.2, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+  osc.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(now);
+  osc.stop(now + 0.23);
+}
+
 /** Error buzzer / logic contradiction rejection sound */
 export function playErrorSound() {
   if (!soundEnabled) return;

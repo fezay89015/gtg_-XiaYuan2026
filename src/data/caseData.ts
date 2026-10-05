@@ -12,6 +12,7 @@ export interface EvidenceItem {
   name: string;
   image: string;
   locationFound: string;
+  clueNote: string;
   explanationPoints: string[];
   speculationPoints: string[];
 }
@@ -39,12 +40,12 @@ export interface SinAnalysisItem {
 
 export const CASE_SUMMARY = {
   mainTitle: "《深夜透天火場離奇蒸發案》",
-  subTitle: "案件代號：消失的下顎線",
+  subTitle: "案件代號：消失的阿誠叔",
   caseCode: "CR-2026-0930",
   classification: "極機密 // 檢察官內部偵查",
   briefLines: [
     "深夜透天民宅竄出惡火，火勢詭異地僅侷限於單一臥室。",
-    "房內陳設全數炭化，但灰燼中未檢出任何人類骨骼或生理殘留。",
+    "房內陳設嚴重灼燒炭化，但灰燼中未檢出任何人類骨骼或生理殘留。",
     "同住家人平安脫困，而長年借住於該房的「阿城」卻人間蒸發……"
   ],
   leadInvestigator: "地方檢察署 承辦檢察官",
@@ -62,8 +63,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     name: "軍用級防火漆",
     image: firePaintImg,
     locationFound: "二樓臥室與相鄰房之隔間牆內層",
+    clueNote: "塗料耐熱逾120分鐘，火場外牆毫髮無傷！是誰事先漆好的？",
     explanationPoints: [
-      "臥室全數炭化全毀，但相鄰隔間牆內層塗有軍規耐高溫阻燃塗料。",
+      "臥室陳設嚴重燒損炭化，但相鄰隔間牆內層塗有軍規耐高溫阻燃塗料。",
       "耐火阻燃時限達 120 分鐘以上，使火勢被精確圍堵於單一房間。"
     ],
     speculationPoints: [
@@ -78,6 +80,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     name: "火場翻窗黑影",
     image: cctvVaultingImg,
     locationFound: "後巷私人監控攝影機（時間戳 23:48:12）",
+    clueNote: "黑影翻牆落地身手敏捷極快，與平日百公斤肥胖阿城完全相反？",
     explanationPoints: [
       "窗口竄出濃煙時，監視器拍到黑影翻出窗台、借力雨遮輕巧落地。",
       "該員落地後 3 秒內極速沒入暗巷，動作俐落，無跌撞痕跡。"
@@ -94,8 +97,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     name: "爸爸代保管的舊木箱",
     image: vintageTrunkImg,
     locationFound: "一樓儲藏室深處，由威仔父親妥善封存之老式皮木箱",
+    clueNote: "起獲非常不合身的小號西裝與拳擊手套，阿城以前到底是精壯格鬥高手？",
     explanationPoints: [
-      "開箱起獲一套 S 號窄身剪裁西裝、真皮拳擊手套及地下擂台冠軍照。",
+      "開箱起獲一套不像是他自己的小尺寸西裝、真皮拳擊手套及地下擂台冠軍照。",
       "裝備磨損深沉，與阿城平日百公斤臃腫外貌形成極端反差。"
     ],
     speculationPoints: [
@@ -110,6 +114,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     name: "防水眉筆與窗框擦痕",
     image: contourPenImg,
     locationFound: "逃生窗框邊緣金屬角及外側雨遮隙縫",
+    clueNote: "窗框深褐色油膏＝防水眉筆！阿城的肥厚雙下巴難道是畫出來的？",
     explanationPoints: [
       "窗框刮取到深褐色油膏；雨遮起獲一支磨損嚴重之極致防水眉筆。",
       "理化檢驗證實，窗框油膏成分與該防水眉筆之深色膏體 100% 吻合。"
@@ -126,6 +131,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     name: "巷口打探的黑衣人",
     image: mobsterAlleyImg,
     locationFound: "社區路口超商與巷道交界處監視器（時間戳 18:20）",
+    clueNote: "黑道持阿城昔日精瘦舊照沿路打探，殺身之禍已殺到家門口！",
     explanationPoints: [
       "起火當日傍晚，超商監控錄得兩名黑衣男子持照片向攤商打探阿城。",
       "經影像比對，照片中人物正是多年前體格精瘦之阿城本人。"
@@ -142,6 +148,7 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     name: "起火前通話紀錄",
     image: burnerPhoneImg,
     locationFound: "後巷廢棄物桶內查獲之拋棄式無記名預付卡手機",
+    clueNote: "『帳我自己還，離這家人遠一點』... 縱火假死難道是為了保護家人？",
     explanationPoints: [
       "起火前一小時接獲境外加密來電，通話結束後 SIM 卡即被拔除。",
       "證人證實阿城於後巷冰冷警告：「帳我自己還，離這家人遠一點。」"
@@ -296,7 +303,7 @@ export const PROMO_EVENT_INFO = {
   badge: "台中廣天宮 · 財神開基祖廟",
   title: "【金龍如意消災轉運賜財大法會】",
   subTitle: "解冤釋結 · 消除宿世愆尤 · 轉運賜財",
-  description: "阿城一生為惡多端，雖以死保全恩人，但累世因果冤結與宿債仍在。每個人心中，亦常有難解的罪疚與因果窒礙。藉由正統科儀解冤釋結、虔心懺悔，方能化消累劫冤愆，迎祥納福、轉運賜財。",
-  buttonText: "👉 前往法會報名系統",
+  description: "阿城早年雖曾行差踏錯，後為保全恩人家眷而斷然引火避禍遠遁；然而其累世因果冤結與宿債仍在。每個人心中，亦常有難解的罪疚與因果窒礙。藉由正統科儀解冤釋結、虔心懺悔，方能化消累劫冤愆，迎祥納福、轉運賜財。",
+  buttonText: "前往法會報名",
   defaultUrl: "https://www.gtg.org.tw/signup-detail/xiayuan-1"
 };

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { EvidenceItem } from '../data/caseData';
 import { playCardFlip } from '../utils/audio';
-import { RotateCw, MapPin, Search, BrainCircuit } from 'lucide-react';
+import { RotateCw, MapPin, Pin, Search, BrainCircuit, Check } from 'lucide-react';
 
 interface EvidenceCardProps {
   evidence: EvidenceItem;
-  onCardFlipped: (id: string) => void;
+  onCardFlipped?: (id: string) => void;
 }
 
 export const EvidenceCard: React.FC<EvidenceCardProps> = ({
@@ -15,150 +15,195 @@ export const EvidenceCard: React.FC<EvidenceCardProps> = ({
   const [isFlipped, setIsFlipped] = useState(false);
   const [hasBeenFlipped, setHasBeenFlipped] = useState(false);
 
-  const handleFlip = () => {
-    const nextFlipped = !isFlipped;
-    setIsFlipped(nextFlipped);
-    playCardFlip();
-
-    if (!hasBeenFlipped) {
-      setHasBeenFlipped(true);
-      onCardFlipped(evidence.id);
+  const handleFlip = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
+
+    playCardFlip();
+    setIsFlipped((prev) => {
+      const next = !prev;
+      if (next && !hasBeenFlipped) {
+        setHasBeenFlipped(true);
+        if (onCardFlipped) {
+          onCardFlipped(evidence.id);
+        }
+      }
+      return next;
+    });
   };
 
-  // Border styling: switches permanently to illuminated yellow border once flipped
-  const borderClass = hasBeenFlipped
-    ? 'border-2 border-yellow-400 shadow-xl shadow-yellow-500/15 ring-1 ring-yellow-400/60'
-    : 'border-2 border-blue-950/70 hover:border-blue-800/80';
-
   return (
-    <div className="perspective-1000 w-full min-h-[530px] h-full select-none">
+    <div className="w-full h-[480px] select-none relative perspective-1000">
+      {/* 3D Red Pushpin at top center (fixed outside card, 100% stationary) */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+        <span className="pushpin-3d-red shadow-md" />
+      </div>
+
+      {/* Flipping Card Shell with Brute-Force Upward Offset translateY(-14px) */}
       <div
-        className={`relative w-full h-full transition-transform duration-500 preserve-3d cursor-pointer ${
-          isFlipped ? 'rotate-y-180' : ''
+        className={`relative w-full h-full cursor-pointer evidence-flip-card ${
+          isFlipped ? 'is-flipped' : ''
         }`}
         onClick={handleFlip}
       >
-        {/* ================= CARD FRONT ================= */}
+        {/* ================= CARD FRONT: POLAROID + CLUE MEMO ================= */}
         <div
-          className={`absolute inset-0 w-full h-full backface-hidden rounded-xl bg-[#0b1120] transition-all flex flex-col overflow-hidden ${borderClass}`}
+          className={`absolute inset-0 w-full h-full rounded-2xl paper-memo-sheet shadow-lg flex flex-col justify-between p-3.5 sm:p-4 overflow-visible backface-hidden z-10 transition-all duration-300 ${
+            hasBeenFlipped
+              ? 'border-4 border-red-700 ring-4 ring-red-700/25'
+              : 'border-2 border-[#d0bc9e] hover:border-amber-600/80'
+          }`}
         >
-          {/* Evidence Image */}
-          <div className="relative w-full h-60 bg-stone-950 overflow-hidden shrink-0 group">
-            <img
-              src={evidence.image}
-              alt={evidence.name}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            {/* Top corner code badge */}
-            <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/85 border border-yellow-400/60 text-yellow-400 font-dossier-mono font-bold text-xs tracking-wider flex items-center gap-1.5 shadow-md">
-              <span>{evidence.code}</span>
-              <span className="text-stone-400 font-normal">|</span>
-              <span className="text-stone-300 font-sans">{evidence.type}</span>
+          {/* Top Polaroid Photo Frame with Rich Drop Shadow */}
+          <div className="polaroid-frame rounded-sm bg-white border border-stone-200 shrink-0 relative shadow-xl shadow-stone-900/40 p-1.5 pb-2 overflow-visible">
+            {/* Paperclip sticking OUTSIDE beyond the top of the photo frame */}
+            <div className="absolute -top-3 left-3 z-30 pointer-events-none">
+              <div className="paperclip-accent scale-90 border-stone-500 shadow-sm" />
             </div>
 
-            {hasBeenFlipped && (
-              <div className="absolute top-3 right-3 px-2.5 py-1 rounded bg-yellow-400 text-stone-950 font-black text-[11px] tracking-wider shadow-md">
-                已勘驗
+            {/* Photo */}
+            <div className="relative w-full h-32 sm:h-36 bg-stone-900 overflow-hidden border border-stone-300 rounded-sm">
+              <img
+                src={evidence.image}
+                alt={evidence.name}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
+
+              {/* Red Code Stamped Label */}
+              <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-stone-900/90 text-amber-100 font-dossier-mono font-bold text-[10px] tracking-wider border border-amber-300/40">
+                {evidence.code} · {evidence.type}
               </div>
-            )}
+
+              {/* Red 已勘驗 badge */}
+              {hasBeenFlipped && (
+                <div className="absolute top-1.5 right-1.5 px-2.5 py-0.5 rounded bg-red-700 text-white font-bold text-[10px] shadow-md tracking-wider flex items-center gap-1 font-sans">
+                  <Check className="w-3 h-3" />
+                  <span>已勘驗</span>
+                </div>
+              )}
+            </div>
+
+            {/* Polaroid bottom caption */}
+            <div className="pt-1 text-center">
+              <span className="font-dossier-mono font-bold text-[10px] text-stone-600 tracking-wider">
+                EVIDENCE RECORD // {evidence.code}
+              </span>
+            </div>
           </div>
 
-          {/* Front Content */}
-          <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
-            <div className="space-y-3">
-              {/* 證物 / 線索名稱 */}
-              <h3 className="text-xl font-bold text-stone-100 font-dossier-heading tracking-tight leading-snug">
+          {/* Middle: Title, Location & Clue Note (Shifted down below photo shadow) */}
+          <div className="flex-1 flex flex-col justify-between space-y-1.5 pt-3 min-h-0 relative z-10 border-t border-stone-200 mt-2">
+            <div>
+              {/* Evidence Title */}
+              <h3 className="text-base sm:text-lg font-black text-stone-950 font-dossier-heading tracking-tight leading-snug line-clamp-1">
                 {evidence.name}
               </h3>
 
-              {/* 地點 */}
-              <div className="flex items-start gap-2.5 text-xs sm:text-sm text-stone-300 bg-[#0f172a]/95 p-3 rounded-lg border border-blue-950/80 shadow-inner">
-                <MapPin className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-                <span className="text-stone-200 leading-relaxed break-words">
+              {/* Location found */}
+              <div className="flex items-start gap-1 text-[11px] text-stone-700 bg-amber-50/90 px-2 py-1 rounded-md border border-amber-200 mt-1 font-sans">
+                <MapPin className="w-3 h-3 text-red-700 shrink-0 mt-0.5" />
+                <span className="leading-tight font-medium line-clamp-1">
                   {evidence.locationFound}
                 </span>
               </div>
             </div>
 
-            {/* Bottom Button */}
-            <div className="pt-3 border-t border-blue-950/80 mt-3">
-              <div className="w-full py-2.5 px-4 rounded-xl bg-yellow-400/10 hover:bg-yellow-400 text-yellow-400 hover:text-stone-950 font-bold text-xs sm:text-sm border border-yellow-400/60 transition-all flex items-center justify-center gap-2 shadow-sm group">
-                <RotateCw className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                <span>查看鑑識與推測</span>
+            {/* Yellow Detective Sticky Note (Tilted nicely as requested) */}
+            <div className="sticky-note-yellow p-2.5 rounded-lg rotate-[-2.5deg] border border-yellow-400/80 shadow-md">
+              <div className="flex items-center gap-1 text-[10px] font-bold text-stone-900 uppercase tracking-wider mb-0.5 font-sans">
+                <Pin className="w-3 h-3 text-red-700 shrink-0" />
+                <span>現場便條 · 矛盾疑點</span>
+              </div>
+              <p className="text-xs font-sans font-medium text-stone-900 leading-snug line-clamp-2">
+                {evidence.clueNote}
+              </p>
+            </div>
+
+            {/* Bottom Flip Button */}
+            <div className="pt-1 border-t border-stone-200 shrink-0 font-sans">
+              <div className="w-full py-1.5 px-3 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm group">
+                <RotateCw className="w-3.5 h-3.5 text-yellow-400 transition-transform group-hover:rotate-180" />
+                <span>翻閱鑑識報告與推測 ➔</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ================= CARD BACK ================= */}
-        <div
-          className={`absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-xl bg-[#0c1222] text-stone-200 flex flex-col justify-between overflow-hidden p-4 sm:p-5 ${borderClass}`}
-        >
-          {/* Back Header: 證物編號與名稱分行 */}
-          <div className="pb-2.5 border-b border-blue-950/80 space-y-1 shrink-0">
+        {/* ================= CARD BACK: FORENSIC LAB REPORT ================= */}
+        {/* Prominent Red Outer Border matching 已勘驗 badge */}
+        <div className="absolute inset-0 w-full h-full rounded-2xl paper-memo-sheet border-4 border-red-700 shadow-xl shadow-red-950/20 ring-4 ring-red-700/25 flex flex-col justify-between p-3.5 sm:p-4 overflow-hidden backface-hidden rotate-y-180 z-10 bg-white">
+          {/* Back Header with matching red 已勘驗 badge */}
+          <div className="pb-2 border-b-2 border-red-600/50 space-y-1 shrink-0">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-dossier-mono font-bold text-yellow-400 tracking-wider">
-                {evidence.code} · {evidence.type}
-              </span>
-              <span className="text-[10px] font-dossier-mono text-blue-300/80 bg-[#070b14] px-2 py-0.5 rounded border border-blue-950">
-                FORENSIC REPORT
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-dossier-mono font-bold text-red-800 tracking-wider">
+                  {evidence.code} · {evidence.type}
+                </span>
+                <span className="text-[10px] font-dossier-mono text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-300 font-bold">
+                  LAB REPORT
+                </span>
+              </div>
+
+              {/* Red 已勘驗 badge on the back */}
+              <div className="px-2.5 py-0.5 rounded bg-red-700 text-white font-bold text-[11px] shadow-sm tracking-wider flex items-center gap-1 font-sans">
+                <Check className="w-3.5 h-3.5" />
+                <span>已勘驗</span>
+              </div>
             </div>
 
-            {/* 證物名稱獨立成行 */}
-            <h4 className="text-lg sm:text-xl font-black text-stone-100 font-dossier-heading tracking-wide leading-snug">
+            <h4 className="text-base sm:text-lg font-black text-stone-950 font-dossier-heading tracking-wide leading-tight line-clamp-1">
               {evidence.name}
             </h4>
 
-            {/* 地點 */}
-            <div className="flex items-start gap-1.5 text-xs text-stone-300 pt-0.5">
-              <MapPin className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 mt-0.5" />
-              <span className="leading-snug break-words">{evidence.locationFound}</span>
+            <div className="flex items-start gap-1 text-[11px] text-stone-600 font-sans">
+              <MapPin className="w-3 h-3 text-red-700 shrink-0 mt-0.5" />
+              <span className="leading-tight line-clamp-1">{evidence.locationFound}</span>
             </div>
           </div>
 
           {/* Middle: Split into Upper Layer (說明) and Lower Layer (推測) */}
-          <div className="flex-1 my-2 overflow-y-auto dossier-scrollbar space-y-2.5 pr-1">
-            {/* 上層：說明 (精華條列分行) */}
-            <div className="p-3 rounded-lg bg-[#080d19]/90 border border-blue-950/80 text-xs sm:text-sm">
-              <div className="flex items-center gap-1.5 text-yellow-400 font-bold text-xs uppercase tracking-wider mb-1.5">
-                <Search className="w-3.5 h-3.5" />
-                <span>【說明】鑑識調查事實</span>
+          <div className="flex-1 my-1.5 overflow-y-auto dossier-scrollbar space-y-1.5 pr-1 font-sans text-xs">
+            {/* 上層：鑑識事實 (白紙黑字，清晰易讀) */}
+            <div className="p-2 rounded-lg bg-stone-50 border border-stone-300">
+              <div className="flex items-center gap-1 text-stone-900 font-bold text-[11px] uppercase tracking-wider mb-1">
+                <Search className="w-3 h-3 text-red-700" />
+                <span className="text-stone-950 font-black">【說明】鑑識調查事實</span>
               </div>
-              <div className="space-y-1 text-stone-300">
+              <div className="space-y-1 text-stone-800 leading-relaxed text-[11px]">
                 {evidence.explanationPoints.map((point, idx) => (
-                  <p key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="text-yellow-400/80 font-bold shrink-0 mt-0.5">·</span>
-                    <span>{point}</span>
+                  <p key={idx} className="flex items-start gap-1">
+                    <span className="text-red-700 font-bold shrink-0 mt-0.5">●</span>
+                    <span className="font-medium text-stone-900">{point}</span>
                   </p>
                 ))}
               </div>
             </div>
 
-            {/* 下層：推測 (精華條列分行) */}
-            <div className="p-3 rounded-lg bg-[#0e172a] border border-blue-800/40 text-xs sm:text-sm">
-              <div className="flex items-center gap-1.5 text-blue-300 font-bold text-xs uppercase tracking-wider mb-1.5">
-                <BrainCircuit className="w-3.5 h-3.5 text-yellow-400" />
-                <span>【推測】檢警案情偵查心證</span>
+            {/* 下層：推測 (牛皮便籤質感，高對比易讀) */}
+            <div className="p-2 rounded-lg bg-amber-50/90 border border-amber-300">
+              <div className="flex items-center gap-1 text-amber-900 font-bold text-[11px] uppercase tracking-wider mb-1">
+                <BrainCircuit className="w-3 h-3 text-amber-800" />
+                <span className="text-amber-950 font-black">【推測】檢警案情偵查心證</span>
               </div>
-              <div className="space-y-1 text-stone-200">
+              <div className="space-y-1 text-stone-800 leading-relaxed text-[11px]">
                 {evidence.speculationPoints.map((point, idx) => (
-                  <p key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="text-blue-400 font-bold shrink-0 mt-0.5">·</span>
-                    <span>{point}</span>
+                  <p key={idx} className="flex items-start gap-1">
+                    <span className="text-amber-800 font-bold shrink-0 mt-0.5">●</span>
+                    <span className="font-medium text-stone-900">{point}</span>
                   </p>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Bottom Button */}
-          <div className="pt-2.5 border-t border-blue-950 shrink-0">
-            <div className="w-full py-2.5 px-4 rounded-xl bg-yellow-400/10 hover:bg-yellow-400 text-yellow-400 hover:text-stone-950 font-bold text-xs sm:text-sm border border-yellow-400/60 transition-all flex items-center justify-center gap-2 shadow-sm group">
-              <RotateCw className="w-4 h-4 transition-transform group-hover:rotate-180" />
-              <span>檢視外觀照片</span>
+          {/* Bottom Flip Back Button */}
+          <div className="pt-1 border-t border-stone-200 shrink-0 font-sans">
+            <div className="w-full py-1.5 px-3 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm group">
+              <RotateCw className="w-3.5 h-3.5 text-yellow-400 transition-transform group-hover:rotate-180" />
+              <span>翻回照片與便條 ➔</span>
             </div>
           </div>
         </div>

@@ -27,6 +27,17 @@
   );
 }
 
+/* Card 3D Flip Shell with brute-force upward translation compensation */
+.evidence-flip-card {
+  transform-style: preserve-3d;
+  transition: transform 0.48s cubic-bezier(0.34, 1.25, 0.64, 1);
+  transform-origin: center center;
+}
+
+.evidence-flip-card.is-flipped {
+  transform: rotateY(180deg) translateY(-14px);
+}
+
 .bg-police-tape-thin {
   background: repeating-linear-gradient(
     -45deg,
@@ -39,13 +50,11 @@
 
 /* Base styles */
 body {
-  font-family: 'Noto Serif TC', ui-serif, Georgia, Cambria, serif;
-  background-color: #060911;
-  background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(15, 35, 75, 0.45) 0%, transparent 80%),
-    radial-gradient(circle at 100% 40%, rgba(10, 25, 55, 0.25) 0%, transparent 50%);
-  background-attachment: fixed;
-  color: #e2e8f0;
+  font-family: 'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #120e0a;
+  color: #1f2937;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
 }
 
 .font-dossier-mono {
@@ -53,7 +62,338 @@ body {
 }
 
 .font-dossier-heading {
-  font-family: 'Cinzel', 'Noto Serif TC', serif;
+  font-family: 'Noto Serif TC', 'Cinzel', serif;
+}
+
+.font-headline-retro {
+  font-family: 'Bebas Neue', 'Noto Sans TC', sans-serif;
+  letter-spacing: 0.04em;
+}
+
+/* ================= VINTAGE DETECTIVE SCRAPBOARD & PAPER STYLES ================= */
+
+/* Giant Manila Kraft Case Dossier Folder */
+.kraft-dossier-board {
+  background: linear-gradient(175deg, #f7ede0 0%, #ede0cb 50%, #e3d1b8 100%);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.75),
+    0 4px 15px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.7),
+    0 0 0 1px rgba(120, 95, 65, 0.35);
+  position: relative;
+}
+
+/* White Torn Paper Memo Pad (Ultra-readable, high contrast) */
+.paper-memo-sheet {
+  background: #fffdf9;
+  box-shadow: 
+    2px 6px 18px rgba(0, 0, 0, 0.35),
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(0, 0, 0, 0.08);
+  color: #1c1917;
+  position: relative;
+}
+
+/* Polaroid Instant Photo Frame - Softened shadow so title is never obscured */
+.polaroid-frame {
+  background: #ffffff;
+  padding: 8px 8px 12px 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* Metallic 3D Red Pushpin */
+.pushpin-3d-red {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff6b6b, #dc2626 60%, #7f1d1d);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    inset 0 2px 2px rgba(255, 255, 255, 0.8);
+  position: relative;
+  display: inline-block;
+}
+.pushpin-3d-red::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fca5a5, #ef4444);
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+/* Metallic Brass Paperclip */
+.paperclip-accent {
+  width: 14px;
+  height: 38px;
+  border: 3px solid #94a3b8;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.4);
+  background: transparent;
+}
+
+/* Stitched Case Label Tag */
+.stitched-case-tag {
+  background: #fbf7ee;
+  border: 2px dashed #94a3b8;
+  padding: 4px 12px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Distressed Circular Red Rubber Stamp */
+.stamp-classified-circle {
+  border: 3px double #dc2626;
+  border-radius: 50%;
+  color: #dc2626;
+  padding: 8px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  transform: rotate(-12deg);
+  opacity: 0.88;
+  filter: contrast(120%);
+  display: inline-block;
+  user-select: none;
+}
+
+/* Red Yarn String Line */
+.red-yarn-line {
+  stroke: #dc2626;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.4));
+}
+
+/* Vintage Manila Dossier Stitched Divider */
+.dossier-stitched-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 72rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.dossier-stitched-divider::before,
+.dossier-stitched-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    #947b5c,
+    #947b5c 8px,
+    transparent 8px,
+    transparent 14px
+  );
+  opacity: 0.65;
+}
+
+/* Authentic Realistic Tape Peel & Slide Animation */
+@keyframes tape-peel-slide {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 1;
+    transform-origin: 90% 50%;
+  }
+  20% {
+    transform: translateX(8%) translateY(-4px) rotate(-3deg) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateX(45%) translateY(-10px) rotate(-6deg) scale(0.98);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(130%) translateY(-16px) rotate(-10deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+.animate-tape-peel {
+  animation: tape-peel-slide 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Golden Converging Particles for Temple Dharma Assembly */
+@keyframes converge-1 {
+  0% { transform: translate(-30px, 20px) scale(0.4); opacity: 0; }
+  50% { opacity: 0.9; }
+  100% { transform: translate(40px, -25px) scale(1.1); opacity: 0.2; }
+}
+@keyframes converge-2 {
+  0% { transform: translate(35px, -15px) scale(0.3); opacity: 0; }
+  50% { opacity: 0.85; }
+  100% { transform: translate(-45px, 20px) scale(1); opacity: 0.2; }
+}
+@keyframes converge-3 {
+  0% { transform: translate(-25px, -20px) scale(0.5); opacity: 0; }
+  50% { opacity: 0.95; }
+  100% { transform: translate(30px, 30px) scale(0.9); opacity: 0.2; }
+}
+@keyframes converge-4 {
+  0% { transform: translate(40px, 25px) scale(0.4); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translate(-35px, -30px) scale(1.1); opacity: 0.25; }
+}
+@keyframes converge-5 {
+  0% { transform: translate(20px, 30px) scale(0.5); opacity: 0; }
+  50% { opacity: 0.9; }
+  100% { transform: translate(-25px, -15px) scale(0.85); opacity: 0.15; }
+}
+@keyframes converge-6 {
+  0% { transform: translate(-40px, 15px) scale(0.4); opacity: 0; }
+  50% { opacity: 0.85; }
+  100% { transform: translate(35px, -10px) scale(1); opacity: 0.2; }
+}
+
+.animate-particle-converge-1 { animation: converge-1 4s ease-in-out infinite alternate; }
+.animate-particle-converge-2 { animation: converge-2 4.5s ease-in-out infinite alternate; }
+.animate-particle-converge-3 { animation: converge-3 3.8s ease-in-out infinite alternate; }
+.animate-particle-converge-4 { animation: converge-4 4.2s ease-in-out infinite alternate; }
+.animate-particle-converge-5 { animation: converge-5 3.6s ease-in-out infinite alternate; }
+.animate-particle-converge-6 { animation: converge-6 4.8s ease-in-out infinite alternate; }
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* Vintage Manila Dossier Stitched Crime Divider */
+.dossier-crime-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 68rem;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+.dossier-crime-divider::before,
+.dossier-crime-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(184, 159, 129, 0.65),
+    rgba(184, 159, 129, 0.65) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+/* Golden Sparkle Particle Float */
+@keyframes float-particle {
+  0% {
+    transform: translateY(12px) scale(0.6);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.95;
+    transform: translateY(-4px) scale(1.2);
+  }
+  100% {
+    transform: translateY(-20px) scale(0.4);
+    opacity: 0;
+  }
+}
+
+.animate-particle-float {
+  animation: float-particle 2.2s ease-in-out infinite;
+}
+
+/* Slow Single Border Flash (Swells slowly once over 1.6s then extinguishes cleanly) */
+@keyframes border-slow-single-flash {
+  0% {
+    border-color: #78350f;
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    transform: scale(1);
+  }
+  40% {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.95), 0 0 35px 8px rgba(220, 38, 38, 0.7);
+    transform: scale(1.02);
+  }
+  100% {
+    border-color: #292524;
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    transform: scale(1);
+  }
+}
+
+.animate-slow-single-flash {
+  animation: border-slow-single-flash 1.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Semi-transparent Masking Tape strip */
+.masking-tape {
+  background: rgba(248, 237, 214, 0.85);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(1px);
+  border-left: 2px dashed rgba(205, 185, 142, 0.7);
+  border-right: 2px dashed rgba(205, 185, 142, 0.7);
+}
+
+/* Classic Yellow Sticky Note */
+.sticky-note-yellow {
+  background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+  color: #1c1917;
+  box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Kraft / Dark Investigation Note */
+.sticky-note-kraft {
+  background: linear-gradient(135deg, #1f1d18 0%, #171511 100%);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Metallic Red Pushpin */
+.pushpin-red {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f87171, #dc2626 65%, #7f1d1d);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  position: relative;
+  display: inline-block;
+}
+
+/* Metallic Brass Pushpin */
+.pushpin-brass {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fde047, #ca8a04 65%, #713f12);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.7);
+  position: relative;
+  display: inline-block;
+}
+
+/* Paper File Folder Texture */
+.paper-folder-bg {
+  background-color: #11141e;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Stamps */
@@ -113,6 +453,71 @@ body {
   animation: rejection-shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
+/* Prosecutor Stamp Impact Slam Animation */
+@keyframes prosecutor-stamp-slam {
+  0% {
+    transform: scale(3.2) rotate(-35deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.92;
+    filter: blur(2px);
+  }
+  75% {
+    transform: scale(0.92) rotate(-13deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+  90% {
+    transform: scale(1.05) rotate(-10deg);
+  }
+  100% {
+    transform: scale(1) rotate(-12deg);
+    opacity: 0.95;
+    filter: blur(0);
+  }
+}
+
+.animate-stamp-slam {
+  animation: prosecutor-stamp-slam 0.52s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+/* Paper Stamp Impact Vibration / Shake */
+@keyframes paper-stamp-vibration {
+  0% { transform: translate(0, 0); }
+  15% { transform: translate(-2px, 3px) scale(0.998); }
+  30% { transform: translate(3px, -2px) scale(1.002); }
+  45% { transform: translate(-3px, 2px); }
+  60% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, 1px); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.animate-paper-shake {
+  animation: paper-stamp-vibration 0.38s ease-out;
+}
+
+/* Official Red Prosecutor Stamp ('檢方核准') */
+.stamp-prosecutor-approved {
+  border: 4px double #b91c1c;
+  border-radius: 10px;
+  color: #b91c1c;
+  padding: 6px 16px;
+  text-align: center;
+  font-weight: 900;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  background: rgba(185, 28, 28, 0.06);
+  box-shadow: 
+    0 0 0 2px rgba(185, 28, 28, 0.35),
+    inset 0 0 10px rgba(185, 28, 28, 0.15);
+  text-shadow: 0 0 1px rgba(185, 28, 28, 0.6);
+}
+
 /* Tape ripping peel effect */
 @keyframes tape-rip-away {
   0% {
@@ -160,49 +565,4 @@ body {
 
 .animate-vault-unlock {
   animation: unlock-gold-flare 1.8s ease-out forwards;
-}
-
-/* Ethereal Temple Mist parting animation */
-@keyframes mist-part-left {
-  0% {
-    transform: translateX(0) scale(1);
-    opacity: 0.9;
-    filter: blur(12px);
-  }
-  40% {
-    opacity: 0.7;
-    filter: blur(20px);
-  }
-  100% {
-    transform: translateX(-110%) scale(1.3);
-    opacity: 0;
-    filter: blur(35px);
-  }
-}
-
-@keyframes mist-part-right {
-  0% {
-    transform: translateX(0) scale(1);
-    opacity: 0.9;
-    filter: blur(12px);
-  }
-  40% {
-    opacity: 0.7;
-    filter: blur(20px);
-  }
-  100% {
-    transform: translateX(110%) scale(1.3);
-    opacity: 0;
-    filter: blur(35px);
-  }
-}
-
-.animate-mist-left {
-  animation: mist-part-left 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-  pointer-events: none;
-}
-
-.animate-mist-right {
-  animation: mist-part-right 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-  pointer-events: none;
 }

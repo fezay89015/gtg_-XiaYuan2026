@@ -1,31 +1,56 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { EVIDENCE_ITEMS } from './data/caseData';
 import { CaseHeader } from './components/CaseHeader';
 import { EvidenceCard } from './components/EvidenceCard';
 import { DeductionModal } from './components/DeductionModal';
 import { ConfessionLetter } from './components/ConfessionLetter';
 import { SinsAnalysisSection } from './components/SinsAnalysisSection';
 import { EventCtaCard } from './components/EventCtaCard';
-import { EVIDENCE_ITEMS } from './data/caseData';
-import { ShieldCheck, Lock, Sparkles } from 'lucide-react';
+import { Lock, Sparkles, ShieldCheck, ArrowRight } from 'lucide-react';
 
-export default function App() {
+export function App() {
+  const [reviewedCards, setReviewedCards] = useState<Set<string>>(new Set());
   const [isDeductionModalOpen, setIsDeductionModalOpen] = useState(false);
   const [isFinalUnlocked, setIsFinalUnlocked] = useState(false);
-  const [reviewedCards, setReviewedCards] = useState<Set<string>>(new Set());
+  const [isDeductionFlashing, setIsDeductionFlashing] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   const finaleSectionRef = useRef<HTMLDivElement>(null);
+  const deductionArenaRef = useRef<HTMLDivElement>(null);
+
+  // Subtle parallax scroll tracker for the blurred background desk photo
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleCardFlipped = (id: string) => {
-    setReviewedCards((prev) => new Set(prev).add(id));
+    setReviewedCards((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
   };
 
   const handleOpenDeduction = () => {
     setIsDeductionModalOpen(true);
   };
 
+  const handleJumpToDeductionArena = () => {
+    // Jump smoothly to the deduction card without opening the modal
+    deductionArenaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setIsDeductionFlashing(true);
+    // Flash once slowly over 1.8s then turn off
+    setTimeout(() => {
+      setIsDeductionFlashing(false);
+    }, 1900);
+  };
+
   const handleSubmitReport = () => {
     setIsFinalUnlocked(true);
-    // Smooth scroll down to the unlocked confession letter
     setTimeout(() => {
       const target = document.getElementById('confession-section');
       if (target) {
@@ -37,32 +62,85 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-[#e3ded3] flex flex-col font-sans selection:bg-yellow-400 selection:text-stone-950">
-      {/* 1. TOP: Case Brief & Police Crime Tape Header */}
+    <div className="min-h-screen text-stone-900 flex flex-col font-sans selection:bg-red-700 selection:text-white relative">
+      {/* ================= BLURRED PARALLAX DESK BACKGROUND LAYER ================= */}
+      <div
+        className="fixed inset-0 pointer-events-none -z-10 overflow-hidden"
+        aria-hidden="true"
+      >
+        <div
+          className="absolute -top-[12%] -left-[5%] -right-[5%] -bottom-[12%] bg-cover bg-center will-change-transform"
+          style={{
+            backgroundImage: "url('/src/assets/images/vintage_detective_desk_bg_1791164684894.jpg')",
+            filter: 'blur(5px) brightness(0.68) contrast(1.05)',
+            transform: `translate3d(0, ${scrollY * 0.08}px, 0) scale(1.06)`,
+          }}
+        />
+        {/* Ambient Dark Vignette Scrim */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#120e0a]/40 via-[#120e0a]/65 to-[#120e0a]/85" />
+      </div>
+
+      {/* 1. TOP: Vintage Scrapboard Header (Title + Polaroid + Pinned Notices) */}
       <CaseHeader isUnlockedFinal={isFinalUnlocked} />
 
+      {/* Elegant Detective Case Seam Divider (Natural on Mobile & Desktop) */}
+      <div className="w-full max-w-4xl mx-auto my-6 sm:my-8 px-4 flex items-center justify-center gap-3 select-none">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#b89f81]/60 to-[#b89f81]" />
+        <div className="px-3.5 py-1 rounded-full bg-[#fbf7ee] border border-[#b89f81] shadow-sm flex items-center gap-2 text-stone-800 text-xs font-bold font-sans">
+          <span className="w-2 h-2 rounded-full bg-red-700 animate-pulse" />
+          <span className="tracking-wide">現場跡證勘驗板</span>
+        </div>
+        <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[#b89f81]/60 to-[#b89f81]" />
+      </div>
+
       {/* 2. MIDDLE: Evidence Cards Wall (證物 01 ～ 06) */}
-      <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-blue-950/80">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-yellow-400 mb-1.5">
-              <span>STAGE 01: FORENSIC INVESTIGATION // 第一階段：現場跡證勘查</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-100 font-dossier-heading">
-              現場物證與偵查線索（編號 01 ～ 06）
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-stone-300 leading-relaxed">
-              請點擊翻閱下列 6 件關鍵物證與線索，深入比對【鑑識事實】與【偵查推測】。唯有掌握各項證物背後的矛盾之處，才能在下一步啟動「推理論證」，揭開阿城蒸發的真相並解鎖自白信。
-            </p>
+      <section className="py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative">
+        {/* Section Header on Kraft Board */}
+        <div className="kraft-dossier-board rounded-2xl p-6 sm:p-8 border border-[#c4b195] shadow-xl relative overflow-hidden">
+          {/* Top 3D Red Pushpins */}
+          <div className="absolute top-2 left-8 z-10 pointer-events-none">
+            <span className="pushpin-3d-red scale-75" />
+          </div>
+          <div className="absolute top-2 right-8 z-10 pointer-events-none">
+            <span className="pushpin-3d-red scale-75" />
           </div>
 
-          <div className="text-xs text-stone-400 font-dossier-mono bg-[#0b1120] px-3.5 py-2 rounded-lg border border-blue-950 shrink-0">
-            勘驗進度：<span className="text-yellow-400 font-bold">{reviewedCards.size}</span> / {EVIDENCE_ITEMS.length} 件
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#c4b195]">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-800 mb-1.5 font-dossier-mono">
+                <span>STAGE 01: FORENSIC INVESTIGATION // 現場跡證線索板</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading">
+                現場物證與偵查線索（編號 01 ～ 06）
+              </h2>
+              <p className="mt-2 text-xs sm:text-sm text-stone-800 font-sans font-medium leading-relaxed">
+                調查板已釘選 6 件關鍵物證與線索。每張相片皆附有<strong>承辦偵查便條</strong>，點擊即可翻閱【鑑識事實】與【偵查心證】。掌握矛盾關鍵，即可點擊下方啟動「推理論證」解鎖自白書！
+              </p>
+            </div>
+
+            <div className="text-xs text-stone-900 font-dossier-mono bg-white/90 px-4 py-2.5 rounded-xl border border-stone-400 shrink-0 shadow-sm font-bold">
+              勘驗進度：<span className="text-red-700 font-black text-sm">{reviewedCards.size}</span> / {EVIDENCE_ITEMS.length} 件
+            </div>
+          </div>
+
+          {/* Clue Connection Board Notice (Mobile-optimized wrap with title on top-left) */}
+          <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-amber-50/90 border border-amber-300 shadow-sm font-sans">
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <div className="flex items-center gap-1.5 text-red-900 font-bold text-xs sm:text-sm">
+                <span className="pushpin-3d-red scale-75 shrink-0" />
+                <span>辦案提示便條</span>
+              </div>
+              <span className="font-dossier-mono text-[10px] sm:text-[11px] text-stone-600 font-bold">
+                EVIDENCE BOARD // CR-0930
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-stone-800 leading-relaxed font-medium pl-5 sm:pl-6">
+              每張拍立得卡片皆可點擊翻轉檢視白紙黑字的鑑識報告，比對矛盾破綻！
+            </p>
           </div>
         </div>
 
-        {/* 6 Evidence Cards Grid */}
+        {/* 6 Evidence Cards Grid (100% stable, zero jump, zero vertical offset) */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           {EVIDENCE_ITEMS.map((item) => (
             <EvidenceCard
@@ -74,44 +152,67 @@ export default function App() {
         </div>
 
         {/* Prominent Deduction Button directly below all evidence items */}
-        <div className="mt-16 text-center">
-          <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-b from-[#0e1628] to-[#090e1b] border-2 border-yellow-400/80 shadow-2xl max-w-3xl mx-auto flex flex-col items-center gap-4">
-            <span className="text-xs uppercase tracking-widest text-yellow-400 font-dossier-mono font-bold">
+        <div className="mt-14 sm:mt-16 text-center">
+          <div
+            ref={deductionArenaRef}
+            className={`kraft-dossier-board p-8 sm:p-10 rounded-2xl border-2 shadow-2xl max-w-3xl mx-auto flex flex-col items-center gap-4 relative transition-all duration-300 ${
+              isDeductionFlashing
+                ? 'animate-slow-single-flash'
+                : 'border-stone-800'
+            }`}
+          >
+            {/* Top Red Pushpin */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 pointer-events-none">
+              <span className="pushpin-3d-red shadow-lg" />
+            </div>
+
+            <span className="text-xs uppercase tracking-widest text-red-800 font-dossier-mono font-bold">
               LOGICAL INFERENCE & DEDUCTION ARENA
             </span>
-            <h3 className="text-xl sm:text-2xl font-bold text-stone-100 font-dossier-heading">
+            <h3 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading">
               物證審閱完畢，進行全案邏輯論證
             </h3>
-            <p className="text-xs sm:text-sm text-stone-300 max-w-xl leading-relaxed">
-              點擊下方按鈕啟動推理論證彈窗。回答 3 道關鍵選擇題，若推論與物證相悖將被直接阻擋；推導正確即可送出報告解鎖自白書！
+            <p className="text-xs sm:text-sm text-stone-800 max-w-xl leading-relaxed font-sans font-medium">
+              點擊下方按鈕啟動推理論證庭。回答 3 道關鍵選擇題，若推論與物證相悖將被直接阻擋；推導正確即可送出報告解鎖自白書！
             </p>
 
             <button
               onClick={handleOpenDeduction}
-              className="mt-2 py-4 px-10 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-black text-base sm:text-lg transition-all shadow-xl shadow-yellow-500/25 flex items-center justify-center gap-2.5 cursor-pointer hover:scale-105 active:scale-95"
+              className="mt-2 py-4 px-10 rounded-xl bg-red-700 hover:bg-red-800 text-white font-black text-base sm:text-lg transition-all shadow-xl shadow-red-900/30 flex items-center justify-center gap-2.5 cursor-pointer hover:scale-105 active:scale-95 font-sans"
             >
               <span className="text-xl">🕵️‍♂️</span>
               <span>開始推理論證</span>
+              <ArrowRight className="w-5 h-5 animate-pulse" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* 3. FOOTER: Unlocked Content (證物 07 自白書 + 罪結總整理 + 活動 CTA) */}
+      {/* Elegant Detective Case Seam Divider (Natural on Mobile & Desktop) */}
+      <div className="w-full max-w-4xl mx-auto my-6 sm:my-8 px-4 flex items-center justify-center gap-3 select-none">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#b89f81]/60 to-[#b89f81]" />
+        <div className="px-3.5 py-1 rounded-full bg-[#fbf7ee] border border-[#b89f81] shadow-sm flex items-center gap-2 text-stone-800 text-xs font-bold font-sans">
+          <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+          <span className="tracking-wide">推理論證與結案自白</span>
+        </div>
+        <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[#b89f81]/60 to-[#b89f81]" />
+      </div>
+
+      {/* 3. FINALE: Unlocked Content (證物 07 自白書 + 罪結總整理 + 活動 CTA) */}
       <section
         ref={finaleSectionRef}
-        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t-2 border-yellow-500/40 bg-[#070b14] relative overflow-hidden"
+        className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       >
         <div className="max-w-5xl mx-auto">
           {isFinalUnlocked ? (
             <div className="space-y-12 animate-fade-in">
               {/* Unlocked banner */}
               <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500 text-emerald-300 text-xs font-bold tracking-wider mb-3">
-                  <ShieldCheck className="w-4 h-4" />
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-800 text-white text-xs font-bold tracking-wider mb-3 shadow-md font-sans">
+                  <ShieldCheck className="w-4 h-4 text-emerald-200" />
                   <span>推理論證報告已送出採納 · 全案真相大白</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-100 font-dossier-heading">
+                <h2 className="text-2xl sm:text-3xl font-black text-amber-100 font-dossier-heading drop-shadow-md">
                   【結案卷宗：真相反轉與解冤釋結】
                 </h2>
               </div>
@@ -119,31 +220,34 @@ export default function App() {
               {/* 1. 【證物 07：阿城留下的自白信】 */}
               <ConfessionLetter />
 
-              {/* 2. 【阿城叔一生結下之罪結對照】 */}
+              {/* 2. 【阿城因果冤結揭露】 */}
               <SinsAnalysisSection />
 
-              {/* 3. 【活動報名 CTA 卡片】 */}
+              {/* 3. 【活動報名 CTA 卡片 (祥雲香霧在卡片上層緩緩解開)】 */}
               <EventCtaCard />
             </div>
           ) : (
-            /* Locked Placeholder guiding user to complete deduction first */
-            <div className="text-center py-16 max-w-lg mx-auto p-8 rounded-2xl border border-blue-900/40 bg-[#0a0f1d]">
-              <div className="w-14 h-14 rounded-full bg-blue-950/60 border border-blue-800/50 flex items-center justify-center mx-auto text-blue-300 mb-4">
+            /* Locked Placeholder */
+            <div className="text-center py-14 max-w-lg mx-auto p-8 rounded-2xl kraft-dossier-board border-2 border-stone-800 shadow-2xl relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 pointer-events-none">
+                <span className="pushpin-3d-red" />
+              </div>
+              <div className="w-14 h-14 rounded-full bg-stone-900 text-amber-200 flex items-center justify-center mx-auto mb-4 shadow-md">
                 <Lock className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-stone-200 font-dossier-heading">
+              <h3 className="text-xl font-bold text-stone-950 font-dossier-heading">
                 【線索 07 自白信與結案報告】已加密封存
               </h3>
-              <p className="text-xs sm:text-sm text-stone-400 mt-2 leading-relaxed">
-                本案真相與阿城的終極自白受檢方封條保護。請先點擊上方的「🕵️‍♂️ 開始推理論證」通過審核，方能解鎖全文與活動資訊。
+              <p className="text-xs sm:text-sm text-stone-800 mt-2 leading-relaxed font-sans font-medium">
+                本案真相與阿城的終極自白受檢方封條保護。請先點擊上方物證區的「🕵️‍♂️ 開始推理論證」通過審核，方能解鎖全文與活動資訊。
               </p>
               <div className="mt-6">
                 <button
-                  onClick={handleOpenDeduction}
-                  className="py-2.5 px-6 rounded-lg bg-[#0e1628] hover:bg-[#131f38] text-yellow-400 font-bold text-xs transition-colors cursor-pointer border border-blue-900/60 inline-flex items-center gap-1.5 shadow-sm"
+                  onClick={handleJumpToDeductionArena}
+                  className="py-2.5 px-6 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs transition-colors cursor-pointer inline-flex items-center gap-1.5 shadow-md font-sans hover:scale-105 active:scale-95"
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>前往推理論證解鎖</span>
+                  <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
+                  <span>前往推理論證卡片 ➔</span>
                 </button>
               </div>
             </div>
@@ -158,29 +262,39 @@ export default function App() {
         onSubmitReport={handleSubmitReport}
       />
 
-      {/* Official Temple Footer */}
-      <footer className="w-full bg-[#080a11] border-t-2 border-yellow-500/40 pt-8 pb-4 px-4 text-center select-none space-y-3 text-xs sm:text-sm text-stone-400">
+      {/* Official Temple Footer on Antique Wood Desk Base */}
+      <footer className="w-full bg-[#140f0a]/95 pt-10 pb-6 px-4 text-center select-none space-y-3 text-xs sm:text-sm text-stone-300 shadow-2xl">
         <div className="max-w-3xl mx-auto space-y-2 font-serif">
-          <div className="font-dossier-mono text-yellow-400 font-bold space-x-2">
+          {/* Reserved Logo Position */}
+          <div className="flex justify-center mb-5">
+            <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#b89f81]/50 bg-stone-900/80 flex flex-col items-center justify-center p-2 text-stone-400 shadow-inner group hover:border-amber-400 transition-colors">
+              <span className="text-[11px] font-dossier-mono uppercase tracking-widest text-amber-200 font-bold">LOGO</span>
+              <span className="text-[9px] text-stone-400 font-sans mt-0.5">預留位置</span>
+            </div>
+          </div>
+
+          <div className="font-dossier-mono text-amber-300 font-bold space-x-2 text-sm">
             <span>Tel. 04-2243 4146 | 0800-221-988</span>
-            <span className="hidden sm:inline text-stone-600">|</span>
+            <span className="hidden sm:inline text-stone-500">|</span>
             <span className="block sm:inline">Fax. 04-2247 6921</span>
           </div>
 
-          <div className="text-stone-300">
+          <div className="text-stone-300 font-sans">
             <span>參拜時間 08:00-21:00</span>
-            <span className="mx-2 text-stone-600">·</span>
+            <span className="mx-2 text-stone-500">·</span>
             <span>台中市北屯區遼陽五街131號</span>
           </div>
 
-          <div className="pt-2 text-[11px] text-stone-500 tracking-wider">
+          <div className="pt-3 text-[11px] text-stone-400 tracking-wider font-dossier-mono">
             © 台中廣天宮 財神開基祖廟 ALL RIGHTS RESERVED
           </div>
         </div>
 
-        {/* Police tape accent at the very bottom */}
-        <div className="h-1.5 w-full bg-police-tape-thin mt-6 opacity-70" />
+        {/* Subtle accent line */}
+        <div className="h-1 w-full bg-police-tape-thin mt-6 opacity-60" />
       </footer>
     </div>
   );
 }
+
+export default App;
