@@ -1,6 +1,5 @@
 import React from 'react';
 import { CASE_SUMMARY } from '../data/caseData';
-import firePaintImg from '../assets/images/evidence_fire_paint_1790927470943.jpg';
 import { MapPin, Calendar, CheckCircle2, Fingerprint } from 'lucide-react';
 
 interface CaseHeaderProps {
@@ -65,14 +64,15 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
             <div className="polaroid-frame rounded-sm rotate-[2deg] hover:rotate-0 transition-transform duration-300 w-52 sm:w-60">
               <div className="w-full h-44 sm:h-48 overflow-hidden bg-stone-900 border border-stone-300">
                 <img
-                  src={firePaintImg}
-                  alt="現場火場照片"
-                  className="w-full h-full object-cover grayscale-[25%] contrast-110"
+                  src="https://github.com/user-attachments/assets/13dc3d56-9e03-49a5-9cea-d3f0b8e24788"
+                  alt="失蹤涉案人 · 阿城叔照片"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover contrast-105"
                 />
               </div>
               <div className="pt-2.5 text-center">
                 <span className="font-dossier-mono font-bold text-xs text-stone-800 tracking-wider">
-                  EVIDENCE PHOTO #01 · 焚室現場
+                  TARGET PHOTO // 失蹤人·阿城叔
                 </span>
               </div>
             </div>

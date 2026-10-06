@@ -35,7 +35,11 @@
 }
 
 .evidence-flip-card.is-flipped {
-  transform: rotateY(180deg) translateY(-14px);
+  transform: rotateY(180deg);
+}
+
+.evidence-flip-card .paper-memo-sheet {
+  position: absolute;
 }
 
 .bg-police-tape-thin {

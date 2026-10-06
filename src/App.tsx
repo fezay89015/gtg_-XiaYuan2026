@@ -265,12 +265,14 @@ export function App() {
       {/* Official Temple Footer on Antique Wood Desk Base */}
       <footer className="w-full bg-[#140f0a]/95 pt-10 pb-6 px-4 text-center select-none space-y-3 text-xs sm:text-sm text-stone-300 shadow-2xl">
         <div className="max-w-3xl mx-auto space-y-2 font-serif">
-          {/* Reserved Logo Position */}
+          {/* Temple Official Logo */}
           <div className="flex justify-center mb-5">
-            <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#b89f81]/50 bg-stone-900/80 flex flex-col items-center justify-center p-2 text-stone-400 shadow-inner group hover:border-amber-400 transition-colors">
-              <span className="text-[11px] font-dossier-mono uppercase tracking-widest text-amber-200 font-bold">LOGO</span>
-              <span className="text-[9px] text-stone-400 font-sans mt-0.5">預留位置</span>
-            </div>
+            <img
+              src="https://github.com/user-attachments/assets/ec3ed119-9cbb-4cde-b551-5c8ac9e56032"
+              alt="台中廣天宮 財神開基祖廟 Logo"
+              referrerPolicy="no-referrer"
+              className="h-16 sm:h-20 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform"
+            />
           </div>
 
           <div className="font-dossier-mono text-amber-300 font-bold space-x-2 text-sm">
