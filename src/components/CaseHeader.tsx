@@ -1,16 +1,30 @@
 import React from 'react';
 import { CASE_SUMMARY } from '../data/caseData';
-import { MapPin, Calendar, CheckCircle2, Fingerprint } from 'lucide-react';
+import { CaseDossier } from '../data/casesRegistry';
+import { MapPin, Calendar, CheckCircle2, Fingerprint, FolderArchive } from 'lucide-react';
 
 interface CaseHeaderProps {
   isUnlockedFinal: boolean;
+  caseDossier?: CaseDossier;
+  onBackToHub?: () => void;
 }
 
-export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
+export const CaseHeader: React.FC<CaseHeaderProps> = ({
+  isUnlockedFinal,
+  caseDossier,
+  onBackToHub
+}) => {
+  const summary = caseDossier?.summary || CASE_SUMMARY;
+  const targetPhoto = caseDossier?.targetPhoto || 'https://github.com/user-attachments/assets/13dc3d56-9e03-49a5-9cea-d3f0b8e24788';
+  const targetPhotoCaption = caseDossier?.targetPhotoCaption || 'TARGET PHOTO // 失蹤人·阿城叔';
+  const isCase1 = caseDossier ? caseDossier.id === 'case-01' : true;
+
   return (
     <header className="relative w-full pt-6 pb-10 px-3 sm:px-6 max-w-6xl mx-auto">
       {/* ================= MAIN KRAFT PAPER DOSSIER ENVELOPE ================= */}
-      <div className="kraft-dossier-board rounded-2xl p-6 sm:p-10 md:p-12 relative overflow-hidden border border-[#c4b195]">
+      <div className={`kraft-dossier-board rounded-2xl p-6 sm:p-10 md:p-12 relative overflow-hidden border ${
+        caseDossier?.themeStyle.boardBorder || 'border-[#c4b195]'
+      }`}>
         {/* Subtle Fold Shadow Accents */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-black/10 via-transparent to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-black/10 via-transparent to-transparent pointer-events-none" />
@@ -23,27 +37,43 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
             <div className="flex flex-wrap items-center gap-3">
               <div className="stitched-case-tag rounded font-dossier-mono font-black text-sm text-stone-900 tracking-wider">
                 <span className="text-red-700 font-bold mr-1">CASE No.</span>
-                <span>{CASE_SUMMARY.caseCode}</span>
+                <span>{summary.caseCode}</span>
               </div>
 
-              <span className="px-2.5 py-0.5 rounded bg-red-800 text-white font-dossier-mono font-bold text-xs tracking-widest uppercase shadow-sm">
+              <span className={`px-2.5 py-0.5 rounded font-dossier-mono font-bold text-xs tracking-widest uppercase shadow-sm ${
+                caseDossier?.themeStyle.badgeBg || 'bg-red-800 text-white'
+              }`}>
                 CONFIDENTIAL
               </span>
 
               <span className="text-xs font-serif text-stone-700 italic">
-                {CASE_SUMMARY.classification}
+                {summary.classification}
               </span>
+
+              {/* Discreet Switch to Archive button for creator */}
+              {onBackToHub && (
+                <button
+                  onClick={onBackToHub}
+                  className="px-2.5 py-0.5 rounded bg-stone-900/80 hover:bg-stone-900 text-amber-200 text-xs font-dossier-mono font-bold border border-amber-400/40 shadow-sm flex items-center gap-1 cursor-pointer transition-colors ml-auto sm:ml-0"
+                  title="回到機密案卷選擇庫"
+                >
+                  <FolderArchive className="w-3.5 h-3.5 text-yellow-400" />
+                  <span>案卷庫</span>
+                </button>
+              )}
             </div>
 
-            {/* Retro Bold Condensed Title (Inspired by THE SUSPICIOUS... styling) */}
+            {/* Retro Bold Condensed Title */}
             <div className="pt-2">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-stone-950 font-headline-retro tracking-tight leading-none uppercase">
-                THE SUSPICIOUS
+                {caseDossier ? caseDossier.titleEn.split(' ')[0] : 'THE SUSPICIOUS'}
                 <br />
-                <span className="text-red-800">MIDNIGHT FIRE</span>
+                <span className={isCase1 ? 'text-red-800' : 'text-emerald-800'}>
+                  {caseDossier ? caseDossier.titleEn.split(' ').slice(1).join(' ') : 'MIDNIGHT FIRE'}
+                </span>
               </h1>
               <div className="inline-block mt-2 px-3 py-1 border-2 border-stone-900 bg-stone-900 text-amber-100 font-dossier-mono font-bold text-xs sm:text-sm tracking-widest uppercase shadow-sm">
-                CR-0930《深夜透天火場離奇蒸發案》· 消失的阿誠叔
+                {summary.caseCode} {summary.mainTitle} · {summary.subTitle}
               </div>
             </div>
           </div>
@@ -64,15 +94,15 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
             <div className="polaroid-frame rounded-sm rotate-[2deg] hover:rotate-0 transition-transform duration-300 w-52 sm:w-60">
               <div className="w-full h-44 sm:h-48 overflow-hidden bg-stone-900 border border-stone-300">
                 <img
-                  src="https://github.com/user-attachments/assets/13dc3d56-9e03-49a5-9cea-d3f0b8e24788"
-                  alt="失蹤涉案人 · 阿城叔照片"
+                  src={targetPhoto}
+                  alt={targetPhotoCaption}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover contrast-105"
                 />
               </div>
               <div className="pt-2.5 text-center">
                 <span className="font-dossier-mono font-bold text-xs text-stone-800 tracking-wider">
-                  TARGET PHOTO // 失蹤人·阿城叔
+                  {targetPhotoCaption}
                 </span>
               </div>
             </div>
@@ -102,11 +132,11 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
                 <div className="mt-2 space-y-1.5 font-sans font-medium text-stone-800">
                   <div className="flex items-start gap-2">
                     <MapPin className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
-                    <span>{CASE_SUMMARY.incidentLocation}</span>
+                    <span>{summary.incidentLocation}</span>
                   </div>
                   <div className="flex items-start gap-2 text-red-800 font-bold">
                     <Calendar className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
-                    <span>{CASE_SUMMARY.incidentDate}</span>
+                    <span>{summary.incidentDate}</span>
                   </div>
                 </div>
               </div>
@@ -118,13 +148,13 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
                 </h4>
                 <div className="mt-2 space-y-1.5 text-stone-800 leading-relaxed font-sans">
                   <p className="font-bold text-red-800">
-                    • 姓名：{CASE_SUMMARY.missingPerson}
+                    • 標的：{summary.missingPerson}
                   </p>
                   <p className="text-stone-700 text-xs">
-                    • 現場矛盾：{CASE_SUMMARY.mainSuspicion}
+                    • 現場矛盾：{summary.mainSuspicion}
                   </p>
                   <p className="text-stone-700 text-xs">
-                    • 特偵提示：借住十餘年，平日體態臃腫、行動遲緩；但起火後房內未見受困逃生痕跡，亦無骨骸殘留，下落成謎、疑點重重。
+                    • 承辦檢察官：{summary.leadInvestigator}
                   </p>
                 </div>
               </div>
@@ -158,23 +188,31 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({ isUnlockedFinal }) => {
               </h4>
 
               <div className="space-y-2.5 font-sans text-stone-900 leading-relaxed pr-8">
-                {CASE_SUMMARY.briefLines.map((line, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <span className="font-dossier-mono font-bold text-red-700 shrink-0">
-                      {idx + 1}.
-                    </span>
-                    <span className="font-medium text-stone-800">{line}</span>
-                  </div>
+                {summary.briefLines.map((line, idx) => (
+                  <p key={idx} className="flex items-start gap-2">
+                    <span className="text-red-700 font-bold shrink-0 mt-0.5">▶</span>
+                    <span>{line}</span>
+                  </p>
                 ))}
               </div>
-            </div>
 
-            {isUnlockedFinal && (
-              <div className="mt-4 pt-3 border-t border-stone-300 flex items-center gap-2 text-emerald-800 font-bold text-xs">
-                <CheckCircle2 className="w-4 h-4 text-emerald-700" />
-                <span>全案推理論證成立 · 證物 07 絕密自白信已解除封存</span>
+              {/* Status Indicator */}
+              <div className="pt-3 border-t border-stone-200 flex flex-wrap items-center justify-between gap-2 text-xs font-dossier-mono">
+                <span className="text-stone-600 font-bold">
+                  DOSSIER STATUS:
+                </span>
+                {isUnlockedFinal ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-emerald-100 text-emerald-900 font-bold border border-emerald-300 shadow-sm">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>【全案定讞 · 真相大白】</span>
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-red-100 text-red-900 font-bold border border-red-300 shadow-sm animate-pulse">
+                    <span>【現場封鎖勘驗中 · 矛盾待解】</span>
+                  </span>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

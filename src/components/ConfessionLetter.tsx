@@ -5,12 +5,17 @@ import { Mail, HeartHandshake, Unlock, Lock } from 'lucide-react';
 
 interface ConfessionLetterProps {
   isJustUnlocked?: boolean;
+  confession?: typeof EVIDENCE_07_CONFESSION;
+  caseId?: string;
 }
 
 export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
-  isJustUnlocked = true
+  isJustUnlocked = true,
+  confession = EVIDENCE_07_CONFESSION,
+  caseId = 'case-01'
 }) => {
   const [animStage, setAnimStage] = useState<'verifying' | 'unlocking' | 'revealed'>('verifying');
+  const isCase1 = caseId === 'case-01';
 
   const startUnlockSequence = () => {
     setAnimStage('verifying');
@@ -60,22 +65,20 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
               )}
             </div>
 
-            {/* Stage title */}
-            <h3 className="text-xl sm:text-2xl font-black text-amber-100 font-dossier-heading tracking-wide">
+            {/* Status text */}
+            <h4 className="text-xl font-bold text-amber-100 font-headline-retro tracking-wide">
               {animStage === 'verifying'
-                ? '【耐火暗格 · 身分權限驗證中】'
-                : '【🔓 權限核准 · 機密封印解除中】'}
-            </h3>
-
-            {/* Stage description */}
-            <p className="text-xs sm:text-sm text-stone-300 mt-2 leading-relaxed font-sans">
+                ? 'VERIFYING DEDUCTION LOGIC...'
+                : 'SECURITY VAULT UNLOCKED'}
+            </h4>
+            <p className="text-xs text-stone-400 mt-2 font-mono">
               {animStage === 'verifying'
-                ? '全案 3 題推理論證報告比對無誤，正在解開耐火保險暗格之重裝機械鎖……'
-                : '鋼鎖機構開啟！防護封條斷裂，正在提取【線索 07 自白書原件】……'}
+                ? '檢方推理論證核准 · 正在解除保險耐火暗格封印...'
+                : '耐火暗格已開啟 · 載入核心自白封函...'}
             </p>
 
             {/* Progress bar */}
-            <div className="mt-6 w-full bg-stone-900 h-2 rounded-full overflow-hidden border border-stone-700">
+            <div className="w-full bg-stone-950 h-2 rounded-full overflow-hidden mt-6 border border-stone-700">
               <div
                 className={`h-full bg-gradient-to-r from-amber-500 to-yellow-300 transition-all duration-1000 ${
                   animStage === 'verifying' ? 'w-2/5 animate-pulse' : 'w-full'
@@ -100,13 +103,13 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
       <div className="pb-6 border-b-2 border-stone-400/60">
         <div className="flex items-center gap-2 text-red-800 font-bold text-xs uppercase tracking-widest mb-1.5 font-dossier-mono">
           <Mail className="w-4 h-4" />
-          <span>{EVIDENCE_07_CONFESSION.code} // 特偵封存之真相</span>
+          <span>{confession.code} // 特偵封存之真相</span>
         </div>
         <h3 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading">
-          {EVIDENCE_07_CONFESSION.title}
+          {confession.title}
         </h3>
         <p className="text-xs text-stone-700 mt-1 font-dossier-mono font-medium">
-          {EVIDENCE_07_CONFESSION.subTitle}
+          {confession.subTitle}
         </p>
       </div>
 
@@ -117,7 +120,7 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
         <div className="absolute -top-3.5 right-10 w-24 h-6 masking-tape rotate-[3deg] pointer-events-none" />
 
         <div className="pt-2 text-stone-900 font-serif leading-loose text-sm sm:text-base selection:bg-amber-300 selection:text-stone-950">
-          {EVIDENCE_07_CONFESSION.letterContent}
+          {confession.letterContent}
         </div>
       </div>
 
@@ -135,35 +138,60 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
           </h4>
         </div>
 
-        <div className="space-y-3.5 font-sans text-stone-900 text-sm sm:text-base leading-relaxed">
-          <div className="flex items-start gap-2.5">
-            <span className="font-black text-red-800 text-base shrink-0 mt-0.5">一、</span>
-            <p>
-              <strong>外貌身分純屬偽飾</strong>：十餘年來令街坊深信不疑的臃腫發福與遲緩雙下巴，全是以防水眉筆精密化妝而成的假象，藉以躲避仇家長期追殺。
-            </p>
-          </div>
+        {isCase1 ? (
+          <div className="space-y-3.5 font-sans text-stone-900 text-sm sm:text-base leading-relaxed">
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-red-800 text-base shrink-0 mt-0.5">一、</span>
+              <p>
+                <strong>外貌身分純屬偽飾</strong>：十餘年來令街坊深信不疑的臃腫發福與遲緩雙下巴，全是以防水眉筆精密化妝而成的假象，藉以躲避仇家長期追殺。
+              </p>
+            </div>
 
-          <div className="flex items-start gap-2.5">
-            <span className="font-black text-red-800 text-base shrink-0 mt-0.5">二、</span>
-            <p>
-              <strong>火場精算保全恩人</strong>：運用年輕時黑道縱火的專業技術，在臥室隔間牆內預先厚塗軍規防火漆，精確將火勢侷限於個人臥室，確保隔壁恩人家眷萬無一失。
-            </p>
-          </div>
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-red-800 text-base shrink-0 mt-0.5">二、</span>
+              <p>
+                <strong>火場精算保全恩人</strong>：運用年輕時黑道縱火的專業技術，在臥室隔間牆內預先厚塗防火漆，精確將火勢侷限於個人臥室，確保隔壁恩人家眷萬無一失。
+              </p>
+            </div>
 
-          <div className="flex items-start gap-2.5">
-            <span className="font-black text-red-800 text-base shrink-0 mt-0.5">三、</span>
-            <p>
-              <strong>假死焚室引開殺戮</strong>：得知黑幫仇家摸排到巷口後，阿城斷然焚室製造蒸發假象，將黑道索命目標徹底誘離社區，非為逃避，實為保全恩人家門安全。
-            </p>
-          </div>
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-red-800 text-base shrink-0 mt-0.5">三、</span>
+              <p>
+                <strong>假死焚室引開殺戮</strong>：得知黑幫仇家摸排到巷口後，阿城斷然焚室製造蒸發假象，將黑道索命目標徹底誘離社區，非為逃避，實為保全恩人家門安全。
+              </p>
+            </div>
 
-          <div className="flex items-start gap-2.5">
-            <span className="font-black text-red-800 text-base shrink-0 mt-0.5">四、</span>
-            <p>
-              <strong>人間未死恩義長存</strong>：阿城身手敏捷、早已翻窗遠走避禍；過往欺瞞雖多，但十餘年守護照顧威仔與恩人的深厚親情，赤誠無偽。
-            </p>
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-red-800 text-base shrink-0 mt-0.5">四、</span>
+              <p>
+                <strong>人間未死恩義長存</strong>：阿城身手敏捷、早已翻窗遠走避禍；過往欺瞞雖多，但十餘年守護照顧威仔與恩人的深厚親情，赤誠無偽。
+              </p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="space-y-3.5 font-sans text-stone-900 text-sm sm:text-base leading-relaxed">
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-emerald-800 text-base shrink-0 mt-0.5">一、</span>
+              <p>
+                <strong>古剎金像未遭黑市玷污</strong>：還俗弟子動用過人垂降身手搶先截留，金身已安然送往清修祖庭，未遭黑幫高利貸熔毀抵債。
+              </p>
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-emerald-800 text-base shrink-0 mt-0.5">二、</span>
+              <p>
+                <strong>長老私慾牽連宗廟</strong>：主管寺務長老私挪善款炒股慘賠，以常住金身私押黑道，其罪重於盜寶，檢方已依法立案查辦其背信侵占之罪。
+              </p>
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-emerald-800 text-base shrink-0 mt-0.5">三、</span>
+              <p>
+                <strong>法不徇情因果必報</strong>：陳義明雖出於護寺善念夜盜神像，然違法行徑仍受司法嚴正審理；世間宿債與貪婪業力，唯有坦白正視方得化解。
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

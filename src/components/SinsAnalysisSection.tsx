@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { SINS_ANALYSIS } from '../data/caseData';
+import { SINS_ANALYSIS, SinAnalysisItem } from '../data/caseData';
 import { playSlideSound } from '../utils/audio';
 import { Scale, Check, ArrowDown, Lock, ChevronRight } from 'lucide-react';
 
-export const SinsAnalysisSection: React.FC = () => {
+interface SinsAnalysisSectionProps {
+  sinsList?: SinAnalysisItem[];
+  caseTitle?: string;
+}
+
+export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
+  sinsList = SINS_ANALYSIS,
+  caseTitle = '涉案因果罪結揭曉'
+}) => {
   // IDs of cards that have been slid open
   const [tornIds, setTornIds] = useState<Set<string>>(new Set());
   // IDs currently undergoing the sliding open animation
@@ -25,7 +33,7 @@ export const SinsAnalysisSection: React.FC = () => {
     }, 450);
   };
 
-  const isAllTorn = tornIds.size === SINS_ANALYSIS.length;
+  const isAllTorn = tornIds.size === sinsList.length;
 
   const handleScrollToPromo = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -47,26 +55,26 @@ export const SinsAnalysisSection: React.FC = () => {
             <span>傳統科儀典籍考證 · 正統三十六解冤結</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading">
-            【因果罪結 · 阿城涉案罪結揭曉】
+            【因果罪結 · {caseTitle}】
           </h3>
           <p className="text-xs sm:text-sm text-stone-700 mt-2 leading-relaxed font-sans font-medium">
-            讀完自白信，得知阿城為保全恩人全家而縱火避禍、隱姓埋名；然而這場烈火與十餘年的東躲西藏，背後究竟種下了何種因果？
+            案情真相大白，世間仇怨雖有定論，然而牽涉其中的人心執念、欺瞞、或私慾，背後究竟種下了何種因果業結？
             <br />
-            每張卡片<strong>上半部為過往行徑</strong>，<strong>下半部為對應罪結</strong>。點擊滑開案情封印，即可揭曉對應之因果罪結！
+            每張卡片<strong>上半部為過往行徑事實</strong>，<strong>下半部為對應之解冤罪結</strong>。點擊滑開案情封印，即可揭曉對應因果！
           </p>
         </div>
 
         {/* Action Controls - cleanly showing count only */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="text-xs font-dossier-mono px-4 py-2 rounded-xl bg-stone-100 border border-stone-400 text-stone-800 font-bold shadow-sm">
-            已揭曉罪結：<span className="text-red-700 font-black text-sm">{tornIds.size}</span> / {SINS_ANALYSIS.length}
+            已揭曉罪結：<span className="text-red-700 font-black text-sm">{tornIds.size}</span> / {sinsList.length}
           </div>
         </div>
       </div>
 
       {/* Cards (Top Half Past Action + Bottom Half Sin Knot with Smooth Horizontal Slide Shutter) */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-        {SINS_ANALYSIS.map((item) => {
+        {sinsList.map((item) => {
           const isTorn = tornIds.has(item.id);
           const isTearing = tearingIds.has(item.id);
 
@@ -188,7 +196,7 @@ export const SinsAnalysisSection: React.FC = () => {
                 罪結全數揭露完畢 · 唯有科儀方能化解
               </p>
               <p className="text-xs text-stone-700 mt-0.5">
-                阿城雖以烈火了結現世仇怨並遠走避禍，但累世因果與牽連，唯有至誠參與正統三十六解冤釋結法會方得化消。
+                每個人心中，亦常有難解的罪疚與因果窒礙。藉由正統科儀解冤釋結、虔心懺悔，方能化消累劫冤愆，迎祥納福、轉運賜財。
               </p>
             </div>
           </div>

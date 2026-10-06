@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DEDUCTION_QUIZ } from '../data/caseData';
+import { DEDUCTION_QUIZ, DeductionQuestion } from '../data/caseData';
 import { playErrorSound, playSuccessSound, playStampSound } from '../utils/audio';
 import { CheckCircle2, AlertTriangle, ArrowRight, X, Sparkles, Scale } from 'lucide-react';
 
@@ -7,13 +7,18 @@ interface DeductionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmitReport: () => void;
+  quiz?: DeductionQuestion[];
+  caseCode?: string;
 }
 
 export const DeductionModal: React.FC<DeductionModalProps> = ({
   isOpen,
   onClose,
-  onSubmitReport
+  onSubmitReport,
+  quiz,
+  caseCode = 'CR-0930'
 }) => {
+  const currentQuiz = quiz || DEDUCTION_QUIZ;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -24,8 +29,8 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
 
   if (!isOpen) return null;
 
-  const currentQ = DEDUCTION_QUIZ[currentQuestionIndex];
-  const totalQuestions = DEDUCTION_QUIZ.length;
+  const currentQ = currentQuiz[currentQuestionIndex] || currentQuiz[0];
+  const totalQuestions = currentQuiz.length;
 
   const handleSelectOption = (optionId: string, isCorrect: boolean) => {
     setErrorMessage(null);
@@ -112,7 +117,7 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
                 檢方推理論證庭 · 案件邏輯審核
               </h3>
               <span className="text-xs font-dossier-mono text-stone-700 font-bold">
-                FORENSIC DEDUCTION DOCKET // CR-0930
+                FORENSIC DEDUCTION DOCKET // {caseCode}
               </span>
             </div>
           </div>
@@ -213,11 +218,11 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
                   推理論證全數成立 · 真相綜整揭曉
                 </h4>
                 <p className="text-xs sm:text-sm text-stone-700 max-w-lg mx-auto font-sans font-medium">
-                  根據現場 6 項矛盾物證與線索，您已破除層層假象，成功重建案情全貌：
+                  根據現場矛盾物證與線索，您已破除層層假象，成功重建案情全貌：
                 </p>
               </div>
 
-              {/* 1. 三大答案真相摘要卡 (100% 乾淨清晰，印章絕不蓋在文字上) */}
+              {/* 1. 三大答案真相摘要卡 (動態對應各案真相) */}
               <div className="p-4 sm:p-5 rounded-xl bg-amber-50/90 border-2 border-stone-400 shadow-md space-y-3 text-xs sm:text-sm">
                 <div className="flex items-center gap-2 pb-2 border-b border-amber-300 text-stone-950 font-bold text-xs tracking-wider">
                   <Sparkles className="w-4 h-4 text-red-700" />
@@ -225,32 +230,19 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
                 </div>
 
                 <div className="space-y-2.5 text-stone-900 font-sans">
-                  <div className="flex items-start gap-2.5">
-                    <span className="px-2 py-0.5 rounded bg-stone-900 text-amber-200 font-bold text-xs shrink-0 mt-0.5 font-dossier-mono">
-                      Q1 火場
-                    </span>
-                    <p className="leading-relaxed font-medium">
-                      <strong>阿城預先粉刷了軍用級防火漆</strong>，所以烈火被精準圍堵，只燒毀阿城個人房間。
-                    </p>
-                  </div>
-
-                  <div className="flex items-start gap-2.5">
-                    <span className="px-2 py-0.5 rounded bg-stone-900 text-amber-200 font-bold text-xs shrink-0 mt-0.5 font-dossier-mono">
-                      Q2 身分
-                    </span>
-                    <p className="leading-relaxed font-medium">
-                      <strong>阿城過去身材精壯且精通武術</strong>，十幾年來令人印象深刻的臃腫雙下巴，全是用防水眉筆畫出的假象。
-                    </p>
-                  </div>
-
-                  <div className="flex items-start gap-2.5">
-                    <span className="px-2 py-0.5 rounded bg-stone-900 text-amber-200 font-bold text-xs shrink-0 mt-0.5 font-dossier-mono">
-                      Q3 動機
-                    </span>
-                    <p className="leading-relaxed font-medium">
-                      <strong>黑道仇家找上門</strong>，阿城運用早年縱火專業「假死銷毀身分」，將索命殺機徹底引開以保護恩人全家。
-                    </p>
-                  </div>
+                  {currentQuiz.map((q, idx) => {
+                    const correctOpt = q.options.find((o) => o.isCorrect);
+                    return (
+                      <div key={q.id} className="flex items-start gap-2.5">
+                        <span className="px-2 py-0.5 rounded bg-stone-900 text-amber-200 font-bold text-xs shrink-0 mt-0.5 font-dossier-mono">
+                          {q.questionNumber}
+                        </span>
+                        <p className="leading-relaxed font-medium">
+                          <strong>{correctOpt?.text || ''}</strong>
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -264,7 +256,7 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
                     【結案核定】推理論證具備高度合理性，准予全案定讞結案。
                   </p>
                   <p className="text-[11px] text-stone-600 font-sans">
-                    勘驗紀錄已簽核封卷 · 耐火暗格防護已解除
+                    勘驗紀錄已簽核封卷 · 機密封鎖防護已解除
                   </p>
                 </div>
 

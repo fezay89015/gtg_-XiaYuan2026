@@ -1,14 +1,24 @@
 import { useState, useRef, useEffect } from 'react';
-import { EVIDENCE_ITEMS } from './data/caseData';
+import { ALL_CASES, CASE_01_ACHENG, getCaseBySlugOrAlias, CaseDossier } from './data/casesRegistry';
 import { CaseHeader } from './components/CaseHeader';
 import { EvidenceCard } from './components/EvidenceCard';
 import { DeductionModal } from './components/DeductionModal';
 import { ConfessionLetter } from './components/ConfessionLetter';
 import { SinsAnalysisSection } from './components/SinsAnalysisSection';
 import { EventCtaCard } from './components/EventCtaCard';
-import { Lock, Sparkles, ShieldCheck, ArrowRight } from 'lucide-react';
+import { CaseSelectHub } from './components/CaseSelectHub';
+import { Lock, Sparkles, ShieldCheck, ArrowRight, FolderArchive } from 'lucide-react';
 
 export function App() {
+  // Read initial case from URL query params (e.g. ?case=acheng or ?case=case2)
+  const [activeCaseSlug, setActiveCaseSlug] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const params = new URLSearchParams(window.location.search);
+    const c = params.get('case');
+    if (!c || c === 'select' || c === 'hub' || c === 'all') return null;
+    return c;
+  });
+
   const [reviewedCards, setReviewedCards] = useState<Set<string>>(new Set());
   const [isDeductionModalOpen, setIsDeductionModalOpen] = useState(false);
   const [isFinalUnlocked, setIsFinalUnlocked] = useState(false);
@@ -18,6 +28,28 @@ export function App() {
   const finaleSectionRef = useRef<HTMLDivElement>(null);
   const deductionArenaRef = useRef<HTMLDivElement>(null);
 
+  // Synchronize browser history / URL when user uses back/forward buttons
+  useEffect(() => {
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const c = params.get('case');
+      if (!c || c === 'select' || c === 'hub' || c === 'all') {
+        setActiveCaseSlug(null);
+      } else {
+        setActiveCaseSlug(c);
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  // Reset case state when switching cases
+  useEffect(() => {
+    setReviewedCards(new Set());
+    setIsFinalUnlocked(false);
+    setIsDeductionModalOpen(false);
+  }, [activeCaseSlug]);
+
   // Subtle parallax scroll tracker for the blurred background desk photo
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +58,29 @@ export function App() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleSelectCase = (slug: string) => {
+    setActiveCaseSlug(slug);
+    const newUrl = `${window.location.pathname}?case=${slug}`;
+    window.history.pushState({ case: slug }, '', newUrl);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToHub = () => {
+    setActiveCaseSlug(null);
+    const newUrl = window.location.pathname;
+    window.history.pushState({}, '', newUrl);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // If no case is selected in URL, display the Case Selection Hub!
+  if (!activeCaseSlug) {
+    return <CaseSelectHub onSelectCase={handleSelectCase} />;
+  }
+
+  // Load active dossier based on URL slug
+  const currentCase: CaseDossier = getCaseBySlugOrAlias(activeCaseSlug) || CASE_01_ACHENG;
+  const isCase1 = currentCase.id === 'case-01';
 
   const handleCardFlipped = (id: string) => {
     setReviewedCards((prev) => {
@@ -40,10 +95,8 @@ export function App() {
   };
 
   const handleJumpToDeductionArena = () => {
-    // Jump smoothly to the deduction card without opening the modal
     deductionArenaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     setIsDeductionFlashing(true);
-    // Flash once slowly over 1.8s then turn off
     setTimeout(() => {
       setIsDeductionFlashing(false);
     }, 1900);
@@ -58,36 +111,36 @@ export function App() {
       } else {
         finaleSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 350);
+    }, 300);
   };
 
   return (
-    <div className="min-h-screen text-stone-900 flex flex-col font-sans selection:bg-red-700 selection:text-white relative">
-      {/* ================= BLURRED PARALLAX DESK BACKGROUND LAYER ================= */}
-      <div
-        className="fixed inset-0 pointer-events-none -z-10 overflow-hidden"
-        aria-hidden="true"
-      >
+    <div className="min-h-screen bg-[#120e0a] text-stone-900 relative selection:bg-amber-800 selection:text-amber-100 overflow-x-hidden font-sans">
+      {/* ================= ATMOSPHERIC PARALLAX VINTAGE DETECTIVE DESK BACKGROUND ================= */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div
-          className="absolute -top-[12%] -left-[5%] -right-[5%] -bottom-[12%] bg-cover bg-center will-change-transform"
+          className="absolute inset-0 bg-cover bg-center filter brightness-[0.4] contrast-[1.25] saturate-[0.85] scale-105 will-change-transform"
           style={{
-            backgroundImage: "url('/src/assets/images/vintage_detective_desk_bg_1791164684894.jpg')",
-            filter: 'blur(5px) brightness(0.68) contrast(1.05)',
-            transform: `translate3d(0, ${scrollY * 0.08}px, 0) scale(1.06)`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=2000&q=80')`,
+            transform: `translate3d(0, ${scrollY * 0.08}px, 0)`
           }}
         />
         {/* Ambient Dark Vignette Scrim */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#120e0a]/40 via-[#120e0a]/65 to-[#120e0a]/85" />
+        <div className={`absolute inset-0 bg-gradient-to-b ${currentCase.themeStyle.vignetteGradient}`} />
       </div>
 
       {/* 1. TOP: Vintage Scrapboard Header (Title + Polaroid + Pinned Notices) */}
-      <CaseHeader isUnlockedFinal={isFinalUnlocked} />
+      <CaseHeader
+        isUnlockedFinal={isFinalUnlocked}
+        caseDossier={currentCase}
+        onBackToHub={handleBackToHub}
+      />
 
       {/* Elegant Detective Case Seam Divider (Natural on Mobile & Desktop) */}
       <div className="w-full max-w-4xl mx-auto my-6 sm:my-8 px-4 flex items-center justify-center gap-3 select-none">
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#b89f81]/60 to-[#b89f81]" />
         <div className="px-3.5 py-1 rounded-full bg-[#fbf7ee] border border-[#b89f81] shadow-sm flex items-center gap-2 text-stone-800 text-xs font-bold font-sans">
-          <span className="w-2 h-2 rounded-full bg-red-700 animate-pulse" />
+          <span className={`w-2 h-2 rounded-full animate-pulse ${isCase1 ? 'bg-red-700' : 'bg-emerald-700'}`} />
           <span className="tracking-wide">現場跡證勘驗板</span>
         </div>
         <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[#b89f81]/60 to-[#b89f81]" />
@@ -96,20 +149,20 @@ export function App() {
       {/* 2. MIDDLE: Evidence Cards Wall (證物 01 ～ 06) */}
       <section className="py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative">
         {/* Section Header on Kraft Board */}
-        <div className="kraft-dossier-board rounded-2xl p-6 sm:p-8 border border-[#c4b195] shadow-xl relative overflow-hidden">
+        <div className={`kraft-dossier-board rounded-2xl p-6 sm:p-8 border shadow-xl relative overflow-hidden ${currentCase.themeStyle.boardBorder}`}>
           {/* Top 3D Red Pushpins */}
-          <div className="absolute top-2 left-8 z-10 pointer-events-none">
-            <span className="pushpin-3d-red scale-75" />
+          <div className="absolute -top-3 left-10 pointer-events-none">
+            <span className="pushpin-3d-red shadow-md" />
           </div>
-          <div className="absolute top-2 right-8 z-10 pointer-events-none">
-            <span className="pushpin-3d-red scale-75" />
+          <div className="absolute -top-3 right-10 pointer-events-none">
+            <span className="pushpin-3d-red shadow-md" />
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#c4b195]">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-800 mb-1.5 font-dossier-mono">
-                <span>STAGE 01: FORENSIC INVESTIGATION // 現場跡證線索板</span>
-              </div>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <span className={`text-xs font-dossier-mono uppercase tracking-widest font-bold ${isCase1 ? 'text-red-800' : 'text-emerald-800'}`}>
+                FORENSIC BOARD // 現場證物清單
+              </span>
               <h2 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading">
                 現場物證與偵查線索（編號 01 ～ 06）
               </h2>
@@ -119,7 +172,7 @@ export function App() {
             </div>
 
             <div className="text-xs text-stone-900 font-dossier-mono bg-white/90 px-4 py-2.5 rounded-xl border border-stone-400 shrink-0 shadow-sm font-bold">
-              勘驗進度：<span className="text-red-700 font-black text-sm">{reviewedCards.size}</span> / {EVIDENCE_ITEMS.length} 件
+              勘驗進度：<span className={`font-black text-sm ${isCase1 ? 'text-red-700' : 'text-emerald-700'}`}>{reviewedCards.size}</span> / {currentCase.evidence.length} 件
             </div>
           </div>
 
@@ -131,7 +184,7 @@ export function App() {
                 <span>辦案提示便條</span>
               </div>
               <span className="font-dossier-mono text-[10px] sm:text-[11px] text-stone-600 font-bold">
-                EVIDENCE BOARD // CR-0930
+                EVIDENCE BOARD // {currentCase.caseCode}
               </span>
             </div>
             <p className="text-xs sm:text-sm text-stone-800 leading-relaxed font-medium pl-5 sm:pl-6">
@@ -140,9 +193,9 @@ export function App() {
           </div>
         </div>
 
-        {/* 6 Evidence Cards Grid (100% stable, zero jump, zero vertical offset) */}
+        {/* 6 Evidence Cards Grid */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
-          {EVIDENCE_ITEMS.map((item) => (
+          {currentCase.evidence.map((item) => (
             <EvidenceCard
               key={item.id}
               evidence={item}
@@ -166,7 +219,7 @@ export function App() {
               <span className="pushpin-3d-red shadow-lg" />
             </div>
 
-            <span className="text-xs uppercase tracking-widest text-red-800 font-dossier-mono font-bold">
+            <span className={`text-xs uppercase tracking-widest font-dossier-mono font-bold ${isCase1 ? 'text-red-800' : 'text-emerald-800'}`}>
               LOGICAL INFERENCE & DEDUCTION ARENA
             </span>
             <h3 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading">
@@ -178,12 +231,22 @@ export function App() {
 
             <button
               onClick={handleOpenDeduction}
-              className="mt-2 py-4 px-10 rounded-xl bg-red-700 hover:bg-red-800 text-white font-black text-base sm:text-lg transition-all shadow-xl shadow-red-900/30 flex items-center justify-center gap-2.5 cursor-pointer hover:scale-105 active:scale-95 font-sans"
+              className={`mt-2 py-4 px-10 rounded-xl text-white font-black text-base sm:text-lg transition-all shadow-xl flex items-center justify-center gap-2.5 cursor-pointer hover:scale-105 active:scale-95 font-sans ${
+                isCase1
+                  ? 'bg-red-700 hover:bg-red-800 shadow-red-900/30'
+                  : 'bg-emerald-800 hover:bg-emerald-900 shadow-emerald-900/30'
+              }`}
             >
               <span className="text-xl">🕵️‍♂️</span>
               <span>開始推理論證</span>
               <ArrowRight className="w-5 h-5 animate-pulse" />
             </button>
+
+            {/* Quick Helper Badge */}
+            <div className="text-[11px] text-stone-700 flex items-center gap-1.5 font-dossier-mono">
+              <ShieldCheck className="w-3.5 h-3.5 text-red-700" />
+              <span>全數答對 3 題即可解開耐火暗格，查閱自白信</span>
+            </div>
           </div>
         </div>
       </section>
@@ -192,7 +255,7 @@ export function App() {
       <div className="w-full max-w-4xl mx-auto my-6 sm:my-8 px-4 flex items-center justify-center gap-3 select-none">
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#b89f81]/60 to-[#b89f81]" />
         <div className="px-3.5 py-1 rounded-full bg-[#fbf7ee] border border-[#b89f81] shadow-sm flex items-center gap-2 text-stone-800 text-xs font-bold font-sans">
-          <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+          <span className={`w-2 h-2 rounded-full animate-pulse ${isCase1 ? 'bg-amber-600' : 'bg-emerald-600'}`} />
           <span className="tracking-wide">推理論證與結案自白</span>
         </div>
         <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[#b89f81]/60 to-[#b89f81]" />
@@ -205,49 +268,71 @@ export function App() {
       >
         <div className="max-w-5xl mx-auto">
           {isFinalUnlocked ? (
-            <div className="space-y-12 animate-fade-in">
-              {/* Unlocked banner */}
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-800 text-white text-xs font-bold tracking-wider mb-3 shadow-md font-sans">
-                  <ShieldCheck className="w-4 h-4 text-emerald-200" />
-                  <span>推理論證報告已送出採納 · 全案真相大白</span>
+            <div className="space-y-12 animate-in fade-in zoom-in-95 duration-700">
+              {/* Unlocked Banner */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-emerald-950/90 border-2 border-emerald-500/80 text-emerald-100 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl sm:text-3xl">🔓</span>
+                  <div>
+                    <h4 className="font-bold text-sm sm:text-base text-white font-headline-retro tracking-wide">
+                      VERDICT CONFIRMED // 推理論證成立 · 檔案解密
+                    </h4>
+                    <p className="text-xs text-emerald-200/90 font-sans">
+                      耐火保險暗格已正式開啟，載入核心自白函件與三十六解冤因果罪結。
+                    </p>
+                  </div>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-amber-100 font-dossier-heading drop-shadow-md">
-                  【結案卷宗：真相反轉與解冤釋結】
-                </h2>
+                <span className="text-xs font-dossier-mono bg-emerald-800/80 px-3 py-1 rounded-full border border-emerald-400 font-bold shrink-0">
+                  CR-0930 CONFIDENTIAL UNLOCKED
+                </span>
               </div>
 
-              {/* 1. 【證物 07：阿城留下的自白信】 */}
-              <ConfessionLetter />
+              {/* 1. Confession Letter */}
+              <ConfessionLetter
+                isJustUnlocked={isFinalUnlocked}
+                confession={currentCase.confession}
+                caseId={currentCase.id}
+              />
 
-              {/* 2. 【阿城因果冤結揭露】 */}
-              <SinsAnalysisSection />
+              {/* 2. Sins Analysis Section */}
+              <SinsAnalysisSection
+                sinsList={currentCase.sins}
+                caseTitle={currentCase.subTitle}
+              />
 
-              {/* 3. 【活動報名 CTA 卡片 (祥雲香霧在卡片上層緩緩解開)】 */}
-              <EventCtaCard />
+              {/* 3. Temple Event CTA Promo Card */}
+              <div id="promo-section" className="scroll-mt-10">
+                <EventCtaCard />
+              </div>
             </div>
           ) : (
-            /* Locked Placeholder */
-            <div className="text-center py-14 max-w-lg mx-auto p-8 rounded-2xl kraft-dossier-board border-2 border-stone-800 shadow-2xl relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 pointer-events-none">
-                <span className="pushpin-3d-red" />
+            /* Locked State Card */
+            <div className="p-8 sm:p-14 rounded-2xl bg-[#1c1611]/90 border-2 border-[#806950] text-center space-y-4 max-w-2xl mx-auto shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-2 bg-police-tape" />
+
+              <div className="w-16 h-16 rounded-full bg-red-950/80 border-2 border-red-600/80 text-red-400 flex items-center justify-center mx-auto shadow-xl">
+                <Lock className="w-8 h-8" />
               </div>
-              <div className="w-14 h-14 rounded-full bg-stone-900 text-amber-200 flex items-center justify-center mx-auto mb-4 shadow-md">
-                <Lock className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-stone-950 font-dossier-heading">
-                【線索 07 自白信與結案報告】已加密封存
+
+              <span className="inline-block px-3 py-1 rounded bg-stone-900 text-stone-400 font-dossier-mono text-xs uppercase tracking-widest font-bold">
+                STAGE 03 CLASSIFIED ARCHIVE
+              </span>
+
+              <h3 className="text-xl sm:text-2xl font-bold text-amber-100 font-dossier-heading">
+                【機密封存：核心自白書尚未開啟】
               </h3>
-              <p className="text-xs sm:text-sm text-stone-800 mt-2 leading-relaxed font-sans font-medium">
-                本案真相與阿城的終極自白受檢方封條保護。請先點擊上方物證區的「🕵️‍♂️ 開始推理論證」通過審核，方能解鎖全文與活動資訊。
+
+              <p className="text-xs sm:text-sm text-stone-300 max-w-md mx-auto leading-relaxed font-sans">
+                耐火暗格設有檢方加密防護。請先檢閱上方 6 項矛盾物證，並通過「推理論證庭」之邏輯審核，即可解除封印！
               </p>
-              <div className="mt-6">
+
+              <div className="pt-2">
                 <button
                   onClick={handleJumpToDeductionArena}
-                  className="py-2.5 px-6 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs transition-colors cursor-pointer inline-flex items-center gap-1.5 shadow-md font-sans hover:scale-105 active:scale-95"
+                  className="py-3 px-8 rounded-xl bg-amber-600 hover:bg-amber-500 text-stone-950 font-black text-xs sm:text-sm transition-all shadow-lg flex items-center justify-center gap-2 mx-auto cursor-pointer font-sans hover:scale-105 active:scale-95"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-                  <span>前往推理論證卡片 ➔</span>
+                  <Sparkles className="w-4 h-4" />
+                  <span>前往審閱物證並啟動推理論證</span>
                 </button>
               </div>
             </div>
@@ -255,11 +340,13 @@ export function App() {
         </div>
       </section>
 
-      {/* Deduction Modal (3 Questions with blocking & advance logic) */}
+      {/* Deduction Modal */}
       <DeductionModal
         isOpen={isDeductionModalOpen}
         onClose={() => setIsDeductionModalOpen(false)}
         onSubmitReport={handleSubmitReport}
+        quiz={currentCase.quiz}
+        caseCode={currentCase.caseCode}
       />
 
       {/* Official Temple Footer on Antique Wood Desk Base */}
@@ -285,6 +372,17 @@ export function App() {
             <span>參拜時間 08:00-21:00</span>
             <span className="mx-2 text-stone-500">·</span>
             <span>台中市北屯區遼陽五街131號</span>
+          </div>
+
+          {/* Discreet Creator Switch to Archive Hub Button */}
+          <div className="pt-2">
+            <button
+              onClick={handleBackToHub}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-900/90 border border-stone-700/80 text-stone-400 hover:text-amber-300 text-[11px] font-dossier-mono transition-colors cursor-pointer"
+            >
+              <FolderArchive className="w-3.5 h-3.5 text-amber-400" />
+              <span>切換其他懸案（機密案卷庫）</span>
+            </button>
           </div>
 
           <div className="pt-3 text-[11px] text-stone-400 tracking-wider font-dossier-mono">
