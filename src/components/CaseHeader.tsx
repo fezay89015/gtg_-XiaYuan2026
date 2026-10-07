@@ -1,21 +1,19 @@
 import React from 'react';
 import { CASE_SUMMARY } from '../data/caseData';
 import { CaseDossier } from '../data/casesRegistry';
-import { MapPin, Calendar, CheckCircle2, Fingerprint, FolderArchive } from 'lucide-react';
+import { MapPin, Calendar, CheckCircle2, Fingerprint } from 'lucide-react';
 
 interface CaseHeaderProps {
   isUnlockedFinal: boolean;
   caseDossier?: CaseDossier;
-  onBackToHub?: () => void;
 }
 
 export const CaseHeader: React.FC<CaseHeaderProps> = ({
   isUnlockedFinal,
-  caseDossier,
-  onBackToHub
+  caseDossier
 }) => {
   const summary = caseDossier?.summary || CASE_SUMMARY;
-  const targetPhoto = caseDossier?.targetPhoto || 'https://github.com/user-attachments/assets/13dc3d56-9e03-49a5-9cea-d3f0b8e24788';
+  const targetPhoto = caseDossier?.targetPhoto || 'https://github.com/user-attachments/assets/2bdd9a5d-ee61-4342-8de1-9ea2e831ad8e';
   const targetPhotoCaption = caseDossier?.targetPhotoCaption || 'TARGET PHOTO // 失蹤人·阿城叔';
   const isCase1 = caseDossier ? caseDossier.id === 'case-01' : true;
 
@@ -49,18 +47,6 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
               <span className="text-xs font-serif text-stone-700 italic">
                 {summary.classification}
               </span>
-
-              {/* Discreet Switch to Archive button for creator */}
-              {onBackToHub && (
-                <button
-                  onClick={onBackToHub}
-                  className="px-2.5 py-0.5 rounded bg-stone-900/80 hover:bg-stone-900 text-amber-200 text-xs font-dossier-mono font-bold border border-amber-400/40 shadow-sm flex items-center gap-1 cursor-pointer transition-colors ml-auto sm:ml-0"
-                  title="回到機密案卷選擇庫"
-                >
-                  <FolderArchive className="w-3.5 h-3.5 text-yellow-400" />
-                  <span>案卷庫</span>
-                </button>
-              )}
             </div>
 
             {/* Retro Bold Condensed Title */}
@@ -148,7 +134,7 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
                 </h4>
                 <div className="mt-2 space-y-1.5 text-stone-800 leading-relaxed font-sans">
                   <p className="font-bold text-red-800">
-                    • 標的：{summary.missingPerson}
+                    • 調查對象：{summary.missingPerson}
                   </p>
                   <p className="text-stone-700 text-xs">
                     • 現場矛盾：{summary.mainSuspicion}

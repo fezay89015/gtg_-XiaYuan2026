@@ -23,11 +23,11 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
     const t1 = setTimeout(() => {
       setAnimStage('unlocking');
       playUnlockVaultSound();
-    }, 1200);
+    }, 1800);
 
     const t2 = setTimeout(() => {
       setAnimStage('revealed');
-    }, 2400);
+    }, 3600);
 
     return () => {
       clearTimeout(t1);
@@ -43,12 +43,12 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
   return (
     <div
       id="confession-section"
-      className="w-full max-w-4xl mx-auto rounded-2xl kraft-dossier-board border-2 border-[#b89f81] shadow-2xl overflow-hidden p-6 sm:p-10 relative scroll-mt-10 transition-all duration-700"
+      className="w-full max-w-4xl mx-auto rounded-2xl kraft-dossier-board border-2 border-[#b89f81] shadow-2xl overflow-hidden p-6 sm:p-10 relative scroll-mt-6 transition-all duration-700"
     >
       {/* ================= STAGE 1 & 2: VAULT UNSEALING OVERLAY ================= */}
       {animStage !== 'revealed' && (
-        <div className="absolute inset-0 z-30 bg-[#16120c]/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
-          <div className="max-w-md w-full p-8 rounded-2xl border-2 border-amber-600/80 bg-[#251d14] shadow-2xl relative overflow-hidden">
+        <div className="absolute inset-0 z-40 bg-[#16120c]/95 backdrop-blur-md flex flex-col items-center justify-start pt-4 sm:pt-8 px-4 text-center animate-in fade-in duration-300">
+          <div className="max-w-md w-full p-6 sm:p-8 rounded-2xl border-2 border-amber-600/80 bg-[#251d14] shadow-2xl relative overflow-hidden mt-3 sm:mt-6">
             {/* Caution border stripe */}
             <div className="absolute top-0 left-0 right-0 h-2 bg-police-tape" />
 
@@ -171,23 +171,30 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
         ) : (
           <div className="space-y-3.5 font-sans text-stone-900 text-sm sm:text-base leading-relaxed">
             <div className="flex items-start gap-2.5">
-              <span className="font-black text-emerald-800 text-base shrink-0 mt-0.5">一、</span>
+              <span className="font-black text-amber-800 text-base shrink-0 mt-0.5">一、</span>
               <p>
-                <strong>古剎金像未遭黑市玷污</strong>：還俗弟子動用過人垂降身手搶先截留，金身已安然送往清修祖庭，未遭黑幫高利貸熔毀抵債。
+                <strong>單側自毀製造襲擊假象</strong>：詩涵以左手親拉重型琴蓋砸傷右手韌帶，短時間無法演奏，左手全無外傷，意圖營造後台黑手襲擊之現場偽證。
               </p>
             </div>
 
             <div className="flex items-start gap-2.5">
-              <span className="font-black text-emerald-800 text-base shrink-0 mt-0.5">二、</span>
+              <span className="font-black text-amber-800 text-base shrink-0 mt-0.5">二、</span>
               <p>
-                <strong>長老私慾牽連宗廟</strong>：主管寺務長老私挪善款炒股慘賠，以常住金身私押黑道，其罪重於盜寶，檢方已依法立案查辦其背信侵占之罪。
+                <strong>拆線刀精巧破壞禮服</strong>：以化妝包內拆線刀等距挑斷接縫內線，製造禮服遭人為惡意撕裂之混亂現場，掩蓋自導自演痕跡。
               </p>
             </div>
 
             <div className="flex items-start gap-2.5">
-              <span className="font-black text-emerald-800 text-base shrink-0 mt-0.5">三、</span>
+              <span className="font-black text-amber-800 text-base shrink-0 mt-0.5">三、</span>
               <p>
-                <strong>法不徇情因果必報</strong>：陳義明雖出於護寺善念夜盜神像，然違法行徑仍受司法嚴正審理；世間宿債與貪婪業力，唯有坦白正視方得化解。
+                <strong>設計圈套嫁禍同門師妹</strong>：誘導不知情師妹送來致病過敏原花束，甚至預備急救針自導自演過敏性休克，陷害純善同儕以求自身脫罪。
+              </p>
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <span className="font-black text-amber-800 text-base shrink-0 mt-0.5">四、</span>
+              <p>
+                <strong>以命相搏索求父母關愛</strong>：多年來唯有在身負重傷、垂死痛苦時，才能換得嚴苛父母短暫的停駐與溫柔；極端悲劇的背後，實為對家庭關愛的病態渴求。
               </p>
             </div>
           </div>

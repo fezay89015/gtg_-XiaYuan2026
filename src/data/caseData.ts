@@ -15,6 +15,7 @@ export interface EvidenceItem {
   clueNote: string;
   explanationPoints: string[];
   speculationPoints: string[];
+  sinTag?: string;
 }
 
 export interface DeductionQuestion {
@@ -61,8 +62,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     code: "物證 01",
     type: "現場物證",
     name: "高規格防火漆",
-    image: firePaintImg,
+    image: "https://github.com/user-attachments/assets/385ea4fd-3229-40d8-9ad1-6c3f5dd3e0c5",
     locationFound: "二樓臥室與隔壁房的隔間牆內層",
+    sinTag: "四解｜起意謀害傷命之罪",
     clueNote: "塗料耐熱逾120分鐘，火場外牆毫髮無傷，是誰事先漆好的？",
     explanationPoints: [
       "臥室燒毀嚴重，但隔間牆內層塗有高規格防火漆。",
@@ -78,8 +80,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     code: "線索 02",
     type: "監視影像",
     name: "火場翻窗黑影",
-    image: cctvVaultingImg,
+    image: "https://github.com/user-attachments/assets/3818de33-6639-40f0-9642-c4020207a280",
     locationFound: "後巷私人監視器（23:48:12）",
+    sinTag: "八解｜拋離父母棄養之罪",
     clueNote: "黑影身手敏捷，跟平日百公斤的阿城完全相反？",
     explanationPoints: [
       "窗口冒出濃煙時，監視器拍到黑影翻出窗台，借雨遮輕巧落地。",
@@ -95,8 +98,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     code: "物證 03",
     type: "起獲物證",
     name: "爸爸代保管的舊木箱",
-    image: vintageTrunkImg,
+    image: "https://github.com/user-attachments/assets/de752d2d-3d7c-4b22-8956-2554529214e3",
     locationFound: "一樓儲藏室深處，威仔父親保管的老皮木箱",
+    sinTag: "七解｜故失傷殘良民之罪",
     clueNote: "小號西裝加拳擊手套，阿城以前是格鬥高手？",
     explanationPoints: [
       "箱內有小尺寸西裝、真皮拳擊手套和地下擂台冠軍照。",
@@ -112,8 +116,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     code: "物證 04",
     type: "微物採樣",
     name: "防水眉筆與窗框擦痕",
-    image: contourPenImg,
+    image: "https://github.com/user-attachments/assets/dc4dc2b9-0f42-4fc3-8333-cb1bb3b4597b",
     locationFound: "逃生窗框金屬角、外側雨遮縫隙",
+    sinTag: "廿六解｜巧言誑騙欺世之罪",
     clueNote: "窗框深褐色油膏＝防水眉筆！阿城的雙下巴難道是畫的？",
     explanationPoints: [
       "窗框刮到深褐色油膏，雨遮上找到一支磨損的防水眉筆。",
@@ -129,8 +134,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     code: "線索 05",
     type: "可疑行蹤",
     name: "巷口打探的黑衣人",
-    image: mobsterAlleyImg,
+    image: "https://github.com/user-attachments/assets/de483f88-00f9-4233-8966-4e2a598140b8",
     locationFound: "社區路口超商與巷道交界的監視器（18:20）",
+    sinTag: "五解｜鬥訟結仇構怨之罪",
     clueNote: "黑道持阿城以前的精瘦舊照到處打探，仇家已經找到家門口！",
     explanationPoints: [
       "起火當天傍晚，兩名黑衣男子拿照片向攤商打聽阿城。",
@@ -146,8 +152,9 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     code: "線索 06",
     type: "通聯紀錄",
     name: "起火前通話紀錄",
-    image: burnerPhoneImg,
+    image: "https://github.com/user-attachments/assets/a38e044f-9d2f-43c4-8878-b1ffc8b7644c",
     locationFound: "後巷垃圾桶內的拋棄式預付卡手機",
+    sinTag: "卅一解｜不念劬勞不報深恩之罪",
     clueNote: "『這筆債我自己會還，休想牽連到我的家人。』縱火假死是為了保護家人？",
     explanationPoints: [
       "近日內，威仔曾聽過阿城叔非比尋常的通話內容。",

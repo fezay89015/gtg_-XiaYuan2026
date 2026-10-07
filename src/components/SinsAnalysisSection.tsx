@@ -190,7 +190,7 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
       {isAllTorn && (
         <div className="mt-8 p-5 rounded-xl bg-amber-50 border-2 border-amber-400 flex flex-col sm:flex-row items-center justify-between gap-4 text-stone-900 shadow-md animate-fade-in font-sans">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🪔</span>
+            <span className="text-2xl">🔥</span>
             <div>
               <p className="font-bold text-sm text-stone-950">
                 罪結全數揭露完畢 · 唯有科儀方能化解

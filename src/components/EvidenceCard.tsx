@@ -35,7 +35,7 @@ export const EvidenceCard: React.FC<EvidenceCardProps> = ({
   };
 
   return (
-    <div className="w-full h-[480px] select-none relative perspective-1000">
+    <div className="w-full h-[540px] sm:h-[570px] select-none relative perspective-1000">
       {/* 3D Red Pushpin at top center (fixed outside card, 100% stationary) */}
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
         <span className="pushpin-3d-red shadow-md" />
@@ -63,69 +63,69 @@ export const EvidenceCard: React.FC<EvidenceCardProps> = ({
               <div className="paperclip-accent scale-90 border-stone-500 shadow-sm" />
             </div>
 
-            {/* Photo */}
-            <div className="relative w-full h-32 sm:h-36 bg-stone-900 overflow-hidden border border-stone-300 rounded-sm">
+            {/* Photo (taller vertical height: h-44 sm:h-48) */}
+            <div className="relative w-full h-44 sm:h-48 bg-stone-900 overflow-hidden border border-stone-300 rounded-sm">
               <img
                 src={evidence.image}
                 alt={evidence.name}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
               />
 
               {/* Red Code Stamped Label */}
-              <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-stone-900/90 text-amber-100 font-dossier-mono font-bold text-[10px] tracking-wider border border-amber-300/40">
+              <div className="absolute top-1.5 left-1.5 px-2.5 py-1 rounded bg-stone-900/90 text-amber-100 font-dossier-mono font-bold text-xs tracking-wider border border-amber-300/40 shadow-sm">
                 {evidence.code} · {evidence.type}
               </div>
 
               {/* Red 已勘驗 badge */}
               {hasBeenFlipped && (
-                <div className="absolute top-1.5 right-1.5 px-2.5 py-0.5 rounded bg-red-700 text-white font-bold text-[10px] shadow-md tracking-wider flex items-center gap-1 font-sans">
-                  <Check className="w-3 h-3" />
+                <div className="absolute top-1.5 right-1.5 px-2.5 py-1 rounded bg-red-700 text-white font-bold text-xs shadow-md tracking-wider flex items-center gap-1 font-sans">
+                  <Check className="w-3.5 h-3.5" />
                   <span>已勘驗</span>
                 </div>
               )}
             </div>
 
             {/* Polaroid bottom caption */}
-            <div className="pt-1 text-center">
-              <span className="font-dossier-mono font-bold text-[10px] text-stone-600 tracking-wider">
+            <div className="pt-1.5 text-center">
+              <span className="font-dossier-mono font-bold text-xs text-stone-600 tracking-wider">
                 EVIDENCE RECORD // {evidence.code}
               </span>
             </div>
           </div>
 
-          {/* Middle: Title, Location & Clue Note (Shifted down below photo shadow) */}
-          <div className="flex-1 flex flex-col justify-between space-y-1.5 pt-3 min-h-0 relative z-10 border-t border-stone-200 mt-2">
+          {/* Middle: Title, Location & Clue Note */}
+          <div className="flex-1 flex flex-col justify-between space-y-2 pt-2.5 min-h-0 relative z-10 border-t border-stone-200 mt-2">
             <div>
-              {/* Evidence Title */}
-              <h3 className="text-base sm:text-lg font-black text-stone-950 font-dossier-heading tracking-tight leading-snug line-clamp-1">
+              {/* Evidence Title (Larger font, crisp) */}
+              <h3 className="text-lg sm:text-xl font-black text-stone-950 font-dossier-heading tracking-tight leading-snug line-clamp-1">
                 {evidence.name}
               </h3>
 
               {/* Location found */}
-              <div className="flex items-start gap-1 text-[11px] text-stone-700 bg-amber-50/90 px-2 py-1 rounded-md border border-amber-200 mt-1 font-sans">
-                <MapPin className="w-3 h-3 text-red-700 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-1 text-xs sm:text-sm text-stone-800 bg-amber-50/90 px-2.5 py-1 rounded-md border border-amber-200 mt-1.5 font-sans">
+                <MapPin className="w-3.5 h-3.5 text-red-700 shrink-0 mt-0.5" />
                 <span className="leading-tight font-medium line-clamp-1">
                   {evidence.locationFound}
                 </span>
               </div>
             </div>
 
-            {/* Yellow Detective Sticky Note (Tilted nicely as requested) */}
-            <div className="sticky-note-yellow p-2.5 rounded-lg rotate-[-2.5deg] border border-yellow-400/80 shadow-md">
-              <div className="flex items-center gap-1 text-[10px] font-bold text-stone-900 uppercase tracking-wider mb-0.5 font-sans">
-                <Pin className="w-3 h-3 text-red-700 shrink-0" />
+            {/* Yellow Detective Sticky Note */}
+            <div className="sticky-note-yellow p-3 rounded-lg rotate-[-2deg] border border-yellow-400/80 shadow-md">
+              <div className="flex items-center gap-1 text-xs font-bold text-stone-900 uppercase tracking-wider mb-1 font-sans">
+                <Pin className="w-3.5 h-3.5 text-red-700 shrink-0" />
                 <span>現場便條 · 矛盾疑點</span>
               </div>
-              <p className="text-xs font-sans font-medium text-stone-900 leading-snug line-clamp-2">
+              <p className="text-xs sm:text-sm font-sans font-medium text-stone-900 leading-relaxed line-clamp-2">
                 {evidence.clueNote}
               </p>
             </div>
 
             {/* Bottom Flip Button */}
             <div className="pt-1 border-t border-stone-200 shrink-0 font-sans">
-              <div className="w-full py-1.5 px-3 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm group">
-                <RotateCw className="w-3.5 h-3.5 text-yellow-400 transition-transform group-hover:rotate-180" />
+              <div className="w-full py-2 px-3 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5 shadow-sm group">
+                <RotateCw className="w-4 h-4 text-yellow-400 transition-transform group-hover:rotate-180" />
                 <span>翻閱鑑識報告與推測 ➔</span>
               </div>
             </div>
@@ -136,46 +136,46 @@ export const EvidenceCard: React.FC<EvidenceCardProps> = ({
         {/* Prominent Red Outer Border matching 已勘驗 badge */}
         <div className="absolute inset-0 w-full h-full rounded-2xl paper-memo-sheet border-4 border-red-700 shadow-xl shadow-red-950/20 ring-4 ring-red-700/25 flex flex-col justify-between p-3.5 sm:p-4 overflow-hidden backface-hidden rotate-y-180 z-10 bg-white">
           {/* Back Header with matching red 已勘驗 badge */}
-          <div className="pb-2 border-b-2 border-red-600/50 space-y-1 shrink-0">
+          <div className="pb-2.5 border-b-2 border-red-600/50 space-y-1 shrink-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-dossier-mono font-bold text-red-800 tracking-wider">
+                <span className="text-xs sm:text-sm font-dossier-mono font-bold text-red-800 tracking-wider">
                   {evidence.code} · {evidence.type}
                 </span>
-                <span className="text-[10px] font-dossier-mono text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-300 font-bold">
+                <span className="text-[11px] font-dossier-mono text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-300 font-bold">
                   LAB REPORT
                 </span>
               </div>
 
               {/* Red 已勘驗 badge on the back */}
-              <div className="px-2.5 py-0.5 rounded bg-red-700 text-white font-bold text-[11px] shadow-sm tracking-wider flex items-center gap-1 font-sans">
+              <div className="px-2.5 py-0.5 rounded bg-red-700 text-white font-bold text-xs shadow-sm tracking-wider flex items-center gap-1 font-sans">
                 <Check className="w-3.5 h-3.5" />
                 <span>已勘驗</span>
               </div>
             </div>
 
-            <h4 className="text-base sm:text-lg font-black text-stone-950 font-dossier-heading tracking-wide leading-tight line-clamp-1">
+            <h4 className="text-lg sm:text-xl font-black text-stone-950 font-dossier-heading tracking-wide leading-tight line-clamp-1">
               {evidence.name}
             </h4>
 
-            <div className="flex items-start gap-1 text-[11px] text-stone-600 font-sans">
-              <MapPin className="w-3 h-3 text-red-700 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-1 text-xs text-stone-700 font-sans">
+              <MapPin className="w-3.5 h-3.5 text-red-700 shrink-0 mt-0.5" />
               <span className="leading-tight line-clamp-1">{evidence.locationFound}</span>
             </div>
           </div>
 
           {/* Middle: Split into Upper Layer (說明) and Lower Layer (推測) */}
-          <div className="flex-1 my-1.5 overflow-y-auto dossier-scrollbar space-y-1.5 pr-1 font-sans text-xs">
+          <div className="flex-1 my-2 overflow-y-auto dossier-scrollbar space-y-2 pr-1 font-sans">
             {/* 上層：鑑識事實 (白紙黑字，清晰易讀) */}
-            <div className="p-2 rounded-lg bg-stone-50 border border-stone-300">
-              <div className="flex items-center gap-1 text-stone-900 font-bold text-[11px] uppercase tracking-wider mb-1">
-                <Search className="w-3 h-3 text-red-700" />
+            <div className="p-2.5 rounded-lg bg-stone-50 border border-stone-300 shadow-sm">
+              <div className="flex items-center gap-1.5 text-stone-900 font-bold text-xs sm:text-sm uppercase tracking-wider mb-1.5">
+                <Search className="w-3.5 h-3.5 text-red-700" />
                 <span className="text-stone-950 font-black">【說明】鑑識調查事實</span>
               </div>
-              <div className="space-y-1 text-stone-800 leading-relaxed text-[11px]">
+              <div className="space-y-1 text-stone-900 leading-relaxed text-xs sm:text-sm">
                 {evidence.explanationPoints.map((point, idx) => (
-                  <p key={idx} className="flex items-start gap-1">
-                    <span className="text-red-700 font-bold shrink-0 mt-0.5">●</span>
+                  <p key={idx} className="flex items-start gap-1.5">
+                    <span className="text-red-700 font-bold shrink-0 mt-1">●</span>
                     <span className="font-medium text-stone-900">{point}</span>
                   </p>
                 ))}
@@ -183,15 +183,15 @@ export const EvidenceCard: React.FC<EvidenceCardProps> = ({
             </div>
 
             {/* 下層：推測 (牛皮便籤質感，高對比易讀) */}
-            <div className="p-2 rounded-lg bg-amber-50/90 border border-amber-300">
-              <div className="flex items-center gap-1 text-amber-900 font-bold text-[11px] uppercase tracking-wider mb-1">
-                <BrainCircuit className="w-3 h-3 text-amber-800" />
+            <div className="p-2.5 rounded-lg bg-amber-50/90 border border-amber-300 shadow-sm">
+              <div className="flex items-center gap-1.5 text-amber-900 font-bold text-xs sm:text-sm uppercase tracking-wider mb-1.5">
+                <BrainCircuit className="w-3.5 h-3.5 text-amber-800" />
                 <span className="text-amber-950 font-black">【推測】檢警案情偵查心證</span>
               </div>
-              <div className="space-y-1 text-stone-800 leading-relaxed text-[11px]">
+              <div className="space-y-1 text-stone-900 leading-relaxed text-xs sm:text-sm">
                 {evidence.speculationPoints.map((point, idx) => (
-                  <p key={idx} className="flex items-start gap-1">
-                    <span className="text-amber-800 font-bold shrink-0 mt-0.5">●</span>
+                  <p key={idx} className="flex items-start gap-1.5">
+                    <span className="text-amber-800 font-bold shrink-0 mt-1">●</span>
                     <span className="font-medium text-stone-900">{point}</span>
                   </p>
                 ))}
@@ -200,10 +200,10 @@ export const EvidenceCard: React.FC<EvidenceCardProps> = ({
           </div>
 
           {/* Bottom Flip Back Button */}
-          <div className="pt-1 border-t border-stone-200 shrink-0 font-sans">
-            <div className="w-full py-1.5 px-3 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm group">
-              <RotateCw className="w-3.5 h-3.5 text-yellow-400 transition-transform group-hover:rotate-180" />
-              <span>翻回照片與便條 ➔</span>
+          <div className="pt-1.5 border-t border-stone-200 shrink-0 font-sans">
+            <div className="w-full py-2 px-3 rounded-lg bg-stone-900 hover:bg-stone-800 text-amber-100 font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5 shadow-sm group">
+              <RotateCw className="w-4 h-4 text-yellow-400 transition-transform group-hover:rotate-180" />
+              <span>翻回正面相片 ➔</span>
             </div>
           </div>
         </div>
