@@ -116,10 +116,10 @@ export function App() {
       {/* Atmospheric Parallax Vintage Detective Desk Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center filter brightness-[0.5] contrast-[1.2] saturate-[0.9] scale-105 will-change-transform"
+          className="absolute -top-[260px] -bottom-[260px] -left-[10%] -right-[10%] w-[120%] h-[calc(100%+520px)] bg-cover bg-center filter blur-[3px] brightness-[0.46] contrast-[1.12] saturate-[0.88] scale-110 will-change-transform"
           style={{
             backgroundImage: `url(${detectiveDeskBg})`,
-            transform: `translate3d(0, ${scrollY * 0.08}px, 0)`
+            transform: `translate3d(0, ${Math.min(scrollY * 0.035, 180)}px, 0)`
           }}
         />
         <div className={`absolute inset-0 bg-gradient-to-b ${currentCase.themeStyle.vignetteGradient}`} />

@@ -10,18 +10,6 @@ import {
   SinAnalysisItem
 } from './caseData';
 
-// Case 01 Assets
-import firePaintImg from '../assets/images/evidence_fire_paint_1790927470943.jpg';
-
-// Case 02 Assets (Wings / 折翅的蝴蝶)
-import wingsPianoLidImg from '../assets/images/wings_piano_lid_1791256176906.jpg';
-import wingsRoseBouquetImg from '../assets/images/wings_rose_bouquet_1791256193132.jpg';
-import wingsMedicineBoxImg from '../assets/images/wings_medicine_box_1791256207332.jpg';
-import wingsEpipenSofaImg from '../assets/images/wings_epipen_sofa_1791256220443.jpg';
-import wingsTornGownImg from '../assets/images/wings_torn_gown_1791256232904.jpg';
-import wingsHospitalChartImg from '../assets/images/wings_hospital_chart_1791256245277.jpg';
-import wingsPianistImg from '../assets/images/wings_pianist_portrait_1791256259033.jpg';
-
 export interface CaseDossier {
   id: string;
   slug: string;
@@ -109,8 +97,8 @@ const CASE_02_EVIDENCE: EvidenceItem[] = [
     code: "物證 01",
     type: "重型琴蓋",
     name: "單側重傷的右手（重型琴蓋）",
-    image: wingsPianoLidImg,
-    locationFound: "音樂廳後台休息室三角鋼琴鍵盤前",
+    image: 'https://github.com/user-attachments/assets/0b7c5fb5-981a-4fc9-9499-8794cfde65fa',
+    locationFound: "音樂廳後台休息室 鋼琴鍵盤",
     sinTag: "二十解｜宿世今生故作誤為之罪",
     clueNote: "詩涵右手韌帶被重型琴蓋壓傷，無法登台，左手完全沒有防禦性傷口。",
     explanationPoints: [
@@ -127,7 +115,7 @@ const CASE_02_EVIDENCE: EvidenceItem[] = [
     code: "物證 02",
     type: "化妝包工具",
     name: "撕裂的高訂禮服（化妝包拆線刀）",
-    image: wingsTornGownImg,
+    image: 'https://github.com/user-attachments/assets/02322a84-4c6e-45bc-b5d0-733a9edfef0f',
     locationFound: "化妝包內夾層 與 禮服腰部接縫處",
     sinTag: "卅二解｜欺妄言語哄騙痴愚之罪",
     clueNote: "高訂禮服腰部縫線被撕裂，短時間無法修補穿著。",
@@ -145,8 +133,8 @@ const CASE_02_EVIDENCE: EvidenceItem[] = [
     code: "物證 03",
     type: "過敏致病源",
     name: "雛菊花束（過敏休克）",
-    image: wingsRoseBouquetImg,
-    locationFound: "休息室旁茶几上的祝賀花籃與卡片",
+    image: 'https://github.com/user-attachments/assets/8bb3018b-13ef-49ec-adab-639960a0012b',
+    locationFound: "休息室旁茶几上的花籃",
     sinTag: "十六解｜教唆詞訟誣害陷害之罪",
     clueNote: "師妹送來的雛菊花束，導致詩涵爆發嚴重過敏性休克、喉頭水腫。",
     explanationPoints: [
@@ -163,7 +151,7 @@ const CASE_02_EVIDENCE: EvidenceItem[] = [
     code: "物證 04",
     type: "預藏急救品",
     name: "沙發縫隙的急救針（EpiPen）",
-    image: wingsEpipenSofaImg,
+    image: 'https://github.com/user-attachments/assets/970e574f-0955-4f62-98d6-4e188b2a0b74',
     locationFound: "休息室沙發靠背深層縫隙",
     sinTag: "十一解｜語言詭譎德行偏和之罪",
     clueNote: "混亂過後收拾休息室，警方在沙發靠背縫隙深處尋獲使用過的 EpiPen 急救針。",
@@ -181,7 +169,7 @@ const CASE_02_EVIDENCE: EvidenceItem[] = [
     code: "物證 05",
     type: "隨身行李密件",
     name: "貼紙藥袋與筆記（行李箱木盒）",
-    image: wingsMedicineBoxImg,
+    image: 'https://github.com/user-attachments/assets/6e8048dd-2d66-4551-98f1-e3346f8482a7',
     locationFound: "休息室私人隨身行李箱內之木盒",
     sinTag: "十三解｜恣欲貪謀克害良民之罪",
     clueNote: "隨身行李中搜出木盒，裡面全是歷年各大醫院藥袋，用紙膠帶貼好寫著父母留下來陪她的紀錄。",
@@ -199,7 +187,7 @@ const CASE_02_EVIDENCE: EvidenceItem[] = [
     code: "物證 06",
     type: "就醫規律",
     name: "比賽與演出前後的住院頻率（健保病歷）",
-    image: wingsHospitalChartImg,
+    image: 'https://github.com/user-attachments/assets/b54c9cd6-37b8-422f-9fcc-bb26b325d024',
     locationFound: "健保就醫紀錄",
     sinTag: "十二解｜心如蛇蠍明瞞暗騙之罪",
     clueNote: "病歷顯示詩涵在重大比賽前夕或得獎慶功過後，常常因急診或受傷住院。",
