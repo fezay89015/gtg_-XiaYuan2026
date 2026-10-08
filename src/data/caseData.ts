@@ -115,18 +115,18 @@ export const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: "evidence-04",
     code: "物證 04",
     type: "微物採樣",
-    name: "防水眉筆與窗框擦痕",
+    name: "修容筆與窗框擦痕",
     image: "https://github.com/user-attachments/assets/dc4dc2b9-0f42-4fc3-8333-cb1bb3b4597b",
     locationFound: "逃生窗框金屬角、外側雨遮縫隙",
     sinTag: "廿六解｜巧言誑騙欺世之罪",
-    clueNote: "窗框深褐色油膏＝防水眉筆！阿城的雙下巴難道是畫的？",
+    clueNote: "窗框深褐色油膏＝修容筆！阿城的雙下巴難道是畫的？",
     explanationPoints: [
-      "窗框刮到深褐色油膏，雨遮上找到一支磨損的防水眉筆。",
-      "檢驗結果：油膏成分與眉筆 100% 吻合。"
+      "窗框刮到深褐色油膏，雨遮上找到一支磨損的修容筆。",
+      "檢驗結果：油膏成分與修容筆 100% 吻合。"
     ],
     speculationPoints: [
       "翻窗時流汗又刮蹭，臉上的假陰影被蹭掉了。",
-      "阿城叔的「肥厚雙下巴」，其實是每天用眉筆畫出來的易容。"
+      "阿城叔的「肥厚雙下巴」，其實是每天用修容筆畫出來的易容。"
     ]
   },
   {
@@ -180,30 +180,30 @@ export const DEDUCTION_QUIZ: DeductionQuestion[] = [
       },
       {
         id: "q1-b",
-        text: "阿城預先粉刷了軍用級防火漆，所以火勢只精準燒毀阿城個人房間。",
-        isCorrect: true
+        text: "仇家聘請特種傭兵使用精準燃燒榴彈，自窗外發射定點消滅目標臥室。",
+        isCorrect: false
       },
       {
         id: "q1-c",
-        text: "仇家聘請特種傭兵使用精準燃燒榴彈，自窗外發射定點消滅目標臥室。",
-        isCorrect: false
+        text: "阿城預先粉刷了軍用級防火漆，所以火勢只精準燒毀阿城個人房間。",
+        isCorrect: true
       }
     ]
   },
   {
     id: 2,
     questionNumber: "Q2",
-    question: "窗框上的防水眉筆油膏擦痕與舊木箱裡的小號西裝代表什麼？",
+    question: "窗框上的修容筆油膏擦痕與舊木箱裡的小號西裝代表什麼？",
     options: [
       {
         id: "q2-a",
-        text: "阿城曾熱衷於動漫次文化與 Cosplay，長年收藏特製服飾與角色假髮。",
-        isCorrect: false
+        text: "阿城過去身材精壯且精通武術，十幾年來的臃腫雙下巴全是修容筆畫出的假象。",
+        isCorrect: true
       },
       {
         id: "q2-b",
-        text: "阿城過去身材精壯且精通武術，十幾年來的臃腫雙下巴全是眉筆畫出的假象。",
-        isCorrect: true
+        text: "阿城曾熱衷於動漫次文化與 Cosplay，長年收藏特製服飾與角色假髮。",
+        isCorrect: false
       },
       {
         id: "q2-c",
@@ -219,7 +219,7 @@ export const DEDUCTION_QUIZ: DeductionQuestion[] = [
     options: [
       {
         id: "q3-a",
-        text: "阿城積欠跨國地下博弈巨額賭債，企圖透過製造假死現場詐領高額保險金。",
+        text: "阿城其實是隱姓埋名的臥底刑警，收線在即必須徹底銷毀所有民間生活跡證。",
         isCorrect: false
       },
       {
@@ -229,7 +229,7 @@ export const DEDUCTION_QUIZ: DeductionQuestion[] = [
       },
       {
         id: "q3-c",
-        text: "阿城其實是隱姓埋名的臥底刑警，收線在即必須徹底銷毀所有民間生活跡證。",
+        text: "阿城積欠跨國地下博弈巨額賭債，企圖透過製造假死現場詐領高額保險金。",
         isCorrect: false
       }
     ]
@@ -247,7 +247,7 @@ export const EVIDENCE_07_CONFESSION = {
 
 老哥，謝謝你這十幾年的收留。當年我走投無路，你明知我背景不乾淨，什麼都沒問就帶我回家，還讓威仔叫我一聲「阿城叔」。這十幾年，是我這輩子過得最像人的日子。
 
-我瞞了你們太久。年輕時我是黑道裡的「縱火佈局專家」，害過不少人；後來背叛組織逃出來，欠了一身血債。為了躲追殺，我把自己吃胖，每天用防水眉筆在下巴畫出厚厚的雙下巴。
+我瞞了你們太久。年輕時我是黑道裡的「縱火佈局專家」，害過不少人；後來背叛組織逃出來，欠了一身血債。為了躲追殺，我把自己吃胖，每天用修容筆在下巴畫出厚厚的雙下巴。
 
 我原以為這樣能過一輩子，直到上週仇家拿著照片找到這條巷子，我才醒過來：我把危險引到你們身邊了。你們對我那麼好，我絕不能讓那些畜生動你們一根汗毛。
 
@@ -312,5 +312,5 @@ export const PROMO_EVENT_INFO = {
   subTitle: "解冤釋結 · 消除宿世愆尤 · 轉運賜財",
   description: "每個人心中，亦常有難解的罪疚與因果窒礙。藉由正統科儀解冤釋結、虔心懺悔，方能化消累劫冤愆，迎祥納福、轉運賜財。",
   buttonText: "前往法會報名",
-  defaultUrl: "https://www.gtg.org.tw/signup-detail/xiayuan-1"
+  defaultUrl: "https://www.gtg.org.tw/signup-detail/xiayuan-1?fb=20261123"
 };

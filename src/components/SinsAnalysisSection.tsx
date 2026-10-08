@@ -6,11 +6,13 @@ import { Scale, Check, ArrowDown, Lock, ChevronRight } from 'lucide-react';
 interface SinsAnalysisSectionProps {
   sinsList?: SinAnalysisItem[];
   caseTitle?: string;
+  isCase1?: boolean;
 }
 
 export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
   sinsList = SINS_ANALYSIS,
-  caseTitle = '涉案因果罪結揭曉'
+  caseTitle = '涉案因果罪結揭曉',
+  isCase1 = true
 }) => {
   // IDs of cards that have been slid open
   const [tornIds, setTornIds] = useState<Set<string>>(new Set());
@@ -50,7 +52,7 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
       {/* Top Header */}
       <div className="pb-6 border-b-2 border-stone-400/60 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="max-w-2xl">
-          <div className="flex items-center gap-2 text-red-800 font-bold text-xs uppercase tracking-widest mb-1.5 font-sans">
+          <div className={`flex items-center gap-2 ${isCase1 ? 'text-red-800' : 'text-blue-900'} font-bold text-xs uppercase tracking-widest mb-1.5 font-sans`}>
             <Scale className="w-4 h-4" />
             <span>傳統科儀典籍考證 · 正統三十六解冤結</span>
           </div>
@@ -67,7 +69,7 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
         {/* Action Controls - cleanly showing count only */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="text-xs font-dossier-mono px-4 py-2 rounded-xl bg-stone-100 border border-stone-400 text-stone-800 font-bold shadow-sm">
-            已揭曉罪結：<span className="text-red-700 font-black text-sm">{tornIds.size}</span> / {sinsList.length}
+            已揭曉罪結：<span className={`${isCase1 ? 'text-red-700' : 'text-blue-800'} font-black text-sm`}>{tornIds.size}</span> / {sinsList.length}
           </div>
         </div>
       </div>
@@ -83,14 +85,16 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
               key={item.id}
               className={`rounded-xl border-2 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-lg ${
                 isTorn
-                  ? 'border-red-700 bg-white ring-1 ring-red-700/20'
+                  ? (isCase1 ? 'border-red-700 bg-white ring-1 ring-red-700/20' : 'border-blue-800 bg-white ring-1 ring-blue-800/20')
                   : 'border-stone-400 bg-stone-50 hover:border-stone-600'
               }`}
             >
               {/* ================= CARD UPPER HALF: 過往行徑事實 ================= */}
               <div className="p-5 border-b border-stone-300 space-y-2.5 bg-[#fdfbf7]">
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded bg-red-800 text-white font-dossier-mono font-bold text-xs shadow-sm">
+                  <span className={`px-2 py-0.5 rounded ${
+                    isCase1 ? 'bg-red-800' : 'bg-slate-900'
+                  } text-white font-dossier-mono font-bold text-xs shadow-sm`}>
                     {item.factNumber} · 過往行徑
                   </span>
                   <span className="text-[10px] font-dossier-mono text-stone-500 font-bold">
@@ -121,7 +125,7 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
                   >
                     <div className="flex items-center justify-between text-[10px] font-dossier-mono text-stone-400 border-b border-stone-700/70 pb-1.5">
                       <span className="flex items-center gap-1.5 text-amber-200/90 font-bold">
-                        <Lock className="w-3 h-3 text-red-500 shrink-0" />
+                        <Lock className={`w-3 h-3 ${isCase1 ? 'text-red-500' : 'text-blue-400'} shrink-0`} />
                         <span>CONFIDENTIAL DOCKET</span>
                       </span>
                       <span className="text-stone-400">SLIDE TO REVEAL</span>
@@ -130,7 +134,7 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
                     {/* Center sliding latch bar */}
                     <div className="w-full py-2.5 px-3 rounded-lg bg-stone-900 border border-stone-600 shadow-md flex items-center justify-between gap-2 group">
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+                        <span className={`w-2 h-2 rounded-full ${isCase1 ? 'bg-red-600' : 'bg-blue-500'} animate-pulse`} />
                         <span className="text-xs sm:text-sm font-black text-amber-100 font-sans tracking-wide">
                           點擊滑開 · 揭曉罪結
                         </span>
@@ -150,8 +154,10 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
                 {/* 2. REVEALED CONTENT (Beneath sliding shutter) */}
                 <div className={`space-y-2.5 transition-opacity duration-300 ${isTorn ? 'opacity-100' : 'opacity-0'}`}>
                   <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-red-800 font-sans">
-                      <Check className="w-4 h-4 text-red-700 shrink-0" />
+                    <span className={`inline-flex items-center gap-1.5 text-xs font-bold ${
+                      isCase1 ? 'text-red-800' : 'text-blue-900'
+                    } font-sans`}>
+                      <Check className={`w-4 h-4 ${isCase1 ? 'text-red-700' : 'text-blue-700'} shrink-0`} />
                       <span>對應罪結</span>
                     </span>
                     <span className="text-[10px] font-dossier-mono text-stone-700 bg-stone-200 px-2 py-0.5 rounded font-bold border border-stone-300">
@@ -160,12 +166,16 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
                   </div>
 
                   {/* Sin Knot Title */}
-                  <h5 className="text-base font-black text-red-900 font-dossier-heading leading-snug">
+                  <h5 className={`text-base font-black ${
+                    isCase1 ? 'text-red-900' : 'text-blue-950'
+                  } font-dossier-heading leading-snug`}>
                     {item.sinName}
                   </h5>
 
                   {/* Category Tag */}
-                  <div className="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-950 text-[11px] font-bold border border-amber-300 font-sans">
+                  <div className={`inline-block px-2 py-0.5 rounded ${
+                    isCase1 ? 'bg-amber-100 text-amber-950 border-amber-300' : 'bg-sky-50 text-blue-950 border-sky-300'
+                  } text-[11px] font-bold border font-sans`}>
                     因果業障：{item.category}
                   </div>
 
@@ -176,7 +186,9 @@ export const SinsAnalysisSection: React.FC<SinsAnalysisSectionProps> = ({
                 </div>
 
                 {isTorn && (
-                  <div className="pt-3 mt-3 border-t border-stone-200 flex items-center justify-end text-[11px] text-emerald-800 font-bold font-sans">
+                  <div className={`pt-3 mt-3 border-t border-stone-200 flex items-center justify-end text-[11px] ${
+                    isCase1 ? 'text-emerald-800' : 'text-blue-800'
+                  } font-bold font-sans`}>
                     <span>✓ 罪結封印已滑開揭曉</span>
                   </div>
                 )}

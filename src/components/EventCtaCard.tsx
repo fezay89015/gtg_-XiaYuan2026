@@ -2,11 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { PROMO_EVENT_INFO } from '../data/caseData';
 import { ExternalLink, Copy, Check, Sparkles, Flame } from 'lucide-react';
 
-export const EventCtaCard: React.FC = () => {
+interface EventCtaCardProps {
+  promoInfo?: typeof PROMO_EVENT_INFO;
+}
+
+export const EventCtaCard: React.FC<EventCtaCardProps> = ({ promoInfo }) => {
+  const promo = promoInfo || PROMO_EVENT_INFO;
   const [copied, setCopied] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const targetUrl = PROMO_EVENT_INFO.defaultUrl;
+  const targetUrl = promo.defaultUrl;
 
   // Trigger convergence & unblur effect when scrolled into view
   useEffect(() => {
@@ -72,22 +77,22 @@ export const EventCtaCard: React.FC = () => {
           isVisible ? 'ring-2 ring-amber-400/40 shadow-amber-500/20 shadow-lg' : ''
         }`}>
           <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin-slow" />
-          <span>{PROMO_EVENT_INFO.badge}</span>
+          <span>{promo.badge}</span>
         </div>
 
         {/* Main Dharma Assembly Title */}
         <h3 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading tracking-wide">
-          {PROMO_EVENT_INFO.title}
+          {promo.title}
         </h3>
 
         {/* Subtitle */}
         <p className="text-sm font-bold text-red-800 mt-1 font-sans">
-          {PROMO_EVENT_INFO.subTitle}
+          {promo.subTitle}
         </p>
 
         {/* Description */}
         <p className="mt-4 text-xs sm:text-sm text-stone-800 leading-relaxed font-sans font-medium">
-          {PROMO_EVENT_INFO.description}
+          {promo.description}
         </p>
       </div>
 

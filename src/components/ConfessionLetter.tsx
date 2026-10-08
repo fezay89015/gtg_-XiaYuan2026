@@ -143,7 +143,7 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
             <div className="flex items-start gap-2.5">
               <span className="font-black text-red-800 text-base shrink-0 mt-0.5">一、</span>
               <p>
-                <strong>外貌身分純屬偽飾</strong>：十餘年來令街坊深信不疑的臃腫發福與遲緩雙下巴，全是以防水眉筆精密化妝而成的假象，藉以躲避仇家長期追殺。
+                <strong>外貌身分純屬偽飾</strong>：十餘年來令街坊深信不疑的臃腫發福與遲緩雙下巴，全是以修容筆精密化妝而成的假象，藉以躲避仇家長期追殺。
               </p>
             </div>
 
@@ -171,14 +171,14 @@ export const ConfessionLetter: React.FC<ConfessionLetterProps> = ({
         ) : (
           <div className="space-y-3.5 font-sans text-stone-900 text-sm sm:text-base leading-relaxed">
             <div className="flex items-start gap-2.5">
-              <span className="font-black text-amber-800 text-base shrink-0 mt-0.5">一、</span>
+              <span className="font-black text-blue-900 text-base shrink-0 mt-0.5">一、</span>
               <p>
-                <strong>單側自毀製造襲擊假象</strong>：詩涵以左手親拉重型琴蓋砸傷右手韌帶，短時間無法演奏，左手全無外傷，意圖營造後台黑手襲擊之現場偽證。
+                <strong>單側自毀製造襲擊假象</strong>：詩涵以左手親拉重型琴蓋致右手韌帶重傷且骨折，短時間無法演奏，左手全無外傷，意圖營造後台黑手襲擊之現場偽證。
               </p>
             </div>
 
             <div className="flex items-start gap-2.5">
-              <span className="font-black text-amber-800 text-base shrink-0 mt-0.5">二、</span>
+              <span className="font-black text-blue-900 text-base shrink-0 mt-0.5">二、</span>
               <p>
                 <strong>拆線刀精巧破壞禮服</strong>：以化妝包內拆線刀等距挑斷接縫內線，製造禮服遭人為惡意撕裂之混亂現場，掩蓋自導自演痕跡。
               </p>

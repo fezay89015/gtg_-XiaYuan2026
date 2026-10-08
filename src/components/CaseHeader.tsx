@@ -34,12 +34,12 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
             {/* Stitched Tag */}
             <div className="flex flex-wrap items-center gap-3">
               <div className="stitched-case-tag rounded font-dossier-mono font-black text-sm text-stone-900 tracking-wider">
-                <span className="text-red-700 font-bold mr-1">CASE No.</span>
+                <span className={`${isCase1 ? 'text-red-700' : 'text-blue-800'} font-bold mr-1`}>CASE No.</span>
                 <span>{summary.caseCode}</span>
               </div>
 
               <span className={`px-2.5 py-0.5 rounded font-dossier-mono font-bold text-xs tracking-widest uppercase shadow-sm ${
-                caseDossier?.themeStyle.badgeBg || 'bg-red-800 text-white'
+                caseDossier?.themeStyle.badgeBg || (isCase1 ? 'bg-red-800 text-white' : 'bg-[#0f172a] text-sky-200 border border-sky-400/40')
               }`}>
                 CONFIDENTIAL
               </span>
@@ -54,7 +54,7 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-stone-950 font-headline-retro tracking-tight leading-none uppercase">
                 {caseDossier ? caseDossier.titleEn.split(' ')[0] : 'THE SUSPICIOUS'}
                 <br />
-                <span className={isCase1 ? 'text-red-800' : 'text-emerald-800'}>
+                <span className={isCase1 ? 'text-red-800' : 'text-blue-900'}>
                   {caseDossier ? caseDossier.titleEn.split(' ').slice(1).join(' ') : 'MIDNIGHT FIRE'}
                 </span>
               </h1>
@@ -71,9 +71,9 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
               <div className="paperclip-accent border-stone-600 scale-90" />
             </div>
 
-            {/* Red Pushpin */}
+            {/* Pushpin (Red for Case 01, Blue for Case 02) */}
             <div className="absolute -top-2 right-8 z-20 pointer-events-none">
-              <span className="pushpin-3d-red scale-90" />
+              <span className={`${isCase1 ? 'pushpin-3d-red' : 'pushpin-3d-blue'} scale-90`} />
             </div>
 
             {/* Polaroid Frame */}
@@ -99,13 +99,13 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
         <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 relative">
           {/* Sheet 1: PLACE & DATE + MISSING PERSON (Left Column 5 cols) */}
           <div className="md:col-span-5 paper-memo-sheet rounded-lg p-5 sm:p-6 rotate-[-1deg] hover:rotate-0 transition-transform duration-300 relative">
-            {/* Top Red Pushpin */}
+            {/* Top Pushpin */}
             <div className="absolute -top-2 left-6 z-10 pointer-events-none">
-              <span className="pushpin-3d-red" />
+              <span className={isCase1 ? 'pushpin-3d-red' : 'pushpin-3d-blue'} />
             </div>
 
-            {/* Red Fingerprint Stamp in the corner */}
-            <div className="absolute top-4 right-4 text-red-700/60 pointer-events-none">
+            {/* Fingerprint Stamp in the corner */}
+            <div className={`absolute top-4 right-4 ${isCase1 ? 'text-red-700/60' : 'text-blue-800/60'} pointer-events-none`}>
               <Fingerprint className="w-10 h-10 opacity-70" />
             </div>
 
@@ -117,11 +117,11 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
                 </h4>
                 <div className="mt-2 space-y-1.5 font-sans font-medium text-stone-800">
                   <div className="flex items-start gap-2">
-                    <MapPin className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
+                    <MapPin className={`w-4 h-4 ${isCase1 ? 'text-red-700' : 'text-blue-800'} shrink-0 mt-0.5`} />
                     <span>{summary.incidentLocation}</span>
                   </div>
-                  <div className="flex items-start gap-2 text-red-800 font-bold">
-                    <Calendar className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
+                  <div className={`flex items-start gap-2 ${isCase1 ? 'text-red-800' : 'text-blue-900'} font-bold`}>
+                    <Calendar className={`w-4 h-4 ${isCase1 ? 'text-red-700' : 'text-blue-800'} shrink-0 mt-0.5`} />
                     <span>{summary.incidentDate}</span>
                   </div>
                 </div>
@@ -133,7 +133,7 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
                   TARGET / MISSING PERSON:
                 </h4>
                 <div className="mt-2 space-y-1.5 text-stone-800 leading-relaxed font-sans">
-                  <p className="font-bold text-red-800">
+                  <p className={`font-bold ${isCase1 ? 'text-red-800' : 'text-blue-900'}`}>
                     • 調查對象：{summary.missingPerson}
                   </p>
                   <p className="text-stone-700 text-xs">
@@ -149,18 +149,18 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
 
           {/* Sheet 2: NOTICE & BRIEF (Right Column 7 cols) */}
           <div className="md:col-span-7 paper-memo-sheet rounded-lg p-5 sm:p-6 rotate-[0.5deg] hover:rotate-0 transition-transform duration-300 relative flex flex-col justify-between">
-            {/* Top Red Pushpins */}
+            {/* Top Pushpins */}
             <div className="absolute -top-2 left-6 z-10 pointer-events-none">
-              <span className="pushpin-3d-red" />
+              <span className={isCase1 ? 'pushpin-3d-red' : 'pushpin-3d-blue'} />
             </div>
             <div className="absolute -top-2 right-8 z-10 pointer-events-none">
-              <span className="pushpin-3d-red" />
+              <span className={isCase1 ? 'pushpin-3d-red' : 'pushpin-3d-blue'} />
             </div>
 
-            {/* Distressed Classified Red Stamp */}
+            {/* Distressed Classified Stamp */}
             <div className="absolute bottom-4 right-4 pointer-events-none">
               <div className="stamp-classified-circle text-[10px]">
-                <div className="border border-red-700/80 px-2 py-0.5">
+                <div className={`border ${isCase1 ? 'border-red-700/80 text-red-800' : 'border-blue-800/80 text-blue-900'} px-2 py-0.5 font-bold`}>
                   CLASSIFIED
                   <br />
                   <span className="text-[8px] font-normal tracking-normal">TOP SECRET</span>
@@ -176,7 +176,7 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
               <div className="space-y-2.5 font-sans text-stone-900 leading-relaxed pr-8">
                 {summary.briefLines.map((line, idx) => (
                   <p key={idx} className="flex items-start gap-2">
-                    <span className="text-red-700 font-bold shrink-0 mt-0.5">▶</span>
+                    <span className={`${isCase1 ? 'text-red-700' : 'text-blue-800'} font-bold shrink-0 mt-0.5`}>▶</span>
                     <span>{line}</span>
                   </p>
                 ))}
@@ -193,7 +193,9 @@ export const CaseHeader: React.FC<CaseHeaderProps> = ({
                     <span>【全案定讞 · 真相大白】</span>
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-red-100 text-red-900 font-bold border border-red-300 shadow-sm animate-pulse">
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded ${
+                    isCase1 ? 'bg-red-100 text-red-900 border-red-300' : 'bg-blue-50 text-blue-900 border-blue-200'
+                  } font-bold border shadow-sm animate-pulse`}>
                     <span>【現場封鎖勘驗中 · 矛盾待解】</span>
                   </span>
                 )}

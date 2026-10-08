@@ -9,6 +9,7 @@ interface DeductionModalProps {
   onSubmitReport: () => void;
   quiz?: DeductionQuestion[];
   caseCode?: string;
+  isCase1?: boolean;
 }
 
 export const DeductionModal: React.FC<DeductionModalProps> = ({
@@ -16,7 +17,8 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
   onClose,
   onSubmitReport,
   quiz,
-  caseCode = 'CR-0930'
+  caseCode = 'CR-0930',
+  isCase1 = true
 }) => {
   const currentQuiz = quiz || DEDUCTION_QUIZ;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -219,23 +221,35 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
                 </div>
               </div>
 
-              {/* 🔴 RED OFFICIAL STAMP HERO CARD (Full Focus Centered) */}
-              <div className="p-4 sm:p-5 rounded-xl bg-white border-2 border-dashed border-red-600/80 shadow-md text-center flex flex-col items-center justify-center relative overflow-hidden">
-                <span className="text-[10px] font-dossier-mono uppercase tracking-widest text-red-800 font-bold mb-1">
+              {/* OFFICIAL STAMP HERO CARD (Red for Case 01, Deep Sapphire for Case 02) */}
+              <div className={`p-4 sm:p-5 rounded-xl bg-white border-2 border-dashed ${
+                isCase1 ? 'border-red-600/80' : 'border-blue-600/80'
+              } shadow-md text-center flex flex-col items-center justify-center relative overflow-hidden`}>
+                <span className={`text-[10px] font-dossier-mono uppercase tracking-widest ${
+                  isCase1 ? 'text-red-800' : 'text-blue-900'
+                } font-bold mb-1`}>
                   JUDICIAL CASE ENDORSEMENT // 檢察官偵查核定
                 </span>
 
-                {/* 🔴 RED OFFICIAL STAMP ('真相大白') Slam Animation */}
+                {/* OFFICIAL STAMP ('真相大白') Slam Animation */}
                 <div className="my-2.5 flex items-center justify-center min-h-[72px] sm:min-h-[80px]">
                   {isStamped && (
-                    <div className="stamp-prosecutor-approved animate-stamp-slam shadow-2xl scale-100 sm:scale-110">
-                      <div className="text-[9px] sm:text-[10px] tracking-widest font-mono font-bold text-red-900 border-b border-red-700/60 pb-0.5 mb-0.5 uppercase">
+                    <div className={`${
+                      isCase1 ? 'stamp-prosecutor-approved' : 'border-4 border-double border-blue-800 rounded bg-blue-50/90 shadow-2xl p-2'
+                    } animate-stamp-slam scale-100 sm:scale-110`}>
+                      <div className={`text-[9px] sm:text-[10px] tracking-widest font-mono font-bold ${
+                        isCase1 ? 'text-red-900 border-red-700/60' : 'text-blue-950 border-blue-700/60'
+                      } border-b pb-0.5 mb-0.5 uppercase`}>
                         VERDICT CONFIRMED
                       </div>
-                      <div className="text-xl sm:text-2xl font-black tracking-widest text-red-700 font-serif px-2.5 sm:px-4 py-0.5 whitespace-nowrap">
+                      <div className={`text-xl sm:text-2xl font-black tracking-widest ${
+                        isCase1 ? 'text-red-700' : 'text-blue-900'
+                      } font-serif px-2.5 sm:px-4 py-0.5 whitespace-nowrap`}>
                         【 真 相 大 白 】
                       </div>
-                      <div className="text-[8px] sm:text-[9px] tracking-wider text-red-900 font-mono font-bold border-t border-red-700/60 pt-0.5 mt-0.5">
+                      <div className={`text-[8px] sm:text-[9px] tracking-wider ${
+                        isCase1 ? 'text-red-900 border-red-700/60' : 'text-blue-950 border-blue-700/60'
+                      } font-mono font-bold border-t pt-0.5 mt-0.5`}>
                         全 案 結 案 · 准 予 歸 檔
                       </div>
                     </div>
@@ -251,9 +265,11 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
               </div>
 
               {/* 三大答案真相摘要卡 (緊湊排版，清楚易讀) */}
-              <div className="p-3 sm:p-4 rounded-xl bg-amber-50/90 border border-stone-400 shadow-sm space-y-2 text-xs">
-                <div className="flex items-center gap-1.5 pb-1 border-b border-amber-300 text-stone-950 font-bold text-xs tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-red-700" />
+              <div className={`p-3 sm:p-4 rounded-xl ${
+                isCase1 ? 'bg-amber-50/90 border-stone-400' : 'bg-sky-50/90 border-slate-300'
+              } border shadow-sm space-y-2 text-xs`}>
+                <div className="flex items-center gap-1.5 pb-1 border-b border-stone-300 text-stone-950 font-bold text-xs tracking-wider">
+                  <Sparkles className={`w-3.5 h-3.5 ${isCase1 ? 'text-red-700' : 'text-blue-800'}`} />
                   <span>【全案定讞：三大推論真相】</span>
                 </div>
 
@@ -278,7 +294,11 @@ export const DeductionModal: React.FC<DeductionModalProps> = ({
               <div className="pt-1">
                 <button
                   onClick={handleSubmitFinalReport}
-                  className="w-full py-3 sm:py-3.5 px-6 rounded-xl bg-red-700 hover:bg-red-800 text-white font-black text-sm sm:text-base transition-all shadow-xl shadow-red-900/30 flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-98 font-sans"
+                  className={`w-full py-3 sm:py-3.5 px-6 rounded-xl ${
+                    isCase1
+                      ? 'bg-red-700 hover:bg-red-800 shadow-red-900/30'
+                      : 'bg-[#1e3a5f] hover:bg-[#162c49] shadow-blue-950/40'
+                  } text-white font-black text-sm sm:text-base transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-98 font-sans`}
                 >
                   <span>🔓 送出推論報告 · 查閱自白信</span>
                   <ArrowRight className="w-4 h-4 animate-pulse" />

@@ -51,7 +51,7 @@ export const CASE_01_ACHENG: CaseDossier = {
   mainTitle: '《深夜透天火場離奇蒸發案》',
   titleEn: 'THE SUSPICIOUS MIDNIGHT FIRE',
   subTitle: '消失的阿城叔',
-  tagline: '深夜透天惡火單室炭化，百公斤肥漢憑空蒸發，起獲高規格防火漆與防水眉筆！',
+  tagline: '深夜透天惡火單室炭化，百公斤肥漢憑空蒸發，起獲高規格防火漆與修容筆！',
   shortDescription: '深夜民宅竄出惡火，僅單一臥室焚毀。無骨骸遺留，平日臃腫借住之阿城人間蒸發。現場矛盾線索直指精心策劃之金蟬脫殼。',
   targetPhoto: 'https://github.com/user-attachments/assets/2bdd9a5d-ee61-4342-8de1-9ea2e831ad8e',
   targetPhotoCaption: 'TARGET PHOTO // 失蹤人·阿城叔',
@@ -75,19 +75,19 @@ export const CASE_01_ACHENG: CaseDossier = {
  * 直連網址: ?case=wings
  * ==================================================================== */
 const CASE_02_SUMMARY = {
-  mainTitle: "《檢方偵查報告書：折翅的蝴蝶》",
-  subTitle: "案件代號：頂尖鋼琴家自毀疑雲",
+  mainTitle: "《獨奏會前夕後台重傷案》",
+  subTitle: "案件代號：折翅的蝴蝶",
   caseCode: "CR-2026-1005",
   classification: "極機密 // 檢察官內部偵查報告",
   briefLines: [
     "本案發生於國際巡迴獨奏會前夕，後台專屬休息室。",
-    "頂尖鋼琴家林詩涵在登台前突然爆發急性過敏休克、右手重創且禮服遭破壞。",
+    "頂尖鋼琴家林詩涵在登台前突然爆發急性過敏休克、右手重創骨折且禮服遭破壞。",
     "現場留有同門師妹送來的雛菊花束與多項極度矛盾之現場證物，檢方已扣押現場六大物證，請進行案情論證……"
   ],
   leadInvestigator: "地方檢察署 重案特偵組檢察官",
   incidentDate: "2026 年 10 月 5 日 晚間 19:15",
   incidentLocation: "國家音樂廳後台 · 專屬休息琴房",
-  mainSuspicion: "右手嚴重受創但左手完全無傷，且致命花束與過敏急救針之時機極度異常",
+  mainSuspicion: "右手韌帶重傷且骨折但左手完全無傷，且致命花束與過敏急救針之時機極度異常",
   missingPerson: "林詩涵（28歲，國際知名青年鋼琴演奏家）"
 };
 
@@ -96,17 +96,17 @@ const CASE_02_EVIDENCE: EvidenceItem[] = [
     id: "evidence-w-01",
     code: "物證 01",
     type: "重型琴蓋",
-    name: "單側重傷的右手（重型琴蓋）",
+    name: "單側重傷骨折的右手（重型琴蓋）",
     image: 'https://github.com/user-attachments/assets/0b7c5fb5-981a-4fc9-9499-8794cfde65fa',
     locationFound: "音樂廳後台休息室 鋼琴鍵盤",
     sinTag: "二十解｜宿世今生故作誤為之罪",
-    clueNote: "詩涵右手韌帶被重型琴蓋壓傷，無法登台，左手完全沒有防禦性傷口。",
+    clueNote: "詩涵右手韌帶被琴蓋重傷且骨折，無法登台，左手完全沒有防禦性傷口。",
     explanationPoints: [
       "琴蓋內側採集到詩涵左手的抓拉指紋，受力方向為由內向下滑動。",
-      "右手韌帶嚴重挫裂傷但左手完全無傷，受力型態與外力襲擊完全相悖。"
+      "右手韌帶嚴重挫裂傷且骨折，但左手完全無傷，受力型態與外力襲擊完全相悖。"
     ],
     speculationPoints: [
-      "詩涵將右手單獨放在琴鍵上，左手抓住琴蓋往下拉，親手壓傷右手。",
+      "詩涵將右手單獨放在琴鍵上，左手抓住琴蓋往下拉，親手將右手壓至韌帶重傷且骨折。",
       "藉此製造後台遭外人襲擊之假象，行自殘嫁禍之實。"
     ]
   },
@@ -206,17 +206,17 @@ const CASE_02_QUIZ: DeductionQuestion[] = [
   {
     id: 1,
     questionNumber: "Q1",
-    question: "關於「壓傷的右手與撕裂禮服」：為什麼右手重傷、左手無傷，禮服線頭又被挑斷？",
+    question: "關於「重傷骨折的右手與撕裂禮服」：為什麼右手韌帶重傷骨折、左手無傷，禮服線頭又被挑斷？",
     options: [
       {
         id: "w-q1-a",
-        text: "後台黑手強行將詩涵按在鋼琴上，並用剪刀刺破禮服。",
-        isCorrect: false
+        text: "詩涵用拆線刀弄斷禮服內線，再用左手拉琴蓋將右手壓至韌帶重傷且骨折，自導自演遭襲。",
+        isCorrect: true
       },
       {
         id: "w-q1-b",
-        text: "詩涵用左手拉琴蓋壓傷右手，再用拆線刀挑鬆禮服內線，自導自演遭襲。",
-        isCorrect: true
+        text: "後台黑手強行將詩涵按在鋼琴上，並用剪刀刺破禮服。",
+        isCorrect: false
       },
       {
         id: "w-q1-c",
@@ -237,13 +237,13 @@ const CASE_02_QUIZ: DeductionQuestion[] = [
       },
       {
         id: "w-q2-b",
-        text: "詩涵旁敲側擊讓師妹送來過敏雛菊，因花粉過敏發作後打針保命並藏於沙發，拿性命賭博陷害師妹。",
-        isCorrect: true
+        text: "詩涵的休克其實與花無關，是當天吃到過敏食物引起的，而急救針是醫護人員急救後留下的。",
+        isCorrect: false
       },
       {
         id: "w-q2-c",
-        text: "詩涵的休克其實與花無關，是當天吃到過敏食物引起的，而急救針是醫護人員急救後留下的。",
-        isCorrect: false
+        text: "詩涵旁敲側擊讓師妹送來過敏雛菊，因花粉過敏發作後打針保命並藏於沙發，拿性命賭博陷害師妹。",
+        isCorrect: true
       }
     ]
   },
@@ -277,70 +277,80 @@ const CASE_02_CONFESSION = {
   subTitle: "隨身行李夾層搜出之親筆告白日記",
   sender: "詩涵 筆",
   letterContent: `對不起，師妹……真的對不起。
-妳那麼善良，每次看到我都甜甜地叫我師姐，可我卻利用了妳。 我真的無計可施了……看著大賽結束後的熱度消退，爸爸媽媽的眼神又變得冰冷，我好害怕再次被他們拋下。我只能再一次選擇傷害我自己，用妳送來的雛菊、用我自己狠心砸碎的手，來換取他們再次回到我的病床邊。
+  
+妳那麼善良，每次看到我都甜甜地叫我師姐，可我卻利用了妳。 我真的無計可施了……
+
+看著大賽結束後的熱度消退，爸爸媽媽的眼神又變得冰冷，我好害怕再次被他們拋下。我只能再一次選擇傷害我自己，用妳送來的雛菊、用我自己狠心砸碎的手，來換取他們再次回到我的病床邊。
+
 從小到大，我拿了無數座金牌。如果我拿第一名，爸媽只覺得那是理所當然；如果我沒拿第一，迎來的只有冷漠與斥責。
+
 我好累，我真的好累…… 直到有一次我高燒抽搐被送進急診室，我睜開眼睛，看到媽媽抱著我哭，爸爸推掉了所有的跨國會議，整整三天守在我的病床邊摸著我的頭，用我從沒聽過那麼溫柔的聲音跟我說話。
+
 那一刻我才明白，原來只有在我「受傷、垂死、成為可憐受害者」的時候，他們才會真正地看我一眼。
+
 拿自己的命當賭注很危險，但我不在乎。只要能躺在病床上，看著他們焦急關切的眼神、聽著全城媒體同情我的遭遇……這一切痛苦，就全都是值得的。
+
 看著這張寫滿心聲的紙，我突然覺得有點可笑。寫了這麼多又怎樣呢？反正這封信就算真的交給爸爸媽媽，他們大概也只會嫌我添麻煩、連看都不想看一眼吧……又或者說，我根本也沒有勇氣把這封信交給他們。
+
 就讓這些秘密，永遠留在這個鎖起來的木盒裡吧。
+
 詩涵 筆`
 };
 
 const CASE_02_SINS: SinAnalysisItem[] = [
   {
     id: "sin-w-01",
-    factNumber: "事實 01",
-    factTitle: "01. 單側重傷的右手",
-    factSummary: "詩涵單獨將右手放在琴鍵上，用左手抓住重型琴蓋往下拉，忍痛自殘壓碎右手，製造後台遭人惡意襲擊的假象。",
-    sinName: "二十解｜宿世今生故作誤為之罪",
-    category: "故作誤為自毀之愆",
-    description: "明知會嚴重傷害自身體膚，仍「故作誤為」、狠心忍痛自殘。"
+    factNumber: "事實 01", 
+    factTitle: "忍痛自殘致右手重傷骨折假造襲擊", 
+    factSummary: "單獨將右手放在琴鍵上，左手抓拉琴蓋砸至右手韌帶重傷且骨折，假造後台遭襲。", 
+    sinName: "二十解｜宿世今生故作誤為之罪", 
+    category: "自殘欺世之孽", 
+    description: "明知傷及體膚仍忍痛自殘致右手重傷骨折，結下自傷害人之冤結；需以解冤釋結科儀解開。" 
   },
   {
     id: "sin-w-02",
     factNumber: "事實 02",
-    factTitle: "02. 撕裂的高訂禮服",
-    factSummary: "詩涵用化妝包裡的拆線刀挑鬆禮服內側接縫，轉身時讓禮服自然爆開，用偽造的物件破壞哄騙外界同情。",
-    sinName: "卅二解｜欺妄言語哄騙痴愚之罪",
-    category: "欺妄巧飾哄騙之愆",
-    description: "用精心偽造的物件破壞與言語假象，哄騙並操縱大眾與媒體的同情。"
+    factTitle: "挑鬆禮服接縫偽造破壞假象",
+    factSummary: "用拆線刀預先挑鬆禮服腰線，使之自然爆開，哄騙大眾同情。", 
+    sinName: "卅二解｜欺妄言語哄騙痴愚之罪", 
+    category: "欺妄哄騙之孽", 
+    description: "以虛假物件與破壞假象欺騙大眾，結下欺妄騙世之冤結；需以解冤釋結科儀解開。"
   },
   {
     id: "sin-w-03",
     factNumber: "事實 03",
-    factTitle: "03. 雛菊花束與過敏休克",
-    factSummary: "詩涵明知自己對菊科嚴重過敏，卻旁敲側擊透過音樂系共同朋友轉告師妹自己「最愛雛菊」，故意深吸誘發休克，陷害善意送花的師妹「送毒花害人」。",
-    sinName: "十六解｜教唆詞訟誣害陷害之罪",
-    category: "設計誣害陷害之愆",
-    description: "引導並設計虛假圈套，故意陷害並誣告無辜善意的同門師妹。"
+    factTitle: "誘導送花陷害善意同門師妹", 
+    factSummary: "明知自己過敏，仍旁敲側擊讓師妹送雛菊，故意深吸休克陷害師妹。", 
+    sinName: "十六解｜教唆詞訟誣害陷害之罪", 
+    category: "誣陷良善之孽", 
+    description: "設局陷害無辜善意之人，結下誣陷害人之冤結；需以解冤釋結科儀解開。" 
   },
   {
     id: "sin-w-04",
     factNumber: "事實 04",
-    factTitle: "04. 沙發縫隙的急救針（EpiPen）",
-    factSummary: "詩涵隨身攜帶過敏處方急救針，深吸花粉後在大腿紮一針保命，並將針塞入沙發縫隙，拿自己的性命與身體當作操縱情感的賭注。",
-    sinName: "十一解｜語言詭譎德行偏和之罪",
-    category: "偏執妄為賭命之罪",
-    description: "心理與行為高度偏執扭曲，將自己的生命與身體當作操縱他人情感的賭注。"
+    factTitle: "賭命打處方針拿身體操縱感情", 
+    factSummary: "隨身攜帶急救針保命並藏於沙發，拿自己的性命賭博操縱他人情感。", 
+    sinName: "十一解｜語言詭譎德行偏和之罪", 
+    category: "偏執賭命之孽", 
+    description: "將身體與生命當作情感賭注，結下偏執極端之冤結；需以解冤釋結科儀解開。"
   },
   {
     id: "sin-w-05",
     factNumber: "事實 05",
-    factTitle: "05. 貼滿紙膠帶的藥袋木盒",
-    factSummary: "琴房暗櫃木盒裡收納著歷年藥袋，用紙膠帶精心貼好並記錄父母在病床邊的溫柔反應。為了滿足對關愛的病態貪謀，不惜毀掉無辜師妹的前途與清白。",
-    sinName: "十三解｜恣欲貪謀克害良民之罪",
-    category: "病態貪謀克害之孽",
-    description: "為了滿足自身對關愛的病態貪謀，不惜陷害與克害無辜良民（師妹）。"
+    factTitle: "珍藏病歷藥袋病態貪謀關愛", 
+    factSummary: "將歷年住院藥袋當戰利品收納，為滿足對愛的病態貪謀不惜毀人前途。", 
+    sinName: "十三解｜恣欲貪謀克害良民之罪", 
+    category: "貪謀害人之孽", 
+    description: "為病態貪求關愛不惜克害無辜，結下損人利己之冤結；需以解冤釋結科儀解開。"
   },
   {
     id: "sin-w-06",
-    factNumber: "事實 06",
-    factTitle: "06. 比賽前後的住院規律",
-    factSummary: "健保病歷顯示她長期精算心理時機，重大比賽前夕生病能逃避壓力，得獎慶功後生病能延長父母短暫的關注，長期用虛假傷病暗中欺騙外界。",
-    sinName: "十二解｜心如蛇蠍明瞞暗騙之罪",
-    category: "蛇蠍心計欺瞞之罪",
-    description: "外表高雅完美，內心精明算計，長期用虛假傷病明瞞暗騙至親與外界。"
+    factNumber: "事實 06", 
+    factTitle: "精算比賽前後長期裝病欺騙", 
+    factSummary: "精算比賽前後時機頻繁急診，逃避壓力並延長父母關心，長期裝病騙世。", 
+    sinName: "十二解｜心如蛇蠍明瞞暗騙之罪", 
+    category: "明瞞暗騙之孽", 
+    description: "長期以虛假傷病欺騙至親與外界，結下瞞天過海之冤結；需以解冤釋結科儀解開。"
   }
 ];
 
@@ -350,7 +360,7 @@ const CASE_02_PROMO: typeof PROMO_EVENT_INFO = {
   subTitle: "解冤釋結 · 消除宿世愆尤 · 轉運賜財",
   description: "每個人心中，都有一個難以解開的罪結與遺憾。想親體驗更多懸疑推理與解冤釋結的震撼反轉嗎？藉由正統科儀解冤釋結、虔心懺悔，方能化消累劫冤愆，迎祥納福、轉運賜財。",
   buttonText: "前往法會報名",
-  defaultUrl: "https://www.gtg.org.tw/signup-detail/xiayuan-1"
+  defaultUrl: "https://www.gtg.org.tw/signup-detail/xiayuan-1?fb=20261123"
 };
 
 export const CASE_02_WINGS: CaseDossier = {
@@ -359,19 +369,19 @@ export const CASE_02_WINGS: CaseDossier = {
   aliases: ['wings', 'case2', '2', 'butterfly', 'shihhan'],
   caseCode: 'CR-2026-1005',
   badgeText: '懸案 02 · 豪門密室心計',
-  mainTitle: '《檢方偵查報告書：折翅的蝴蝶》',
+  mainTitle: '《獨奏會前夕後台重傷案》',
   titleEn: 'THE BROKEN WINGS',
-  subTitle: '頂尖鋼琴家自毀疑雲',
-  tagline: '後台休息室急性休克、右手重創與禮服遭破壞，是遭人暗算還是病態奪愛？',
-  shortDescription: '國際巡演前夕，鋼琴家林詩涵右手遭重琴蓋壓傷、引發嚴重過敏休克。現場扣押六大矛盾物證，直指一場以生命為賭注的自殘心計。',
+  subTitle: '折翅的蝴蝶',
+  tagline: '後台休息室急性休克、右手重創骨折與禮服遭破壞，是遭人暗算還是病態奪愛？',
+  shortDescription: '國際巡演前夕，鋼琴家林詩涵右手遭重琴蓋壓至韌帶重傷且骨折、引發嚴重過敏休克。現場扣押六大矛盾物證，直指一場以生命為賭注的自殘心計。',
   targetPhoto: 'https://github.com/user-attachments/assets/fd3cfd5a-576c-4d16-b302-1492a71bfaa3',
   targetPhotoCaption: 'TARGET PHOTO // 鋼琴家·林詩涵',
   themeStyle: {
-    accentColor: 'amber',
-    boardBorder: 'border-[#c4b195]',
-    badgeBg: 'bg-stone-900 text-amber-200 border border-amber-400/40',
-    cardBorderHighlight: 'border-red-700 ring-red-700/25',
-    vignetteGradient: 'from-[#120e0a]/40 via-[#120e0a]/65 to-[#120e0a]/85'
+    accentColor: 'blue',
+    boardBorder: 'border-slate-300',
+    badgeBg: 'bg-[#0f172a] text-sky-200 border border-sky-400/40',
+    cardBorderHighlight: 'border-blue-700 ring-blue-700/25',
+    vignetteGradient: 'from-[#0b1320]/45 via-[#0c192c]/70 to-[#070e1a]/90'
   },
   summary: CASE_02_SUMMARY as any,
   evidence: CASE_02_EVIDENCE,

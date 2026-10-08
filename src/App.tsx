@@ -49,19 +49,19 @@ export function App() {
     setIsDeductionModalOpen(false);
   }, [currentParam]);
 
-  // Subtle parallax scroll tracker for the blurred background desk photo
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Check if currentParam matches a valid case (acheng or wings)
   const currentCase: CaseDossier | null = currentParam
     ? getCaseBySlugOrAlias(currentParam)
     : null;
+
+  // Sync document title with current case or hub
+  useEffect(() => {
+    if (currentCase) {
+      document.title = `${currentCase.mainTitle} - ${currentCase.subTitle}`;
+    } else {
+      document.title = '重大刑案特查科 · 機密案卷庫';
+    }
+  }, [currentCase]);
 
   const handleSelectCase = (slug: string) => {
     setCurrentParam(slug);
@@ -135,28 +135,28 @@ export function App() {
       <DossierSectionDivider
         label="現場跡證勘驗板"
         subLabel="EVIDENCE BOARD"
-        accentColor={isCase1 ? 'red' : 'amber'}
+        accentColor={isCase1 ? 'red' : 'blue'}
       />
 
       {/* 2. MIDDLE: Evidence Cards Wall (證物 01 ～ 06) */}
       <section className="py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative">
         {/* Section Header on Kraft Board */}
-        <div className={`kraft-dossier-board rounded-2xl p-4 sm:p-6 md:p-8 border shadow-xl relative overflow-hidden ${currentCase.themeStyle.boardBorder}`}>
-          <div className="absolute -top-3 left-8 pointer-events-none">
-            <span className="pushpin-3d-red shadow-md" />
+        <div className={`kraft-dossier-board rounded-2xl p-4 sm:p-6 md:p-8 border shadow-xl relative overflow-visible ${currentCase.themeStyle.boardBorder}`}>
+          <div className="absolute -top-3 left-8 pointer-events-none z-20">
+            <span className={isCase1 ? 'pushpin-3d-red shadow-md' : 'pushpin-3d-blue shadow-md'} />
           </div>
-          <div className="absolute -top-3 right-8 pointer-events-none">
-            <span className="pushpin-3d-red shadow-md" />
+          <div className="absolute -top-3 right-8 pointer-events-none z-20">
+            <span className={isCase1 ? 'pushpin-3d-red shadow-md' : 'pushpin-3d-blue shadow-md'} />
           </div>
 
           {/* Top metadata strip: Tag + Compact Progress Counter */}
           <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-stone-400/50">
-            <span className={`text-[11px] sm:text-xs font-dossier-mono uppercase tracking-widest font-bold ${isCase1 ? 'text-red-800' : 'text-amber-800'}`}>
+            <span className={`text-[11px] sm:text-xs font-dossier-mono uppercase tracking-widest font-bold ${isCase1 ? 'text-red-800' : 'text-blue-900'}`}>
               FORENSIC BOARD // 現場證物清單
             </span>
             <div className="text-xs text-stone-900 font-dossier-mono bg-white/95 px-3 py-1 rounded-lg border border-stone-400 shrink-0 shadow-sm font-bold flex items-center gap-1.5">
               <span className="text-[11px] text-stone-600 font-sans">勘驗進度</span>
-              <span className={`font-black text-sm ${isCase1 ? 'text-red-700' : 'text-amber-700'}`}>{reviewedCards.size}</span>
+              <span className={`font-black text-sm ${isCase1 ? 'text-red-700' : 'text-blue-800'}`}>{reviewedCards.size}</span>
               <span className="text-stone-400">/</span>
               <span className="text-stone-700">{currentCase.evidence.length}</span>
             </div>
@@ -173,10 +173,12 @@ export function App() {
           </div>
 
           {/* Clue Connection Board Notice */}
-          <div className="mt-3.5 sm:mt-4 p-3 sm:p-3.5 rounded-xl bg-amber-50/95 border border-amber-300 shadow-sm font-sans space-y-1">
+          <div className={`mt-3.5 sm:mt-4 p-3 sm:p-3.5 rounded-xl ${
+            isCase1 ? 'bg-amber-50/95 border-amber-300' : 'bg-slate-50/95 border-slate-300'
+          } border shadow-sm font-sans space-y-1`}>
             <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1.5 text-red-900 font-bold text-xs sm:text-sm">
-                <span className="pushpin-3d-red scale-75 shrink-0" />
+              <div className={`flex items-center gap-1.5 ${isCase1 ? 'text-red-900' : 'text-blue-950'} font-bold text-xs sm:text-sm`}>
+                <span className={`${isCase1 ? 'pushpin-3d-red' : 'pushpin-3d-blue'} scale-75 shrink-0`} />
                 <span>辦案提示便條</span>
               </div>
               <span className="font-dossier-mono text-[10px] sm:text-[11px] text-stone-600 font-bold">
@@ -196,6 +198,7 @@ export function App() {
               key={item.id}
               evidence={item}
               onCardFlipped={handleCardFlipped}
+              isCase1={isCase1}
             />
           ))}
         </div>
@@ -211,10 +214,10 @@ export function App() {
             }`}
           >
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 pointer-events-none">
-              <span className="pushpin-3d-red shadow-lg" />
+              <span className={isCase1 ? 'pushpin-3d-red shadow-lg' : 'pushpin-3d-blue shadow-lg'} />
             </div>
 
-            <span className={`text-xs uppercase tracking-widest font-dossier-mono font-bold ${isCase1 ? 'text-red-800' : 'text-amber-800'}`}>
+            <span className={`text-xs uppercase tracking-widest font-dossier-mono font-bold ${isCase1 ? 'text-red-800' : 'text-blue-900'}`}>
               LOGICAL INFERENCE & DEDUCTION ARENA
             </span>
             <h3 className="text-2xl sm:text-3xl font-black text-stone-950 font-dossier-heading">
@@ -229,7 +232,7 @@ export function App() {
               className={`mt-2 py-4 px-10 rounded-xl text-white font-black text-base sm:text-lg transition-all shadow-xl flex items-center justify-center gap-2.5 cursor-pointer hover:scale-105 active:scale-95 font-sans ${
                 isCase1
                   ? 'bg-red-700 hover:bg-red-800 shadow-red-900/30'
-                  : 'bg-amber-700 hover:bg-amber-800 shadow-amber-900/30'
+                  : 'bg-[#1e3a5f] hover:bg-[#162c49] shadow-blue-950/40 text-sky-100'
               }`}
             >
               <span className="text-xl">🕵️‍♂️</span>
@@ -238,7 +241,7 @@ export function App() {
             </button>
 
             <div className="text-[11px] text-stone-700 flex items-center gap-1.5 font-dossier-mono">
-              <ShieldCheck className="w-3.5 h-3.5 text-red-700" />
+              <ShieldCheck className={`w-3.5 h-3.5 ${isCase1 ? 'text-red-700' : 'text-blue-800'}`} />
               <span>全數答對 3 題即可解開保險暗格，查閱自白信</span>
             </div>
           </div>
@@ -249,7 +252,7 @@ export function App() {
       <DossierSectionDivider
         label="推理論證與結案自白"
         subLabel="LOGICAL DEDUCTION"
-        accentColor={isCase1 ? 'amber' : 'red'}
+        accentColor={isCase1 ? 'red' : 'blue'}
       />
 
       {/* 3. FINALE: Unlocked Content */}
@@ -289,13 +292,14 @@ export function App() {
               <DossierSectionDivider
                 label="涉案因果罪結 · 三十六解考證"
                 subLabel="KARMA & THIRTY-SIX SINS"
-                accentColor={isCase1 ? 'red' : 'amber'}
+                accentColor={isCase1 ? 'red' : 'blue'}
               />
 
               {/* 2. Sins Analysis Section */}
               <SinsAnalysisSection
                 sinsList={currentCase.sins}
                 caseTitle={currentCase.subTitle}
+                isCase1={isCase1}
               />
 
               {/* Seam Divider: Karma Sins -> Temple Dharma Event */}
@@ -307,7 +311,7 @@ export function App() {
 
               {/* 3. Temple Event CTA Promo Card */}
               <div id="promo-section" className="scroll-mt-10">
-                <EventCtaCard />
+                <EventCtaCard promoInfo={currentCase.promo} />
               </div>
             </div>
           ) : (
@@ -352,6 +356,7 @@ export function App() {
         onSubmitReport={handleSubmitReport}
         quiz={currentCase.quiz}
         caseCode={currentCase.caseCode}
+        isCase1={isCase1}
       />
 
       {/* Official Temple Footer */}

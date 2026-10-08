@@ -28,7 +28,7 @@ export const DOSSIER_CASES: CaseArchiveItem[] = [
     caseNumber: 'CASE 001',
     title: '深夜透天火場離奇蒸發案',
     subtitle: '消失的阿城叔',
-    brief: '深夜透天惡火僅單一臥室炭化，百公斤肥漢憑空蒸發。現場留有高規格防火漆與防水眉筆，背後暗藏金蟬脫殼保護恩人之謎……',
+    brief: '深夜透天惡火僅單一臥室炭化，百公斤肥漢憑空蒸發。現場留有高規格防火漆與修容筆，背後暗藏金蟬脫殼保護恩人之謎……',
     isOpen: true,
     igPostUrl: 'https://www.instagram.com/gtg52168/' // 待提供案件 001 真實 IG 貼文網址
   },
@@ -36,10 +36,10 @@ export const DOSSIER_CASES: CaseArchiveItem[] = [
     id: 'case-02',
     slug: 'wings',
     caseNumber: 'CASE 002',
-    title: '檢方偵查報告書：折翅的蝴蝶',
-    subtitle: '頂尖鋼琴家自毀疑雲',
-    brief: '國際獨奏會前夕，後台休息室突發急性過敏休克、右手重創與禮服遭破壞。現場扣押六大極度矛盾物證，案情正深入調查中……',
-    isOpen: true,
+    title: '獨奏會前夕後台重傷案',
+    subtitle: '折翅的蝴蝶',
+    brief: '國際獨奏會前夕，後台休息室突發急性過敏休克、右手重創骨折與禮服遭破壞。現場扣押六大極度矛盾物證，案情正深入調查中……',
+    isOpen: false, // 待正式發布後再開啟
     igPostUrl: 'https://www.instagram.com/gtg52168/' // 待提供案件 002 真實 IG 貼文網址
   }
 ];
@@ -87,7 +87,7 @@ export const ArchiveDossierHub: React.FC<ArchiveDossierHubProps> = ({ onSelectCa
             return (
               <div
                 key={dossier.id}
-                className={`rounded-2xl p-6 sm:p-7 border-2 shadow-2xl relative flex flex-col justify-between overflow-hidden transition-all duration-300 ${
+                className={`rounded-2xl p-6 sm:p-7 border-2 shadow-2xl relative flex flex-col justify-between overflow-visible transition-all duration-300 ${
                   dossier.isOpen
                     ? 'kraft-dossier-board border-[#b89f81] shadow-stone-950/40'
                     : 'bg-[#18130e]/85 border-stone-800/80 opacity-55 grayscale cursor-not-allowed select-none'
@@ -229,7 +229,7 @@ export const ArchiveDossierHub: React.FC<ArchiveDossierHubProps> = ({ onSelectCa
           </div>
 
           <a
-            href="https://www.gtg.org.tw/signup-detail/xiayuan-1"
+            href="https://www.gtg.org.tw/signup-detail/xiayuan-1?fb=20261123"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full md:w-auto py-3 px-6 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-stone-950 font-black text-xs sm:text-sm transition-all shadow-xl shadow-amber-950/40 flex items-center justify-center gap-2 cursor-pointer shrink-0 hover:scale-105 active:scale-95 font-sans"
